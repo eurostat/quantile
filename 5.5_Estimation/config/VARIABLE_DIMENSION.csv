@@ -1,0 +1,22 @@
+variable,dimension,type,length
+DB020,GEO,char,5
+DB030,TIME,numeric,4
+AGE,AGE,char,15
+RB090,SEX,char,15
+HT1,HHTYP,char,15
+HHSIZE,,,
+EQ_SS,,,
+EQ_INC,,,
+AROP,,,
+ARPT60i,INCGRP,,
+HT,,,
+TENSTA,,,
+WISTA,,,
+ACTSTA,WSTATUS,char ,15
+QITILE,QUANTILE,,
+CIT_BIRTH ,CITIZEN,char ,15
+PE40,ISCED11,char ,15
+TENSTA_2,TENURE,char,15
+ARPT60i,INCGRP,char ,15
+DB100,DEG_URB,char ,15
+HS120,SUBJNMON,char ,15

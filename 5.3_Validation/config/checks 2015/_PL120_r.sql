@@ -1,0 +1,17 @@
+put "title4 'Routing check: value must be -2 if PL031 not in (1,2,3,4) or ';";
+put "title5 'sum(PL060,PL100) ge 30 ';";;
+put "PROC SQL;";
+put "Create table tempo as";
+put "select pB010 'Year', pB030 'PID', PL120, PL120_F, PL031,PL035,PL060,PL060_F,PL100 from dds.&ss%nrstr(&cc).&yy.p";
+put "where PL120_F ne -3 and ((PL031 not in (1,2,3,4) or sum(PL060,PL100) ge 30) and PL120_F ne -2) order by pB030;";
+put "Select * from tempo(obs=%nrstr(&errmax));";	          
+put "Insert into errtabp set varnam = 'PL120 ', routing = 1, error = (select count(*) from tempo);";
+put " ";
+put "title4 'Routing check: value must not be -2 if PL030 in (1,2,3,4) and ';";
+put "title5 'sum(PL060,PL100) < 30 ';";
+put "PROC SQL;";
+put "Create table tempo as";
+put "select pB010 'Year', pB030 'PID', PL120, PL120_F, PL031,PL035,PL060,PL060_F,PL100 from dds.&ss%nrstr(&cc).&yy.p";
+put "where PL120_F ne -3 and (PL031 in (1,2,3,4) and (sum(PL060,PL100) between 1 and 29) and PL120_F = -2 and PL060_F ne -6) order by pB030;";
+put "Select * from tempo(obs=%nrstr(&errmax));";	          
+put "Insert into errtabp set varnam = 'PL120 ', routing = 1, error = (select count(*) from tempo);";

@@ -1,0 +1,7 @@
+label,variable,start,end,sexcl,eexcl,type,_fmt1_CITIZEN_
+NAT, CIT_SHIP,1,1,0,0,N,1
+EU27_FOR, CIT_SHIP,3,3,0,0,N,1
+NEU27_FOR, CIT_SHIP,2,2,0,0,N,1
+EU28_FOR, CIT_SHIP,6,6,0,0,N,1
+NEU28_FOR, CIT_SHIP,4,4,0,0,N,1
+FOR, CIT_SHIP,2,6,0,0,N,1

@@ -1,0 +1,9 @@
+label,variable,start,end,sexcl,eexcl,type,_fmt1_RB090_,_fmt2_RB090_,_fmt3_RB090_
+M,RB090,1,1,0,0,N,1,,
+MALES,RB090,1,1,0,0,N,,1,
+F,RB090,2,2,0,0,N,1,,
+FEMALES,RB090,2,2,0,0,N,,1,
+T,RB090,1,2,0,0,N,1,,
+TOTAL,RB090,1,2,0,0,N,,1,
+A1M,RB091,1,2,0,0,N,,,1
+A1F,RB092,1,2,0,0,N,,,1

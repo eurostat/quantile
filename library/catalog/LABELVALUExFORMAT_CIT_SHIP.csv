@@ -1,0 +1,7 @@
+label,variable,start,end,sexcl,eexcl,type,_fmt1_RB090_,_fmt2_RB090_
+NAT,C_BIRTH,1,1,0,0,N,1,0
+EU27_FOR,C_BIRTH,3,3,0,0,N,0,1
+NEU27_FOR,C_BIRTH,2,2,0,0,N,1,0
+EU28_FOR,C_BIRTH,6,6,0,0,N,0,1
+NEU28_FOR,C_BIRTH,4,4,0,0,N,1,0
+FOR,C_BIRTH,2,6,0,0,N,0,1

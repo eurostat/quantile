@@ -1,0 +1,169 @@
+no,title,select,from,join,on,where,group,having,0
+101,Structural - Error: DB030 - Duplicate ID numbers,"DB010,DB030,DB040,DB050,DB060,DB070",d,,,,"DB010,DB030",count(DB030) > 1,0
+102,Structural - Error: DB130 - Household data record is missing in H-file (or to drop) or DB130 not filled correctly,"DB010,DB030,DB130,HB010,HB030",d,h,DB030 = HB030 and DB010 = HB010,(DB130 = 11 and DB135 = 1 and HB030 = .) or (DB130 ne 11 and HB030 ne .),,,0
+103,Structural - Error: DB135 - Records are missing in R- or P-file or DB135 not filled correctly,"DB010,DB030,DB130,DB135,RB010,RB030,RB245,RB250",d,r,DB030 = RHID and DB010 = RB010,DB135 = 1 ,"RB010,RHID","min(rb250) not in (11,12,13)",0
+104,Structural - Error: DB135 - In R- or P-file records to drop (or are missing) or DB135 not filled correctly,"DB010,DB030,DB130,DB135,RB010,RB030,RB245,RB250",d,r,DB030 = RHID and DB010 = RB010,"DB135 ne 1  and RB250 in (11,12,13)",,,0
+105,"Structural - Error (follow-up): DB110 = 1,2,3,4,5,6,7 or 10 => must be 1,2,8 or 9 in previous year","a.DB010,a.DB030,a.DB110,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,"a.DB010+1 = b.DB010 and b.DB110 in (1,2,3,4,5,6,7,10) and a.DB110 not in (1,2,8,9)",,,0
+106,Structural - Error (follow-up): DB110 = 8 or 9 => household should not exist in previous year,"a.DB010,a.DB030,a.DB110,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,"a.DB010+1 = b.DB010 and b.DB110 in (8,9) ",,,0
+107,Structural - Error (follow-up): DB110=1 and (DB130=21 or DB130_F=-1) in previous year => household should be dropped,"a.DB010,a.DB030,a.DB110,a.DB130,a.DB130_F,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,a.DB010+1 = b.DB010 and a.DB110 = 1 and (a.DB130 =21 or a.DB130_F = -1) ,,,0
+108,"Structural - Error (follow-up): DB110 = 2 and (DB120 in (21,23) or DB120_F = -1 or DB130 = 21 or DB130_F = -1 ) in previous year => household should be dropped","a.DB010,a.DB030,a.DB110,a.DB120,a.DB120_F,a.DB130,a.DB130_F,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,"a.DB010+1 = b.DB010 and a.DB110 = 2 and (a.DB120 in (21,23) or a.DB130_F = -1 or a.DB130 =21 or a.DB130_F = -1) ",,,0
+109,"Structural - Error (follow-up): DB110 = 3,4,5,6,7 or 10  in previous year => household should be dropped","a.DB010,a.DB030,a.DB110,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,"a.DB010+1 = b.DB010 and a.DB110 in (3,4,5,6,7,10)",,,0
+110,"Structural - Error (follow-up): DB110 = 8 and (DB120 in (21,23) or DB120_F = -1 or DB130 = 21 or DB130_F = -1 ) in previous year => household should be dropped","a.DB010,a.DB030,a.DB110,a.DB120,a.DB120_F,a.DB130,a.DB130_F,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,"a.DB010+1 = b.DB010 and a.DB110 = 8 and (a.DB120 in (21,23) or a.DB130_F = -1 or a.DB130 =21 or a.DB130_F = -1) ",,,0
+111,"Structural - Error (follow-up): DB110 = 9 and (DB120 in (21,22,23) or DB120_F = -1 or DB130 in (21,22,23,24) or DB130_F = -1 ) in previous year => household should be dropped","a.DB010,a.DB030,a.DB110,a.DB120,a.DB120_F,a.DB130,a.DB130_F,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,"a.DB010 +1 = b.DB010 and a.DB110 = 9 and (a.DB120 in (21,22,23) or a.DB130_F = -1 or a.DB130 in (21,22,23,24) or a.DB130_F = -1) ",,,0
+112,Structural - Error (follow-up): Interview not accepted for 2 consecutive years => household should be dropped,"a.DB010,a.DB030,a.DB110,a.DB120,a.DB120_F,a.DB130,a.DB130_F,a.DB135,a.DB135_F,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110",d,d,a.DB030 = b.DB030,a.DB010+1 = b.DB010 and a.DB135 not  = 1 and b.DB135 not  = 1 ,a.DB030,max(a.DB010) > b.DB010,0
+113,Structural - Error: DB110 must be 9 for household first time in survey,"DB010,DB030,DB110",d,,,"mod(DB030,100) = 0",DB030,count(DB030) = 1 and min(DB110) ne 9,
+114,Structural - Error: DB110 must be 8 for split-off household first time in survey,"DB010,DB030,DB110",d,,,"mod(DB030,100) > 0",DB030,count(DB030) = 1 and min(DB110) ne 8,
+115,Longitudinal - Error:  DB075 must be the same every year,"DB010,DB030,DB075",d,,,,DB030,count(distinct DB075) > 1,0
+116,Longitudinal - Error: DB040 must be the same every year if household is at the same adress,"a.DB010,a.DB030,a.DB040,a.DB110,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110,b.DB040 as _DB040",d,d,a.DB030 = b.DB030,b.DB110 = 1 and a.DB010+1 = b.DB010 and a.DB040 ne b.DB040,,,0
+117,Longitudinal - Error: DB100 must be the same every year if household is at the same adress,"a.DB010,a.DB030,a.DB100,a.DB110,b.DB010 as  _DB010,b.DB030 as _DB030,b.DB110 as _DB110,b.DB100 as _DB100",d,d,a.DB030 = b.DB030,b.DB110 = 1 and a.DB010+1 = b.DB010 and a.DB100 ne b.DB100,,,0
+120,Structural - Error: RB030 - Duplicate ID numbers,"RB010,RB030,RHID,RB070,RB080,RB090,RB210,RB220,RB230,RB240",r,,,,"RHID,RB030,RB010",count(RB030) > 1,0
+121,Structural - Error: RB030 - Corresponding household does not exist in D-file,"RB010,DB010,DB030,RB030,RHID,RB070,RB080,RB090",r,d,RHID = DB030 and RB010 = DB010,DB030 = .,,,0
+123,Structural - Warning: RB210 - Age and basic activity status may be not consistent,"RB010,RB030,RB070,RB080,AGE,RB210",r,,,"AGE < 16 and RB210 in (1,2,3)",,,0
+124,Structural - Warning: RB245 - Age and eligibility are not consistent,"RB010,RB030,RB070,RB080,AGE,RB245",r,,,"RB245_F ne -2 and ((AGE >= 16 and RB245 not in (1,2,3)) or (AGE < 16 and RB245 in (1,2,3)))",,,0
+125,"Structural - Error: RB245 - Codes 1 and (2,3) cannot be mixed within the same household","RB010,RHID,RB030,RB070,RB080,RB245",r,,,"RB245  in (1,2,3)",RHID,"min(RB245) = 1 and max(RB245) in (2,3)",0
+126,Structural - Error: RB245 - Only one person can be selected respondant in the same household,"RB010,RHID,RB030,RB070,RB080,RB245",r,,,RB245 = 2,"RHID,RB010",count(RB245) > 1 ,0
+127,Structural - Error: RB250 - Data can be collected only from eligible persons,"RB010,RB030,RB070,RB080,RB245,RB250",r,,,"(RB250 in (11,12,13) and RB245 not in (1,2,3))",,,0
+128,Structural - Error: RB250 - Personal data record is missing in P-file or RB250 not filled correctly,"RB010,RB030,RB070,RB080,RB110,RB250,PB010,PB030",r,p,RB030 = PB030 and RB010 = PB010 and a.RHID = b.PHID,"(RB250 in (11,12,13,14) and PB030 = .) or ((RB250 not in (11,12,13,14)) and PB030 ne .)",,,0
+129,Structural - Error: RB270 - Proxy is not household member or does not exist,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.RB270",r,r,a.RB270 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,a.RB270_F ge 0 and  a.RHID ne b.RHID,,,0
+130,Structural - Error: RB270 - The person cannot be proxy for himself,"RB010,RHID,RB030,RB070,RB080,RB270",r,,,RB270_F ge 0 and  RB030 = RB270 ,,,0
+131,"Structural - Error (follow-up): RB110 = 1,5 or 6 => must be 1,2,3 or 4 in previous year","a.RHID,a.RB010,a.RB030,a.RB110,b.RHID as _RHID,b.RB010 as  _RB010,b.RB030 as _RB030,b.RB110 as _RB110",r,r,a.RB030 = b.RB030 and a.RHID = b.RHID,"a.RB010+1 = b.RB010 and b.RB110 in (1,5,6) and a.RB110 not in (1,2,3,4,7)",,,0
+132,"Structural - Error (follow-up): RB110 = 2,3,4 or 7 => household member should not exist in previous year","a.RHID,a.RB010,a.RB030,a.RB110,b.RHID as _RHID,b.RB010 as  _RB010,b.RB030 as _RB030,b.RB110 as _RB110",r,r,a.RB030 = b.RB030 and a.RHID = b.RHID,"a.RB010+1 = b.RB010 and b.RB110 in (2,3,4,7) and  a.RB110 not in (5,7)",,,0
+134,Structural - Error: RB110 must be 1 for household  first time in survey,"RB010,DB010,DB030,RB030,RB110",r,d,DB030 = RHID and DB010 = RB010,"RB110 not in(1,7) and DB110 = 9",,,0
+135,Structural - Error: RB110 must be 2 in the new household for a sample person moved from another household ,"a.RHID,a.RB010,a.RB030,a.RB100,a.RB110,a.RB120,b.RHID as _RHID,b.RB010 as  _RB010,b.RB030 as _RB030,b.RB110 as _RB110, c.DB010, c.DB030, c.DB135",r,"r,d",(a.RB030 = b.RB030 and a.RHID ne b.RHID and a.RB010 = b.RB010) and b.RHID = c.DB030 and b.RB010 = c.DB010,a.RB100 = 1 and a.RB110 = 5 and a.RB120 = 1 and b.RB110 ne 2 and c.DB135 = 1,,,0
+136,Structural - Error: A sample person moved from another household must have RB110=5 and RB120 = 1 in the prevoius household ,"a.RHID,a.RB010,a.RB030,a.RB100,a.RB110,a.RB120,b.RHID as _RHID,b.RB010 as  _RB010,b.RB030 as _RB030,b.RB110 as _RB110",r,r,a.RB030 = b.RB030 and a.RHID ne b.RHID and a.RB010 = b.RB010,a.RB100 = 1 and (a.RB110 ne 5  or a.RB120 ne 1) and b.RB110 = 2,,,0
+137,Structural - Error: RB100 - If 4 year rotational panel: Person should be sample person ,"RB010,DB010,DB030,RB030,RB100,RB110,RB245,AGE",r,d,DB030 = RHID and DB010 = RB010,"RB110 = 1 and DB110 = 9 and (RB245 in (1,2) or (RB245 = 4 and AGE ge 14)) and RB100 ne 1",,,0
+138,Structural - Error: RB100 - If 4 year rotational panel: Person should not be sample person ,"RB010,DB010,DB030,RB030,RB100,RB110,RB245,AGE",r,d,DB030 = RHID and DB010 = RB010,"RB110 = 1 and DB110 = 9 and (RB245 not in (1,2) and (RB245 = 4 and AGE lt 14)) and RB100 ne 2",,,0
+139,Longitudinal - Error:  RB100 must be the same every year,"RB010,RB030,RHID,RB100",r,,,,RB030,count(distinct RB100) > 1 and RB110 ne 7,0
+140,Longitudinal - Error:  RB070 - Month of birth must be the same every year,"RB010,RB030,RHID,RB070",r,,,,RB030,count(distinct RB070) > 1,0
+141,Longitudinal - Error:  RB080 - Year of birth must be the same every year,"RB010,RB030,RHID,RB080",r,,,,RB030,count(distinct RB080) > 1,0
+142,Longitudinal - Error:  RB090 - Sex must be the same every year,"RB010,RB030,RHID,RB090",r,,,,RB030,count(distinct RB090) > 1,0
+143,Longitudinal - Warning:  RB220 - Father should be the same every year,"RB010,RB030,RHID,RB220",r,,,RB220 ne .,RB030,count(distinct RB220) > 1,0
+144,Longitudinal - Warning:  RB230 - Mother should be the same every year,"RB010,RB030,RHID,RB230",r,,,RB230 ne .,RB030,count(distinct RB230) > 1,0
+145,Longitudinal - Error:  RB245 - Respondant status (16+) must be the same every year,"RB010,RB030,RHID,RB245",r,,,"RB245 in (1,2,3)",RB030,count(distinct RB245) > 1,0
+146,Longitudinal - Error: RB040 must be the same every year if person was in this household in previous waves,"a.RB010,a.RB030,a.RB040,a.RB110,b.RB010 as  _RB010,b.RB030 as _RB030,b.RB110 as _RB110,b.RB040 as _RB040",r,r,a.RB030 = b.RB030,"b.RB110 = 1 and a.RB110 in (1,2,3,4) and a.RB010+1 = b.RB010 and a.RB040 ne b.RB040",,,0
+147,Structural - Warning: RB080 RB090 - Age at date of interview is -1,"RHID,HB010,RB030,RB070,RB080,HB050,HB060",h,r,RB010 = HB010 and RHID = HB030,floor(((HB060*100+HB050) - (RB080*100+RB070))/100) = -1,,,0
+150,Structural - Error: HB030 - Duplicate ID numbers,"HB010,HB030,HB040,HB050,HB060,HB070,HB080,HB090",h,,,,"HB030,HB010",count(HB030) > 1,0
+151,Structural - Error: HB070 - Person who filled in the questionnaire is not household member or does not exist,"HB010,HB030,HB070,RB030",h,r,HB070 = RB030 and HB010 = RB010,HB070_F ge 0 and   RHID ne HB030  and RB110 ne 5,,,0
+153,Structural - Error: HB080 - Person 1 responsible for the accomodation is not household member or does not exist,"HB010,HB030,HB080,RB030",h,r,HB080 = RB030 and HB010 = RB010,HB080_F ge 0 and   RHID ne HB030  and RB110 ne 5,,,0
+154,Structural - Warning: HB080 - Age of Person 1 responsible for the accomodation is below 16 ,"HB010,HB030,HB080,RB030,AGE",h,r,HB080 = RB030 and HB010 = RB010,HB080_F ge 0 and   AGE < 16,,,0
+155,Structural - Error: HB090 - Person 2 responsible for the accomodation is not household member or does not exist,"HB010,HB030,HB090,RB030",h,r,HB090 = RB030 and HB010 = RB010,HB090_F ge 0 and   RHID ne HB030  and RB110 ne 5,,,0
+156,Structural - Warning: HB090 - Age of Person 2 responsible for the accomodation is below 16 ,"HB010,HB030,HB090,RB030,AGE",h,r,HB090 = RB030 and HB010 = RB010,HB090_F ge 0 and   AGE < 16,,,0
+157,Structural - Error: HB080 - Person 1 and person 2 responsible for the accomodation cannot be the same person,"HB010,HB030,HB080,HB090",h,,,HB080_F ge 0  and HB080 = HB090 ,,,0
+170,Structural - Error: PB030 - Duplicate ID numbers - DO NOT PROCESS FURTHER,"PB010,PB030,PB090,PB100,PB110,PB130,PB140,PB150,PB160,PB170,PB180,PB190,PB200",p,,,,"PB030,PB010",count(PB030) > 1,0
+172,Structural - Error: PB130 PB140 PB150 - Birth date and sex must be equal in R- and P-file,"RB010,RB030,RB070,RB080,RB090,PB010,PB030,PB130,PB140,PB150",p,r,PB030 = RB030 and PB010 = RB010,((PB130 ne RB070) or (PB140 ne RB080) or (PB150 ne RB090)) and RB030 ne  .,,,0
+173,Structural - Error: RB070 RB080 RB090 - Birth date or sex are missing,"RB010,RB030,RB070,RB080,RB090",r,,,(RB080_F ne 1) or (RB090_F ne 1),,,0
+174,Structural - Warning: PB130 PB140 PB150 - Birth date or sex are missing,"PB010,PB030,PB130,PB140,PB150",p,,,(PB130_F ne 1) or (PB140_F ne 1) or (PB150_F ne 1),,,0
+180,Longitudinal - Error: DB030 - Household should exist in following year (or should not be in the file at all),"a.DB010,a.DB030,a.DB075,a.DB110,a.DB120,a.DB130,a.DB135,b.DB030 as _DB030",d,d,a.DB030 = b.DB030 and a.DB010+1 = b.DB010,a.DB135 = 1 and b.DB030 = . and a.DB010 ne &yy2,,,0
+181,Longitudinal - Error: RB030 - Household member should exist in same houshold in following year,"a.DB010,a.DB030,a.DB075,a.DB135,b.RB010,b.RB030,b.RB110",d,r,DB030 = RHID,,"RHID,RB030",a.DB010 = &yy2 and a.DB110 ne 9 and a.DB135 = 1 and ((RB010 = DB010 and RB110 = 1) or RB010 = DB010-1) and count(RB030) = 1,0
+301,Relationchip - Error: RB220 - Father is not household member or does not exist,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.RB220",r,r,a.RB220 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,a.RB220_F ge 0  and b.RB030 = .,,,0
+302,Relationchip - Error: RB220 - The person cannot be his own father,"RB010,RHID,RB030,RB070,RB080,RB090,RB220",r,,,RB030 = RB220,,,0
+303,Relationchip - Error: RB230 - Mother is not household member or does not exist,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.RB230",r,r,a.RB230 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,a.RB230_F ge 0 and b.RB030 = .,,,0
+304,Relationchip - Error: RB230 - The person cannot be his own mother,"RB010,RHID,RB030,RB070,RB080,RB090,RB230",r,,,RB030 = RB230,,,0
+305,Relationchip - Error: RB240 - Spouse/partner is not household member or does not exist,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.RB240",r,r,a.RB240 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,a.RB240_F ge 0  and b.RB030 = .,,,0
+306,Relationchip - Error: RB240 - The person cannot be his own spouse/partner,"RB010,RHID,RB030,RB070,RB080,RB090,RB240",r,,,RB030 = RB240,,,0
+307,Relationchip - Error: PB160 PB170 PB180 - Parents and/or spouse/partner must be equal in R- and P-file,"RB010,RHID,RB030,RB220,RB230,RB240,PHID,PB010,PB030,PB160,PB170,PB180",p,r,PB030 = RB030 and RB010 = PB010 and RHID = PHID,((PB160_F ge 0 and PB160 ne RB220) or (PB170_F ge 0 and PB170 ne RB230) or (PB180_F ge 0 and PB180 ne RB240)) and RB030 ne  .,,,0
+310,Relationchip - Error: RB240 - The spouse/partner is not the same for both,"a.RB010,a.RHID,a.RB030,a.RB240,b.RB030 as s_RB030,b.RB240 as s_RB240",r,r,a.RB240 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,a.RB240_F > 0 and a.RB030 ne b.RB240,,,0
+311,Relationchip - Error: RB240 - Parents of spouses/partners must be different,"a.RB010,a.RHID,a.RB030,a.RB220,a.RB230,a.RB240,b.RB030 as s_RB030,b.RB220 as s_RB220,b.RB230 as s_RB230,b.RB240 as s_RB240",r,r,a.RB240 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,(a.RB220_F ge 0 and  a.RB220 = b.RB220) or (a.RB230_F ge 0 and  a.RB230 = b.RB230),,,0
+312,Relationchip - Error: RB220 - Sex of father cannot be female,"a.RHID,a.RB030,a.RB220,a.RB010,b.RB090",r,r,a.RB220 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,b.RB090 = 2,,,0
+313,Relationchip - Error: RB230 - Sex of mother cannot be male,"a.RB010,a.RHID,a.RB030,a.RB230,b.RB090",r,r,a.RB230 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,b.RB090 = 1,,,0
+315,Relationchip - Warning:  RB230 - Child should be at least 15 years younger than its mother,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.AGE,a.RB230,b.RB070 as m_RB070,b.RB080 as m_RB080,b.AGE as m_AGE",r,r,a.RB230 = b.RB030 and a.RB010 = b.RB010 and a.RHID = b.RHID,a.RB230_F ge 0 and b.AGE - a.AGE < 15 and a.AGE ge 0 and b.AGE ge 0 ,,,0
+320,Relationchip - Error: PB180 PB190 PB200 - Person has a spouse/partner but never married and no consensual union,"PB010,PHID,PB030,PB130,PB140,PB180,PB190,PB200",p,,,PB180_F ge  0 and (PB190 = 1 and PB200 = 3),,,0
+401,Social Exclusion - Error: HS010 HS011 - Both values cannot be coded -5 ,"HB010,HB030, HS010_F, HS011_F",h,,,HS010_F = -5 and HS011_F = -5,,,0
+402,Social Exclusion - Error: HS020 HS021 - Both values cannot be coded -5,"HB010,HB030, HS020_F, HS021_F",h,,,HS020_F = -5 and HS021_F = -5,,,1
+403,Social Exclusion - Error: HS030 HS031 - Both values cannot be coded -5,"HB010,HB030, HS030_F, HS031_F",h,,,HS030_F = -5 and HS031_F = -5,,,2
+404,Housing - Error: HH080 HH081 - Both values cannot be coded -5,"HB010,HB030, HH080_F, HH081_F",h,,,HH080_F = -5 and HH081_F = -5,,,3
+405,Housing - Error: HH090 HH091 - Both values cannot be coded -5,"HB010,HB030, HH090_F, HH091_F",h,,,HH090_F = -5 and HH091_F = -5,,,4
+421,Income - Error: HY030 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY030N_F, HY030G_F",h,,,HY030N_F = -5 and HY030G_F = -5,,,0
+422,Income - Error: HY040 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY040N_F, HY040G_F",h,,,HY040N_F = -5 and HY040G_F = -5,,,0
+423,Income - Error: HY050 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY050N_F, HY050G_F",h,,,HY050N_F = -5 and HY050G_F = -5,,,0
+424,Income - Error: HY060 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY060N_F, HY060G_F",h,,,HY060N_F = -5 and HY060G_F = -5,,,0
+425,Income - Error: HY070 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY070N_F, HY070G_F",h,,,HY070N_F = -5 and HY070G_F = -5,,,0
+426,Income - Error: HY080 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY080N_F, HY080G_F",h,,,HY080N_F = -5 and HY080G_F = -5,,,0
+427,Income - Error: HY090 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY090N_F, HY090G_F",h,,,HY090N_F = -5 and HY090G_F = -5,,,0
+428,Income - Error: HY100 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY100N_F, HY100G_F",h,,,HY100N_F = -5 and HY100G_F = -5,,,0
+429,Income - Error: HY110 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY110N_F, HY110G_F",h,,,HY110N_F = -5 and HY110G_F = -5,,,0
+430,Income - Error: HY120 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY120N_F, HY120G_F",h,,,HY120N_F = -5 and HY120G_F = -5,,,0
+431,Income - Error: HY130 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY130N_F, HY130G_F",h,,,HY130N_F = -5 and HY130G_F = -5,,,0
+432,Income - Error: HY140 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY140N_F, HY140G_F",h,,,HY140N_F = -5 and HY140G_F = -5,,,0
+433,Income - Error: HY145 - Gross and net value cannot be coded -5 both,"HB010,HB030, HY145N_F, HY140G_F",h,,,HY145N_F = -5 and HY140G_F = -5,,,0
+434,Income - Error: PY010 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY010N_F, PY010G_F",p,,,PY010N_F = -5 and PY010G_F = -5,,,0
+435,Income - Error: PY020 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY020N_F, PY020G_F",p,,,PY020N_F = -5 and PY020G_F = -5,,,0
+436,Income - Error: PY021 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY021N_F, PY021G_F",p,,,PY021N_F = -5 and PY021G_F = -5,,,0
+437,Income - Error: PY035 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY035N_F, PY035G_F",p,,,PY035N_F = -5 and PY035G_F = -5,,,0
+438,Income - Error: PY050 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY050N_F, PY050G_F",p,,,PY050N_F = -5 and PY050G_F = -5,,,0
+439,Income - Error: PY070 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY070N_F, PY070G_F",p,,,PY070N_F = -5 and PY070G_F = -5,,,0
+440,Income - Error: PY080 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY080N_F, PY080G_F",p,,,PY080N_F = -5 and PY080G_F = -5,,,0
+441,Income - Error: PY090 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY090N_F, PY090G_F",p,,,PY090N_F = -5 and PY090G_F = -5,,,0
+442,Income - Error: PY100 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY100N_F, PY100G_F",p,,,PY100N_F = -5 and PY100G_F = -5,,,0
+443,Income - Error: PY110 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY110N_F, PY110G_F",p,,,PY110N_F = -5 and PY110G_F = -5,,,0
+444,Income - Error: PY120 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY120N_F, PY120G_F",p,,,PY120N_F = -5 and PY120G_F = -5,,,0
+445,Income - Error: PY130 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY130N_F, PY130G_F",p,,,PY130N_F = -5 and PY130G_F = -5,,,0
+446,Income - Error: PY140 - Gross and net value cannot be coded -5 both,"PB010,PB030, PY140N_F, PY140G_F",p,,,PY140N_F = -5 and PY140G_F = -5,,,0
+447,Income - Error: HY030 - Gross value must be filled from 2007 on,"HB010,HB030, HY030G, HY030G_F",h,,,"HB010 ge 2007 and HY030G_F in (-5,.)",,,0
+448,Income - Error: HY040 - Gross value must be filled from 2007 on,"HB010,HB030, HY040G, HY040G_F",h,,,"HB010 ge 2007 and HY040G_F in (-5,.)",,,0
+449,Income - Error: HY050 - Gross value must be filled from 2007 on,"HB010,HB030, HY050G, HY050G_F",h,,,"HB010 ge 2007 and HY050G_F in (-5,.)",,,0
+450,Income - Error: HY060 - Gross value must be filled from 2007 on,"HB010,HB030, HY060G, HY060G_F",h,,,"HB010 ge 2007 and HY060G_F in (-5,.)",,,0
+451,Income - Error: HY070 - Gross value must be filled from 2007 on,"HB010,HB030, HY070G, HY070G_F",h,,,"HB010 ge 2007 and HY070G_F in (-5,.)",,,0
+452,Income - Error: HY080 - Gross value must be filled from 2007 on,"HB010,HB030, HY080G, HY080G_F",h,,,"HB010 ge 2007 and HY080G_F in (-5,.)",,,0
+453,Income - Error: HY090 - Gross value must be filled from 2007 on,"HB010,HB030, HY090G, HY090G_F",h,,,"HB010 ge 2007 and HY090G_F in (-5,.)",,,0
+454,Income - Error: HY100 - Gross value must be filled from 2007 on,"HB010,HB030, HY100G, HY100G_F",h,,,"HB010 ge 2007 and HY100G_F in (-5,.)",,,0
+455,Income - Error: HY110 - Gross value must be filled from 2007 on,"HB010,HB030, HY110G, HY110G_F",h,,,"HB010 ge 2007 and HY110G_F in (-5,.)",,,0
+456,Income - Error: HY120 - Gross value must be filled from 2007 on,"HB010,HB030, HY120G, HY120G_F",h,,,"HB010 ge 2007 and HY120G_F in (-5,.)",,,0
+457,Income - Error: HY130 - Gross value must be filled from 2007 on,"HB010,HB030, HY130G, HY130G_F",h,,,"HB010 ge 2007 and HY130G_F in (-5,.)",,,0
+458,Income - Error: HY140 - Gross value must be filled from 2007 on,"HB010,HB030, HY140G, HY140G_F",h,,,"HB010 ge 2007 and HY140G_F in (-5,.)",,,0
+459,Income - Error: PY010 - Gross value must be filled from 2007 on,"PB010,PB030, PY010G, PY010G_F",p,,,"PB010 ge 2007 and PY010G_F in (-5,.)",,,0
+460,Income - Error: PY020 - Gross value must be filled from 2007 on,"PB010,PB030, PY020G, PY020G_F",p,,,"PB010 ge 2007 and PY020G_F in (-6,-5,.)",,,0
+461,Income - Error: PY021 - Gross value must be filled from 2007 on,"PB010,PB030, PY021G, PY021G_F",p,,,"PB010 ge 2007 and PY021G_F in (-5,.)",,,0
+462,Income - Error: PY030 - Gross value must be filled from 2007 on,"PB010,PB030, PY030G, PY030G_F",p,,,PB010 ge 2007 and PY030G_F = .,,,0
+463,Income - Error: PY035 - Gross value must be filled from 2007 on,"PB010,PB030, PY035G, PY035G_F",p,,,"PB010 ge 2007 and PY035G_F in (-5,.)",,,0
+464,Income - Error: PY050 - Gross value must be filled from 2007 on,"PB010,PB030, PY050G, PY050G_F",p,,,"PB010 ge 2007 and PY050G_F in (-5,.)",,,0
+465,Income - Error: PY070 - value must be filled from 2007 to 2010,"PB010,PB030, PY070G, PY070G_F",p,,,"PB010 in (2007,2008,2009,2010) and PY070G_F in (-5,.)",,,0
+466,Income - Error: PY080 - Gross value must be filled from 2007 on,"PB010,PB030, PY080G, PY080G_F",p,,,"PB010 ge 2007 and PY080G_F in (-5,.)",,,0
+467,Income - Error: PY090 - Gross value must be filled from 2007 on,"PB010,PB030, PY090G, PY090G_F",p,,,"PB010 ge 2007 and PY090G_F in (-5,.)",,,0
+468,Income - Error: PY100 - Gross value must be filled from 2007 on,"PB010,PB030, PY100G, PY100G_F",p,,,"PB010 ge 2007 and PY100G_F in (-5,.)",,,0
+469,Income - Error: PY110 - Gross value must be filled from 2007 on,"PB010,PB030, PY110G, PY110G_F",p,,,"PB010 ge 2007 and PY110G_F in (-5,.)",,,0
+470,Income - Error: PY120 - Gross value must be filled from 2007 on,"PB010,PB030, PY120G, PY120G_F",p,,,"PB010 ge 2007 and PY120G_F in (-5,.)",,,0
+471,Income - Error: PY130 - Gross value must be filled from 2007 on,"PB010,PB030, PY130G, PY130G_F",p,,,"PB010 ge 2007 and PY130G_F in (-5,.)",,,0
+472,Income - Error: PY140 - Gross value must be filled from 2007 on,"PB010,PB030, PY140G, PY140G_F",p,,,"PB010 ge 2007 and PY140G_F in (-5,.)",,,0
+501,Income - Error: HY030 - No corresponding gross value ,"HB010,HB030, HY030N, HY030G",h,,,"HB010 ge 2007 and HY030N ne 0 and HY030N ne . And HY030G in (0,.)",,,0
+502,Income - Error: HY040 - No corresponding gross value ,"HB010,HB030, HY040N, HY040G",h,,,"HB010 ge 2007 and HY040N ne 0 and HY040N ne . And HY040G in (0,.)",,,0
+503,Income - Error: HY050 - No corresponding gross value ,"HB010,HB030, HY050N, HY050G",h,,,"HB010 ge 2007 and HY050N ne 0 and HY050N ne . And HY050G in (0,.)",,,0
+504,Income - Error: HY060 - No corresponding gross value ,"HB010,HB030, HY060N, HY060G",h,,,"HB010 ge 2007 and HY060N ne 0 and HY060N ne . And HY060G in (0,.)",,,0
+505,Income - Error: HY070 - No corresponding gross value ,"HB010,HB030, HY070N, HY070G",h,,,"HB010 ge 2007 and HY070N ne 0 and HY070N ne . And HY070G in (0,.)",,,0
+506,Income - Error: HY080 - No corresponding gross value ,"HB010,HB030, HY080N, HY080G",h,,,"HB010 ge 2007 and HY080N ne 0 and HY080N ne . And HY080G in (0,.)",,,0
+507,Income - Error: HY090 - No corresponding gross value ,"HB010,HB030, HY090N, HY090G",h,,,"HB010 ge 2007 and HY090N ne 0 and HY090N ne . And HY090G in (0,.)",,,0
+508,Income - Error: HY100 - No corresponding gross value ,"HB010,HB030, HY100N, HY100G",h,,,"HB010 ge 2007 and HY100N ne 0 and HY100N ne . And HY100G in (0,.)",,,0
+509,Income - Error: HY110 - No corresponding gross value ,"HB010,HB030, HY110N, HY110G",h,,,"HB010 ge 2007 and HY110N ne 0 and HY110N ne . And HY110G in (0,.)",,,0
+510,Income - Error: HY120 - No corresponding gross value ,"HB010,HB030, HY120N, HY120G",h,,,"HB010 ge 2007 and HY120N ne 0 and HY120N ne . And HY120G in (0,.)",,,0
+511,Income - Error: HY130 - No corresponding gross value ,"HB010,HB030, HY130N, HY130G",h,,,"HB010 ge 2007 and HY130N ne 0 and HY130N ne . And HY130G in (0,.)",,,0
+512,Income - Error: HY140 - No corresponding gross value ,"HB010,HB030, HY140N, HY140G",h,,,"HB010 ge 2007 and HY140N ne 0 and HY140N ne . And HY140G in (0,.)",,,0
+513,Income - Error: PY010 - No corresponding gross value ,"PB010,PB030, PY010N, PY010G",p,,,"PB010 ge 2007 and PY010N ne 0 and PY010N ne . And PY010G in (0,.)",,,0
+514,Income - Error: PY020 - No corresponding gross value ,"PB010,PB030, PY020N, PY020G",p,,,"PB010 ge 2007 and PY020N ne 0 and PY020N ne . And PY020G in (0,.)",,,0
+515,Income - Error: PY021 - No corresponding gross value ,"PB010,PB030, PY021N, PY021G",p,,,"PB010 ge 2007 and PY021N ne 0 and PY021N ne . And PY021G in (0,.)",,,0
+516,Income - Error: PY035 - No corresponding gross value ,"PB010,PB030, PY035N, PY035G",p,,,"PB010 ge 2007 and PY035N ne 0 and PY035N ne . And PY035G in (0,.)",,,0
+517,Income - Error: PY050 - No corresponding gross value ,"PB010,PB030, PY050N, PY050G",p,,,"PB010 ge 2007 and PY050N ne 0 and PY050N ne . And PY050G in (0,.)",,,0
+518,Income - Error: PY070 - No corresponding gross value ,"PB010,PB030, PY070N, PY070G",p,,,"PB010 in (2007,2008,2009,2010) and PY070N ne 0 and PY070N ne . And PY070G in (0,.)",,,0
+519,Income - Error: PY080 - No corresponding gross value ,"PB010,PB030, PY080N, PY080G",p,,,"PB010 ge 2007 and PY080N ne 0 and PY080N ne . And PY080G in (0,.)",,,0
+520,Income - Error: PY090 - No corresponding gross value ,"PB010,PB030, PY090N, PY090G",p,,,"PB010 ge 2007 and PY090N ne 0 and PY090N ne . And PY090G in (0,.)",,,0
+521,Income - Error: PY100 - No corresponding gross value ,"PB010,PB030, PY100N, PY100G",p,,,"PB010 ge 2007 and PY100N ne 0 and PY100N ne . And PY100G in (0,.)",,,0
+522,Income - Error: PY110 - No corresponding gross value ,"PB010,PB030, PY110N, PY110G",p,,,"PB010 ge 2007 and PY110N ne 0 and PY110N ne . And PY110G in (0,.)",,,0
+523,Income - Error: PY120 - No corresponding gross value ,"PB010,PB030, PY120N, PY120G",p,,,"PB010 ge 2007 and PY120N ne 0 and PY120N ne . And PY120G in (0,.)",,,0
+524,Income - Error: PY130 - No corresponding gross value ,"PB010,PB030, PY130N, PY130G",p,,,"PB010 ge 2007 and PY130N ne 0 and PY130N ne . And PY130G in (0,.)",,,0
+525,Income - Error: PY140 - No corresponding gross value ,"PB010,PB030, PY140N, PY140G",p,,,"PB010 ge 2007 and PY140N ne 0 and PY140N ne . And PY140G in (0,.)",,,0
+550,"Income - Error: HY010 - No total household income , but components with income","HB010,HB030,HY010,HNETINC,HGROINC,PB030,PNETINC,PGROINC",h,p,HB030 = PHID and HB010 = PB010,,"HB030,HB010","HY010 = 0 and sum(HNETINC,HGROINC,PNETINC,PGROINC,0) ne 0",0
+551,"Income - Error: HY020 - No disposible household income , but components with income","HB010,HB030,HY020,HNETINC,PB030,PNETINC",h,p,HB030 = PHID and HB010 = PB010,,"HB030,HB010","HY020 = 0 and sum(HNETINC,PNETINC,0) ne 0",0
+553,Income - Error: HY110 - Income received by people aged under 16 but no member under 16 in household,"HB010,HB030,HY110N,HY110G,RB030,RB070,RB080,AGE",h,r,HB030 = RHID and HB010 = RB010,"sum(HY110N,HY110G,0) > 0 ","HB030,HB010",min(AGE) ge 16,0
+560,Income - Warning: HY010 - Great difference between total and components,"HB010,HB030,HY010,gross",h,,,HY010 > 0 and  (HY010 < gross * 0.9 or HY010 > gross * 1.1),,,0
+565,Income - Error: HY020 - Must be equal or greater HY022 ,"HB010,HB030,HY020,HY022",h,,,HY020 > 0 and  HY022 > HY020 ,,,0
+566,Income - Error: HY022- Must be equal or greater HY023,"HB010,HB030,HY022,HY023",h,,,HY022 > 0 and  HY023 > HY022,,,0
+567,Income - Warning: HY020 - Great difference between total and components,"HB010,HB030,HY020,net20",h,,,HY020 > 0 and  (HY020 < net20 * 0.9 or HY020 > net20 * 1.1),,,0
+570,"Income - Warning: PY010 - 12 months active as employee, but no income as employee","PB010,PB030,PY010G,PL211_1,PL211_2",p,,,"(sum(PL211_1,PL211_2,0) = 12) and PY010G_F < 1 ",,,0
+571,"Income - Warning: PY050 - 12 months active as self-employee, but no income as self-employee","PB010,PB030,PY050G,PL211_3,PL211_4",p,,,"(sum(PL211_3,PL211_4,0) = 12) and PY050G_F < 1 ",,,0
+572,"Income - Warning: PY090 - 12 months unemployed, but no income from unemployments benefits","PB010,PB030,PY090G,PL211_5",p,,,PL211_5 = 12 and PY090G_F < 1 ,,,0
+573,"Income - Warning: PY100 - 12 months retired, but no income from old-age benefits","PB010,PB030,PY100G,PL211_7",p,,,PL211_7 = 12 and PY100G_F < 1 ,,,0
+580,Income - Warning: Big difference in personal income from one year to the next year,"a.PB010,a.PB030,a.PL031,a.PL051,a.PL060,a.PNETINC,B.PB010 as _PB010,b.PL031 as _PL031,b.PL051 as _PL051,b.PL060 as _PL060,b.PL160,b.PNETINC as _PNETINC",p,p,a.PB030 = b.PB030 ,a.PB010+1 = b.PB010 and (a.PL031 = b.PL031 and a.PL051 = b.PL051) and abs((a.PNETINC - b.PNETINC)/(a.PNETINC+1)) > 0.20,,,0
+581,Income - Warning: PY010G - Big difference in income from one year to the next year,"a.PB010,a.PB030,a.PL031,a.PL051,a.PL060,a.PY010G,B.PB010 as _PB010,b.PL031 as _PL031,b.PL051 as _PL051,b.PL060 as _PL060,b.PL160,b.PY010G as _PY010G",p,p,a.PB030 = b.PB030 ,a.PB010+1 = b.PB010 and (a.PL031 = b.PL031 and a.PL051 = b.PL051) and (b.PL160 =2 or b.PL160_F = -1) and abs((a.PY010G - b.PY010G)/(a.PY010G+1)) > 0.20,,,0
+750,Labour - Warning: PL160 = 2 but different PL051 (ISCO) ,"a.PB010,a.PB030,a.PL031,a.PL051,b.PB010 as _PB010,b.PL031 as _PL031,b.PL051 as _PL051,b.PL160",p,p,a.PB030 = b.PB030 ,a.PB010+1 = b.PB010 and b.PL160 =2 and (a.PL051 ne b.PL051) and a.PL051 ne .,,,0
+806,Labour - Error: PL... - Not non-selected respondant but code -3 is used ,"PB010,PB030,PL140_F,PL160_F,PL170_F,PL180_F,PL190_F,PL200_F,SELRES",p,,,(PL140_F=-3 or PL160_F=-3 or PL170_F=-3 or PL180_F=-3 or PL190_F=-3 or PL200_F=-3 ) and SELRES ne 3,,,0
+808,Labour - Error: PL... - Not non-selected respondant but code -3 is used ,"PB010,PB030,PL211A_F,PL211B_F,PL211C_F,PL211D_F,PL211E_F,PL211F_F,PL211G_F,PL211H_F,PL211I_F,PL211J_F,PL211K_F,PL211L_F,SELRES",p,,,(PL211A_F=-3 or  PL211B_F=-3 or  PL211C_F=-3 or  PL211D_F=-3 or  PL211E_F=-3 or  PL211F_F=-3 or  PL211G_F=-3 or  PL211H_F=-3 or  PL211I_F=-3 or  PL211J_F=-3 or  PL211K_F=-3 or  PL211L_F=-3) and SELRES ne 3,,,0
+811,Health - Error: PH... - Not non-selected respondant but code -3 is used ,"PB010,PB030,PH010_F,PH020_F,PH030_F,SELRES",p,,,(PH010_F=-3 or PH020_F=-3 or PH030_F=-3 ) and SELRES ne 3,,,0

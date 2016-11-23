@@ -1,0 +1,112 @@
+VARIABLE,REQ,FORMAT,MINVAL,MAXVAL,FLAG,NA,DISP.,LABEL,0
+DB010,1,v4.,2016,year,,,,Year of the survey,0
+DB020,1,v$2.,COUNTRY CODE,country,,,,Country,0
+DB030,1,v8.,ID,hid,,,,Household ID,0
+DB040,1,f$5.,NUTS 13 CODE,nuts,"(-1,1)",,,Region,0
+DB050,1,f5.,1,99999,"(-2,1,2,3)",,,Primary strata,0
+DB060,1,f5.,1,99999,"(-2,1,2)",,,PSU-1,0
+DB061,0,f5.,1,99999,"(-2,1)",,,PSU-2 ,0
+DB062,1,f5.,1,99999,"(-2,1,2)",,,SSU-1 ,0
+DB063,0,f5.,1,99999,"(-2,1)",,,SSU-2 ,0
+DB070,1,f5.,1,99999,"(-2,1,11,12,21,22)",,,Order of the selection of PSU-1,0
+DB071,0,f5.,1,99999,"(-2,1)",,,Order of the selection of PSU-2,0
+DB072,0,f5.,1,99999,"(-2,1)",,,Order of the selection of SSU-1,0
+DB073,0,f5.,1,99999,"(-2,1)",,,Order of the selection of SSU-2,0
+DB075,1,f2.,1,9,"(-2,1)",,,Rotational group,0
+DB080,1,f8.5,0,99999,"(-2,1)",,,Household design weight,0
+DB090,1,f8.5,0,99999,"(1,1)",,,Household cross-sectional weight,0
+DB100,1,f2.,1,3,"(-1,1)",,,Degree of urbanisation,0
+DB110,1,f2.,1,11,"(1,1)",,,Household status,0
+DB120,1,f2.,"(11,21,22,23)",list,"(-2,-1,1)","DB110 not in (2,8,9)",DB110,Record of contact at address,0
+DB130,1,f2.,"(11,21,22,23,24)",list,"(-2,-1,1)",DB120 ne 11 and DB110 ne 1,"DB120,DB130,DB135",Household questionnaire result,0
+DB135,1,f2.,1,2,"(-2,-1,1)",DB130 ne 11,"DB120,DB130",Household interview acceptance,0
+RB010,1,v4.,2016,year,,,,Year of the survey,0
+RB020,1,v$2.,COUNTRY CODE,country,,,,Country,0
+RB030,1,v10.,ID,pid,,,,Personal ID,0
+RB040,1,v8.,ID,hid,,,,Current Household ID,0
+RB050,1,f8.5,0,99999,"(1,-2)","RB110 not in (1,2,3,4)",RB110,Personal cross-sectional weight,0
+RB070,1,f2.,1,12,"(-1,1)",,,Month of birth,0
+RB080,1,f4.,1891,2016,"(-1,1)",,,Year of birth,0
+RB090,1,f2.,1,2,"(-1,1)",,,Sex,0
+RB110,1,f2.,1,7,"(-1,1)",,,Membership status,0
+RB220,1,f10.,10001,9999999999,"(-2,-1,1)",,,Father ID,0
+RB230,1,f10.,10001,9999999999,"(-2,-1,1)",,,Mother ID,0
+RB245,1,f2.,1,4,"(-2,1)",,,Respondent Status,0
+RB250,1,f2.,"(11,12,13,14,21,22,23,31,32,33)",list,"(-2,1)",RB245 = 4,RB245,Data Status,0
+RL010,1,f2.,0,99,"(-2,-1,1)",,,Education at pre-school,0
+RL020,1,f2.,0,99,"(-2,-1,1)",,,Education at compulsory school,0
+RL030,1,f2.,0,99,"(-2,-1,1)",,,Child care at center based services,0
+RL040,1,f2.,0,99,"(-2,-1,1)",,,Child care at day-care center,0
+RL050,1,f2.,0,99,"(-2,-1,1)",,,Child care by professional child-minder,0
+RL060,1,f2.,0,99,"(-2,-1,1)",,,Child care by relatives etc,0
+RL070,1,f8.5,0,99999,"(-2,1)",,,Child care weight,0
+HS021,1,f2.,1,3,"(-2,-1,1)",,,Arrears on utility bills,0
+HS031,1,f2.,1,3,"(-2,-1,1)",,,Arrears on hire purchase instalments or other loan payments,0
+HS040,1,f2.,1,2,"(-1,1)",,,Capacity to afford paying for one week annual holiday away from home,0
+HS050,1,f2.,1,2,"(-1,1)",,,Capacity to afford a meal with meat chicken fish or vegetarian equivalent every second day,0
+HS060,1,f2.,1,2,"(-1,1)",,,Capacity to face unexpected financial expenses,0
+HS070,1,f2.,1,3,"(-1,1)",,,Do you have a telephone including mobile phone?,0
+HS080,1,f2.,1,3,"(-1,1)",,,Do you have a colour TV?,0
+HS100,1,f2.,1,3,"(-1,1)",,,Do you have a washing machine?,0
+HS110,1,f2.,1,3,"(-1,1)",,,Do you have a car?,0
+HS120,1,f2.,1,6,"(-1,1)",,,Ability to make ends meet,0
+HS140,1,f2.,1,3,"(-2,-1,1)",,,Total housing cost is a financial burden,0
+HS150,1,f2.,1,3,"(-2,-1,1)",,,Repayment of debts from hire purchases or loans are a financial burden to the household,0
+HH021,1,f2.,1,5,"(-1,1)",,,Tenure status,0
+HH050,1,f2.,1,2,"(-1,1)",,,Ability to keep home adequately warm,0
+PB010,1,v4.,2016,year,,,,Year of the survey,0
+PB020,1,v$2.,COUNTRY CODE,country,,,,Country,0
+PB030,1,v10.,ID,pid,,,,Personal ID,0
+PB040,1,f8.5,0,99999,"(1,1)",,,Personal cross-sectional weight 16+,0
+PB060,1,f8.5,0,99999,"(-3,-2,1)",,,Personal cross-sectional weight for selected respondent,0
+PB070,1,f8.5,0,99999,"(-3,-2,1)",,,Personal design weight for selected respondent,0
+PB090,1,f2.,1,31,"(-1,1)",,,Day of the personal interview,0
+PB100,1,f2.,1,12,"(-1,1)",,,Month of the personal interview,0
+PB110,1,f4.,2016,2016,"(-1,1)",,,Year of the personal interview,0
+PB120,1,f2.,1,90,"(-2,-1,1)",,,Number of minutes to complete the  questionnaire,0
+PB130,1,f2.,1,12,"(-1,1)",,,Month of birth,0
+PB140,1,f4.,1891,1999,"(-1,1)",,,Year of birth,0
+PB150,1,f2.,1,2,"(-1,1)",,,Sex,0
+PE040,1,f3.,"(0,000,100,200,300,340,342,343,344,350,352,353,354,400,440,450,500,600,700,800)",list,"(-1,1)",,,Highest ISCED level attained,0
+PL031,1,f2.,1,11,"(-1,1)",,,Self-defined current economic status,0
+PL020,1,f2.,1,2,"(-2,-1,1)","(PL031 in (1,2,3,4))","PL031,PB140",Actively looking for a job,0
+PL025,1,f2.,1,2,"(-2,-1,1)",PL020 ne 1,PL020,Available for work,0
+PH010,1,f2.,1,5,"(-3,-1,1)",,,General health,0
+PH020,1,f2.,1,2,"(-3,-1,1)",,,Suffer from any chronic illness or condition,0
+PH030,1,f2.,1,3,"(-3,-1,1)",,,Limitation in activities because health problems ,0
+PH040,1,f2.,1,2,"(-3,-2,-1,1)",,,Unmet need for medical examination or treatment,0
+PH050,1,f2.,1,8,"(-3,-2,-1,1)",PH040 ne 1,PH040,Reason for unmet need for medical examination or treatment,0
+HD080,1,f2.,1,3,"(-1,1)",,,Replacing worn-out furniture,0
+PD020,1,f2.,1,3,"(-3,-1,1)",,,Replace worn-out clothes by some new (not second-hand) ones,0
+PD030,1,f2.,1,3,"(-3,-1,1)",,,Two pairs of properly fitting shoes (including a pair of all-weather shoes),0
+PD050,1,f2.,1,3,"(-3,-1,1)",,,Get-together with friends/family (relatives) for a drink/meal at least once a month,0
+PD060,1,f2.,1,3,"(-3,-1,1)",,,"Regularly participate in a leisure activity such as sport, cinema, concert",0
+PD070,1,f2.,1,3,"(-3,-1,1)",,,Spend a small amount of money each week on yourself,0
+PD080,1,f2.,1,3,"(-3,-1,1)",,,Internet connection for personal use at home,0
+RC010,1,f2.,1,2,"(-5,-4,-1,1)",,,Payment for the cost of formal childcare services,0
+RC020,1,f2.,"(1,2,9)",list,"(-5,-4,-2,-1,1)",RC010=2,RC010,Proportion of the cost of formal childcare services paid,0
+RC030,1,f2.,"(1,2,3,4,5,9)",list,"(-5,-4,-2,-1,1)",(RC020=1 OR RC20=9),RC020,Who pays/contributes to the cost of formal childcare services,0
+HC040,1,f2.,1,6,"(-5,-4,-1,1)",,,Affordability of childcare services,0
+HC050,1,f2.,1,2,"(-5,-1,1)",,,Unmet needs for formal childcare services,0
+HC060,1,f2.,1,6,"(-5,-2,-1,1)",HC050=2,HC050,Main reason for not making (more) use of formal childcare services,0
+RC070,1,f2.,1,2,"(-4,-1,1)",,,Payment for tuition fees,0
+RC080,1,f2.,"(1,2,9)",list,"(-4,-2,-1,1)",RC070=2,RC070,Part of the tuition fees paid,0
+RC090,1,f2.,"(1,2,3,4,5,9)",list,"(-4,-2,-1,1)",(RC080=1 OR RC080=9),RC080,Who pays/ contributes to the tuition fees,0
+HC100,1,f2.,1,6,"(-5,-4,-1,1)",,,Affordability of formal education,0
+PC110,1,f2.,1,2,"(-4,-3,-1,1)",,,Unmet needs for formal education,0
+PC120,1,f2.,1,5,"(-4,-3,-2,-1,1)",PC110=2,PC110,Main reason for non-participation in formal education,0
+PC130,1,f2.,1,2,"(-3,-1,1)",,,Participation in training related to hobbies,0
+PC140,1,f2.,1,2,"(-3,-1,1)",,,Participation in training related to professional activity,0
+PC150,1,f2.,1,6,"(-3,-2,-1,1)",PC140=1,PC140,Main reason for non-participation in training related to professional activity,0
+HC160,1,f2.,1,2,"(-1,1)",,,Use of health care services,0
+HC170,1,f2.,1,2,"(-2,-1,1)",HC160=2,HC160,Payment for health care services,0
+HC180,1,f2.,1,6,"(-2,-1,1)",HC160=2,HC160,Affordability of health care services,0
+HC190,1,f2.,1,2,"(-1,1)",,,"Presence in the household of people who need help due to long-term physical or mental ill-health, infirmity or because of old age",0
+HC200,1,f2.,1,2,"(-2,-1,1)",HC190=2,HC190,Professional home care received,0
+HC210,1,f2.,1,3,"(-2,-1,1)",(HC190=2 OR HC200=2),"HC190,HC200",Number of hours per week of professional home care received,0
+HC220,1,f2.,1,2,"(-2,-1,1)",(HC190=2 OR HC200=2),"HC190,HC200",Payment for professional home care,0
+HC230,1,f2.,1,6,"(-2,-1,1)",(HC190=2 or HC200=2 or HC220=2),"HC190,HC200, HC220",Affordability of professional home care services,0
+HC240,1,f2.,1,2,"(-2,-1,1)",HC190=2,HC190,Unmet needs for professional home care,0
+HC250,1,f2.,1,5,"(-2,-1,1)",(HC190=2 OR HC240=2),"HC190,HC240",Main reason for not receiving (more) professional home care services,0
+PC260,1,f2.,1,4,"(-3,-1,1)",,,Care or assistance provided,0
+PC270,1,f2.,1,3,"(-3,-2,-1,1)",PC260=4,PC260,Number of hours per week of care or assistance provided,0

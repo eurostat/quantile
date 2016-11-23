@@ -1,0 +1,13 @@
+code,lib,description
+li21,LDB,Persistent at risk of poverty rate
+li23,LDB,persistent at risk of poverty rate by HH Type
+li24,LDB,persistent at risk of poverty rate by highest isced level attained
+li51,LDB,Frequency poverty rate in 4 years
+lvhl30,LDB,Labour transition by employment status
+lvhl32,LDB,Labour transition by type of contract
+lvhl33,LDB,Labour transition by sex and   pay level
+lvhl34,LDB,Labour transitions by employment status and pay level - Changes in qualifications
+lvhl35,LDB,Transitions of income within one year by decile
+di30a,LDB,Transitions of income within two years by decile
+di30b,LDB,Transitions of income within three years by decile
+di30c,LDB,Reports in rtf-format

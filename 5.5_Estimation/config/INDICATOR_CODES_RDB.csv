@@ -1,0 +1,129 @@
+code,lib,description
+DI01,RDB,Distribution of income by quantiles
+DI02,RDB,Distribution of income by different income groups
+DI03,RDB,Mean and median income by age and gender
+DI04,RDB,Mean and median income by household type
+DI05,RDB,Mean and median income by most frequent activity status
+DI07,RDB,Mean and median income by work intensity
+DI08,RDB,Mean and median income by education level
+DI09,RDB,Mean and median income by tenure status
+DI10,RDB,Mean and median by making ends meet
+DI11,RDB,S80/S20 income quintile share ratio by gender and selected age group
+DI12,RDB,Gini coefficient
+DI12b,RDB,Gini coefficient
+DI12c,RDB,Gini coefficiant by EQ_INC22
+DI13,RDB,Mean and median income before social transfers only (pension excluded) by age and gender
+DI13b,RDB,Mean and median income before social transfers only (pension excluded) by household type
+DI14,RDB,Mean and median income before social transfers and pensions by age and gender
+DI14b,RDB,Mean and median income before social transfers and pensions by household type
+DI15,RDB,Median income by age and gender and citizen
+DI16,RDB,Median income by age and gender and c_birth
+DI17,RDB,Mean and median income by deg_urb status
+DI20,RDB,Share of people by age and sex having income equal or more of specific cut-off point of Median and Mean income
+DI23,RDB,Share of people by degree of urbanisation having income equal or more of specific cut-off point of Median and Mean income
+DI27,RDB,Share of people by education level having income equal or more of specific cut-off point of Median
+IW01,RDB,In-work at risk of poverty rates by age and gender
+IW02,RDB,In-work at risk of poverty rates by household type
+IW03,RDB,In-work at risk of poverty rates by work intensity of the household
+IW04,RDB,In-work at risk of poverty rates by education level
+IW05,RDB,In-work at risk of poverty rates by type of contract
+IW06,RDB,In-work at risk of poverty rates by months worked
+IW07,RDB,In-work at risk of poverty rates by full-/part-time work
+IW15,RDB,In-work at risk of poverty rates by age sex and citizen
+IW16,RDB,In-work at risk of poverty rates by age sex and c-birth
+LI01,RDB,At risk of poverty thresholds
+LI02,RDB,At risk of poverty rates by age and gender
+LI03,RDB,At risk of poverty rates by household type
+LI04,RDB,At risk of poverty rates by most frequent activity in the previous year (persons over 16 years)
+LI06,RDB,At risk of poverty rates by work intensity of the household
+LI07,RDB,At risk of poverty rates by education level
+LI08,RDB,At risk of poverty rates by tenure status
+LI09,RDB,At risk of poverty rates before social transfers (pensions included in social transfers)
+LI09b,RDB,At-risk-of-poverty rate before social transfers (pensions included in social transfers) by household type 
+LI10,RDB,"At-risk-of-poverty rate before social transfers (pensions excluded from social transfers) by poverty threshold, age and gender"
+LI10b,RDB,At-risk-of-poverty rate before social transfers (pensions excluded from social transfers) by household type 
+LI11,RDB,Relative at risk of poverty gaps
+LI22,RDB,At-risk-of-poverty rate anchored at a fixed moment in time (2005) by age and gender
+LI22b,RDB,At-risk-of-poverty rate anchored at a fixed moment in time (2008) by age and gender
+LI31,RDB,At-risk-of-poverty rate by broad group of citizenship (population aged 18 and over)
+Li32,RDB,At-risk-of-poverty rate by broad group of country of birth (population aged 18 and over)
+LI41,RDB,At-risk-of-poverty rate by broad group of country of birth (population aged 18 and over)
+LI45,RDB,At-risk-of-poverty rate after deducting housing costs by age and sex
+LI48,RDB,At-risk-of-poverty rate after deducting housing costs by degree of urbanisation
+LI60,RDB,Children at-risk-poverty-rate by age and by maximum level of education of mother or father
+LVHL11,RDB,People living in households with very low work intensity by age and gender (population aged 0 to 59 years)
+LVHL12,RDB,People living in households with very low work intensity by most frequent activity status (population aged 18 to 59 years)
+LVHL13,RDB,People living in households with very low work intensity by income quintile and household type (population aged 0 to 59 years)
+LVHL14,RDB,People living in households with very low work intensity by education level (population aged 18 to 59 years)
+LVHL15,RDB,People living in households with very low work intensity by broad group of citizenship (population aged 18 to 59 years)
+LVHL16,RDB,People living in households with very low work intensity by broad group of country of birth (population aged 18 to 59 years)
+LVHL17,RDB,People living in households with very low work intensity by tenure status (population aged 18 to 59 years)
+LVHL21,RDB,People living in households with very low work intensity by NUTS region (population aged 0 to 59 years)
+LVHL60,RDB,"Children at-risk-poverty-rate by low work intensity, age  and  maximum level of education of mother or father"
+LVHO05a,RDB,Overcrowding rate by age and poverty status - total population
+LVHO05b,RDB,Overcrowding rate by tenure status - total population
+LVHO05c,RDB,Overcrowding rate by degree of urbanisation - total population
+LVHO05d,RDB,Overcrowding rate by household type - total population
+LVHO05q,RDB,Overcrowding rate by quantile total population and population without single-person
+LVHO06,RDB,"Overcrowding rate by age, gender and poverty status - Population without single-person households "
+LVHO06q,RDB,Overcrowding rate by quantile total population and population without single-person
+LVHO07a,RDB,"Housing cost overburden rate by age, gender and poverty status"
+LVHO07b,RDB,Housing cost overburden rate by income quintile
+LVHO07c,RDB,Housing cost overburden rate by tenure status
+LVHO07d,RDB,Housing cost overburden rate by degree of urbanisation 
+LVHO07e,RDB,Housing cost overburden rate by household type
+LVHO08a,RDB,"Median of the housing cost burden distribution by age, gender and poverty status "
+LVHO08b,RDB,Median of the housing cost burden distribution by degree of urbanisation
+LVHO15,RDB,Overcrowding rate by age gender and citizen
+LVHO16,RDB,Overcrowding rate by age gender and c_birth
+LVHO25,RDB,Housing cost burden - by age sex and citizen
+LVHO26,RDB,Housing cost burden - by age sex and c_birth
+LVHO27,RDB,Distribution of population by housing cost burden and  sex
+LVHO28,RDB,Distribution of population by housing cost burden and  tenure status
+LVHO29,RDB,Distribution of population by housing cost burden and  degree of urbanisation 
+LVHO30,RDB,Distribution of population by housing cost burden and  household type
+LVHO50a,RDB,"Share of people living in under-occupied dwellings by age, sex and poverty status - Total population"
+LVHO50b,RDB,"Share of people living in under-occupied dwellings by age, sex and poverty status - Total population"
+LVHO50c,RDB,Share of people living in under-occupied dwellings by tenure status - Total population
+LVHO50d,RDB,Share of people living in under-occupied dwellings by degree of urbanisation - Total population
+MDDD11,RDB,Severe material deprivation rate by age and genderÿ
+MDDD12,RDB,Severe material deprivation rate by most frequent activity status (population aged 18 and over)
+MDDD13,RDB,Severe material deprivation rate by income quintile and household type
+MDDD14,RDB,Severe material deprivation rate by education level (population aged 18 and over
+MDDD15,RDB,Severe material deprivation rate by broad group of citizenship  (population aged 18 and over)
+MDDD16,RDB,Severe material deprivation rate by broad group of country of birth (population aged 18 and over)
+MDDD17,RDB,Severe material deprivation rate by tenure status
+MDDD21,RDB,Severe material deprivation rate by NUTS region
+MDDD60,RDB,"children At-risk-poverty-rate by Severe deprivation, age  and by maximum level of education of mother or father  "
+MDHO05,RDB,"Share of total population having neither a bath, nor a shower, nor indoor flushing toilet in their household"
+MDHO06a,RDB,"Severe housing deprivation rate by age,sex and poverty status"
+MDHO06b,RDB,Severe housing deprivation rate by household type 
+MDHO06c,RDB,Severe housing deprivation rate by  tenure status
+MDHO06b,RDB,Severe housing deprivation rate by degree of urbanization
+MDHO06q,RDB,Severe housing deprivation rate by degree of urbanisation
+OV9B1,RDB,"Proportion of population lacking at least three items in the 'economic strain and durables' dimension of the material deprivation items by age, gender and at-risk-of-poverty status"
+OV9B2,RDB,"Mean number of items lacked by persons considered as deprived in the 'economic strain and durables' dimension by age, gender and at-risk-of-poverty status"
+PEES01,RDB,Intersections of Europe 2020 Poverty Target Indicators by age and gender
+PEES02,RDB,Intersections of Europe 2020 Poverty Target Indicators by most frequent activity status (population aged 18 and over)
+PEES03,RDB,Intersections of Europe 2020 Poverty Target Indicators by income quintile
+PEES04,RDB,Intersections of Europe 2020 Poverty Target Indicators by type of household
+PEES05,RDB,Intersections of Europe 2020 Poverty Target Indicators by education level (population aged 18 and over)
+PEES06,RDB,Intersections of Europe 2020 Poverty Target Indicators by broad group of citizenship (population aged 18 and over)
+PEES07,RDB,Intersections of Europe 2020 Poverty Target Indicators by broad group of country of birth (population aged 18 and over)
+PEES08,RDB,Intersections of Europe 2020 Poverty Target Indicators by tenure status 
+PEPS01,RDB,People at risk of poverty or social exclusion by age and gender
+PEPS02,RDB,People at risk of poverty or social exclusion by most frequent activity status (population aged 18 and over)
+PEPS03,RDB,People at risk of poverty or social exclusion by income quintile and household type
+PEPS04,RDB,People at risk of poverty or social exclusion by education level (population aged 18 and over)
+PEPS05,RDB,People at risk of poverty or social exclusion by broad group of citizenship (population aged 18 and over)
+PEPS06,RDB,People at risk of poverty or social exclusion by broad group of country of birth (population aged 18 and over)
+PEPS07,RDB,People at risk of poverty or social exclusion by tenure status 
+PEPS11,RDB,People at risk of poverty or social exclusion by NUTS region
+PEPS60,RDB,children At-risk-poverty-rate by age and education level of maximum level of education of mother or father
+PNP10,RDB,Gender differences in the relative median income ratio
+PNP11,RDB,Gender differences in the aggregate replacement ratio
+PNP2,RDB,Relative median income ratio
+PNP3,RDB,Aggregate replacement ratio
+PNP9,RDB,Gender differences in  the at-risk-of-poverty rate 
+PNS11,RDB,Gender differences in  the realative income median ratio 
+PNS2,RDB,relative median income ratio

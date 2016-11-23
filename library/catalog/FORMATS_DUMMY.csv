@@ -1,0 +1,13 @@
+BREAKDOWN,VARIABLE,START,END,type,fmt1_dummy,fmt2_dummy,fmt3_dummy,fmt4_dummy
+label1,DUMMY,1,5,N,1,0,1,0
+label2,DUMMY,1,3,N,1,1,0,0
+label2,DUMMY,5,5,N,1,1,0,0
+label2,DUMMY,8,10,N,1,1,0,0
+label2,DUMMY,12,12,N,1,1,0,0
+label3,DUMMY,1,10,N,0,1,1,0
+label3,DUMMY,20,HIGH,N,0,1,1,0
+label4,DUMMY,10,20,N,0,0,0,1
+label5,DUMMY,10,12,N,0,1,1,0
+label5,DUMMY,15,17,N,0,1,1,0
+label5,DUMMY,19,20,N,0,1,1,0
+label5,DUMMY,30,HIGH,N,0,1,1,0

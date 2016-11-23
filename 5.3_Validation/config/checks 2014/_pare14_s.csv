@@ -1,0 +1,99 @@
+VARIABLE,REQ,FORMAT,MINVAL,MAXVAL,FLAG,NA,DISP.,LABEL,0
+DB010,1,v4.,2014,year,,,,Year of the survey,0
+DB020,1,v$2.,COUNTRY CODE,country,,,,Country,0
+DB030,1,v8.,ID,hid,,,,Household ID,0
+DB040,1,f$5.,NUTS 10 CODE,nuts,"(-1,1)",,,Region,0
+DB050,1,f5.,1,99999,"(-2,1,2,3)",,,Primary strata,0
+DB060,1,f5.,1,99999,"(-2,1,2)",,,PSU-1,0
+DB061,0,f5.,1,99999,"(-2,1)",,,PSU-2 ,0
+DB062,1,f5.,1,99999,"(-2,1,2)",,,SSU-1 ,0
+DB063,0,f5.,1,99999,"(-2,1)",,,SSU-2 ,0
+DB070,1,f5.,1,99999,"(-2,1,11,12,21,22)",,,Order of the selection of PSU-1,0
+DB071,0,f5.,1,99999,"(-2,1)",,,Order of the selection of PSU-2,0
+DB072,0,f5.,1,99999,"(-2,1)",,,Order of the selection of SSU-1,0
+DB073,0,f5.,1,99999,"(-2,1)",,,Order of the selection of SSU-2,0
+DB075,1,f2.,1,9,"(-2,1)",,,Rotational group,0
+DB080,1,f8.5,0,99999,"(-2,1)",,,Household design weight,0
+DB090,1,f8.5,0,99999,"(1,1)",,,Household cross-sectional weight,0
+DB100,1,f2.,1,3,"(-1,1)",,,Degree of urbanisation,0
+DB110,1,f2.,1,11,"(1,1)",,,Household status,
+DB120,1,f2.,"(11,21,22,23)",list,"(-2,-1,1)","DB110 not in (2,8,9)",DB110,Record of contact at address,0
+DB130,1,f2.,"(11,21,22,23,24)",list,"(-2,-1,1)",DB120 ne 11 and DB110 ne 1,"DB120,DB130,DB135",Household questionnaire result,0
+DB135,1,f2.,1,2,"(-2,-1,1)",DB130 ne 11,"DB120,DB130",Household interview acceptance,0
+RB010,1,v4.,2014,year,,,,Year of the survey,0
+RB020,1,v$2.,COUNTRY CODE,country,,,,Country,0
+RB030,1,v10.,ID,pid,,,,Personal ID,0
+RB040,1,v8.,ID,hid,,,,Current Household ID,
+RB050,1,f8.5,0,99999,"(1,-2)","RB110 not in (1,2,3,4)",RB110,Personal cross-sectional weight,0
+RB070,1,f2.,1,12,"(-1,1)",,,Month of birth,0
+RB080,1,f4.,1890,2014,"(-1,1)",,,Year of birth,0
+RB090,1,f2.,1,2,"(-1,1)",,,Sex,0
+RB110,1,f2.,1,7,"(-1,1)",,,Membership status,
+RB220,1,f10.,10001,9999999999,"(-2,-1,1)",,,Father ID,0
+RB230,1,f10.,10001,9999999999,"(-2,-1,1)",,,Mother ID,0
+RB245,1,f2.,1,4,"(1,1)",,,Respondent Status,0
+RB250,1,f2.,"(11,12,13,14,21,22,23,31,32,33)",list,"(-2,1)",RB245 = 4,RB245,Data Status,0
+HB010,1,v4.,2014,year,,,,Year of the survey,0
+HB020,1,v$2.,COUNTRY CODE,country,,,,Country,0
+HB030,1,v8.,ID,hid,,,,Household ID,0
+HB040,1,f2.,1,31,"(-1,1)",,,Day of household interview,0
+HB050,1,f2.,1,12,"(-1,1)",,,Month of household interview,0
+HB060,1,f4.,2014,2014,"(1,1)",,,Year of Household interview,0
+HS011,1,f2.,1,3,"(-2,-1,1)",,,Arrears on mortgage or rent payments,0
+HS021,1,f2.,1,3,"(-2,-1,1)",,,Arrears on utility bills,0
+HS031,1,f2.,1,3,"(-2,-1,1)",,,Arrears on hire purchase instalments or other loan payments,0
+HS040,1,f2.,1,2,"(-1,1)",,,Capacity to afford paying for one week annual holiday away from home,0
+HS050,1,f2.,1,2,"(-1,1)",,,Capacity to afford a meal with meat chicken fish or vegetarian equivalent every second day,0
+HS060,1,f2.,1,2,"(-1,1)",,,Capacity to face unexpected financial expenses,0
+HS070,1,f2.,1,3,"(-1,1)",,,Do you have a telephone including mobile phone?,0
+HS080,1,f2.,1,3,"(-1,1)",,,Do you have a colour TV?,0
+HS100,1,f2.,1,3,"(-1,1)",,,Do you have a washing machine?,0
+HS110,1,f2.,1,3,"(-1,1)",,,Do you have a car?,0
+HS120,1,f2.,1,6,"(-1,1)",,,Ability to make ends meet,0
+HS140,1,f2.,1,3,"(-2,-1,1)",,,Total housing cost is a financial burden,0
+HS150,1,f2.,1,3,"(-2,-1,1)",,,Repayment of debts from hire purchases or loans are a financial burden to the household,0
+HH021,1,f2.,1,5,"(-1,1)",,,Tenure status,0
+HH050,1,f2.,1,2,"(-1,1)",,,Ability to keep home adequately warm,0
+PB010,1,v4.,2014,year,,,,Year of the survey,0
+PB020,1,v$2.,COUNTRY CODE,country,,,,Country,0
+PB030,1,v10.,ID,pid,,,,Personal ID,0
+PB040,1,f8.5,0,99999,"(1,1)",,,Personal cross-sectional weight 16+,0
+PB060,1,f8.5,0,99999,"(-3,-2,1)",,,Personal cross-sectional weight for selected respondent,0
+PB070,1,f8.5,0,99999,"(-3,-2,1)",,,Personal design weight for selected respondent,0
+PB090,1,f2.,1,31,"(-1,1)",,,Day of the personal interview,0
+PB100,1,f2.,1,12,"(-1,1)",,,Month of the personal interview,0
+PB110,1,f4.,2014,2014,"(-1,1)",,,Year of the personal interview,0
+PB120,1,f2.,1,90,"(-2,-1,1)",,,Number of minutes to complete the  questionnaire,0
+PB130,1,f2.,1,12,"(-1,1)",,,Month of birth,0
+PB140,1,f4.,1890,1997,"(-1,1)",,,Year of birth,0
+PB150,1,f2.,1,2,"(-1,1)",,,Sex,0
+PE040,1,f3.,"(0,1,2,3,4,5,6,100,200,300,340,342,343,344,350,352,353,354,400,440,450,500,600,700,800)",list,"(-1,1)",,,Highest ISCED level attained,0
+PL031,1,f2.,1,11,"(-1,1)",,,Self-defined current economic status,0
+PL020,1,f2.,1,2,"(-2,-1,1)","(PL031 in (1,2,3,4))","PL031,PB140",Actively looking for a job,0
+PL025,1,f2.,1,2,"(-2,-1,1)",PL020 ne 1,PL020,Available for work,0
+PH010,1,f2.,1,5,"(-3,-1,1)",,,General health,0
+PH020,1,f2.,1,2,"(-3,-1,1)",,,Suffer from any chronic illness or condition,0
+PH030,1,f2.,1,3,"(-3,-1,1)",,,Limitation in activities because health problems ,0
+PH040,1,f2.,1,2,"(-3,-1,1)",,,Unmet need for medical examination or treatment,0
+PH050,1,f2.,1,8,"(-3,-2,-1,1)",PH040 ne 1,PH040,Reason for unmet need for medical examination or treatment,0
+HD080,1,f2.,1,3,"(-1,1)",,,Replacing worn-out furniture,0
+PD020,1,f2.,1,3,"(-3,-1,1)",,,Replace worn-out clothes by some new (not second-hand) ones,0
+PD030,1,f2.,1,3,"(-3,-1,1)",,,Two pairs of properly fitting shoes (including a pair of all-weather shoes),0
+PD050,1,f2.,1,3,"(-3,-1,1)",,,Get-together with friends/family (relatives) for a drink/meal at least once a month,0
+PD060,1,f2.,1,3,"(-3,-1,1)",,,"Regularly participate in a leisure activity such as sport, cinema, concert",0
+PD070,1,f2.,1,3,"(-3,-1,1)",,,Spend a small amount of money each week on yourself,0
+PD080,1,f2.,1,3,"(-3,-1,1)",,,Internet connection for personal use at home,
+PD090,1,f2.,1,6,"(-5,-3,-1,1)",,,Regular use of public transport,
+HD100,1,f2.,1,3,"(-2,-1,1)",,,Some new (not second-hand) clothes,
+HD110,1,f2.,1,3,"(-2,-1,1)",,,Two pairs of properly fitting shoes (including a pair of all-weather shoes),
+HD120,1,f2.,1,3,"(-2,-1,1)",,,Fruits and vegetables once a day,
+HD140,1,f2.,1,3,"(-2,-1,1)",,,"One meal with meat, chicken or fish (or vegetarian equivalent) at least once a day",
+HD150,1,f2.,1,3,"(-2,-1,1)",,,Books at home suitable for their age,0
+HD160,1,f2.,1,3,"(-2,-1,1)",,,"Outdoor leisure equipment (bicycle, roller skates, etc.)",0
+HD170,1,f2.,1,3,"(-2,-1,1)",,,"Indoor games (educational baby toys, building blocks, board games, computer games, etc.)",0
+HD180,1,f2.,1,3,"(-2,-1,1)",,,"Regular leisure activity (swimming, playing an instrument, youth organisations, etc.)",0
+HD190,1,f2.,1,3,"(-2,-1,1)",,,"Celebrations on special occasions (birthdays, name days, religious events, etc.)",0
+HD200,1,f2.,1,3,"(-2,-1,1)",,,Invite friends round to play and eat from time to time,0
+HD210,1,f2.,1,3,"(-4,-2,-1,1)",,,Participate in school trips and school events that cost money,0
+HD220,1,f2.,1,2,"(-4,-2,-1,1)",,,Suitable place to study or do homework,0
+HD240,1,f2.,1,3,"(-2,-1,1)",,,Go on holiday away from home at least 1 week per year,0

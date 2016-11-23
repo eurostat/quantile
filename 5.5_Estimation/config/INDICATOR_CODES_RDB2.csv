@@ -1,0 +1,90 @@
+code,lib,description
+LI33,RDB2,Child poverty by citizen of parents
+li34,RDB2,Child poverty by c_birth of parents
+LVHL97,RDB2,People leaving in households with very low work intensity-Gap between childern and total population
+MDDD97,RDB2,Several material deprivation rate-Gap between childern and total population
+LI97,RDB2,At risk of poverty rate-Gap between children and total 
+PEPS97,RDB2,Population at risk of poverty or social exclusion-Gap between children and total population
+lvhl01,RDB2,"Distribution of population aged 18 and over by health status, age group and gender "
+lvhl02,RDB2,"Distribution of population over 18 years by most frequent activity status, age group and gender "
+lvhl03,RDB2,"Distribution of population aged 18 and over by occupation, income group and gender "
+lvhl04,RDB2,"Distribution of population aged 18 and over by part-time or full-time employment, income group and gender "
+lvho01,RDB2,"Distribution of population by degree of urbanisation, dwelling type and income group  "
+lvho02,RDB2,"Distribution of population by tenure status, type of household and income group from 2003 "
+lvho03,RDB2,Average number of rooms per person by tenure status and dwelling type from 2003 
+lvho04,RDB2,Average number of rooms per person by type of household and income group from 2003 
+lvho04d,RDB2,Average number of rooms per person degree of urbanization from 2003 
+lvho04n,RDB2,Average number of rooms per person by NUTs Level from 2003 
+lvph01,RDB2,Average household size 
+lvph03,RDB2,Distribution of households by household size 
+lvps01,RDB2,Distribution of population by gender and age 
+lvps02,RDB2,Distribution of population by household type and income group 
+lvps03,RDB2,Distribution of population by work intensity of the household 
+lvps04,RDB2,Distribution of population aged 18 and over by education level and age group 
+lvps09,RDB2,Share of young adults aged 18-34 living with their parents by self-defined current economic status
+lvps10,RDB2,Share of young adults aged 18-34 living with their parents by type of contract
+lvps15,RDB2,Distribution of population aged 18 and over by citizen and tenure status sex and age
+lvps16,RDB2,Distribution of population aged 18 and over by c_birth and tenure status sex and age
+lvps20,RDB2,Share of children (aged less than 18) living with their parents by type of household
+lvps25,RDB2,Distribution of children(aged less than 18) by highest education level of their parents and income group
+lvps30,RDB2,Distribution of population aged 65 and over by type of household (Source: EU-SILC);
+mddd01,RDB2,"Material deprivation for the 'Economic strain' dimension, by number of item"
+mddd02,RDB2,"Material deprivation for the 'Durables' dimension, by number of item"
+mddd03,RDB2,"Material deprivation for the 'Economic strain' and 'Durables' dimensions, by number of item"
+MDDD04a,RDB2,"Material deprivation for the 'Housing' dimension by household type, poverty status and by number of item"
+mddd04B,RDB2,"Material deprivation for the 'Housing' dimension, by age, gender and  number of item"
+mddd05,RDB2,"Material deprivation for the 'Environment' dimension, by number of item"
+mddu01,RDB2,Enforced lack of a telephone 
+mddu02,RDB2,Enforced lack of a colour TV 
+mddu03,RDB2,Enforced lack of a computer 
+mddu04,RDB2,Enforced lack of a washing machine 
+mddu05,RDB2,Enforced lack of a personal car 
+mddw01,RDB2,Noise from neighbours of from the street 
+mddw02,RDB2,"Pollution, grime or other environmental problems "
+mddw03,RDB2,"Crime, violence or vandalism in the area "
+mddw04,RDB2,Noise from neighbours of from the street 
+mddw05,RDB2,"Pollution, grime or other environmental problems "
+mddw06,RDB2,"Crime, violence or vandalism in the area "
+mded01,RDB2,"Share of housing costs in disposable household income, by type of household and income group "
+mded02,RDB2,"Share of rent related to occupied dwelling in disposable household income, by type of household and income group "
+mded03,RDB2,Total housing costs in pps 
+mded04,RDB2,Financial burden of the total housing cost 
+mded05,RDB2,Financial burden of the repayment of debts from hire purchases or loans 
+mdes01,RDB2,Ability to keep home adequately warm 
+mdes02,RDB2,Capacity to afford paying for one week annual holiday away from home 
+mdes03,RDB2,"Capacity to afford a meal with meat, chicken, fish (or vegetarian equivalent) every second day "
+mdes04,RDB2,Capacity fo face unexpected financial expenses 
+mdes05,RDB2,"Arrears (mortgage or rent, utility bills or hire purchase) from 2003 "
+mdes06,RDB2,Arrears on mortgage or rent payments 
+mdes07,RDB2,Arrears on utility bills 
+mdes08,RDB2,Arrears on hire purchase instalments or other loan payments 
+mdes09,RDB2,Ability to make ends meet 
+mdho01,RDB2,"Leaking roof, damp walls, floors or foundation, or rot in window frames of floor "
+mdho02,RDB2,Lack of bath and shower in dwelling  
+mdho03,RDB2,Lack of indoor flushing toilet for sole use of household  
+mdho04,RDB2,Dwelling too dark 
+mdho01c,RDB2,"Children leaking roof, damp walls, floors or foundation, or rot in window frames of floor "
+mdho02c,RDB2,Children lack of bath and shower in dwelling  
+mdho03c,RDB2,Children lack of indoor flushing toilet for sole use of household  
+mdho04,RDB2,Children dwelling too dark 
+LI43,RDB2,At-risk-of poverty rate by degree of urbanization
+peps13,RDB2,People living at risk of poverty or exclusion by degree of urbanization
+mddd23,RDB2,Severe material deprivation rate by degree of urbanization
+lvhl23,RDB2,People living in households with very low work intensity by degree of urbanisation
+IGTP01,RDB2,Transmission of education  parents to current adults
+IGTP02,RDB2,Transmission of ability to make ends meet from parents to current adults
+HCMP01,RDB2,Size of dwelling in square meters by quintile and tenure
+HCMP02,RDB2,Size of dwelling in square meters by household type and degree of urbanisation
+HCMP03,RDB2,Share of population living in a dwelling not comfortably cool during summer time by quintile and degree of urbanisation
+HCMP04,RDB2,Overall satisfaction with dwelling by household type
+HCMP05,RDB2,Share of population moving in other dwelling */
+HCMP06,RDB2,Share of population reporting great or some difficulty in accessing primary health care and public transport services by degree of urbanization*/
+pw01,RDB2,"Average rating of satisfaction by domain, sex,age and education attainment level"
+pw02,RDB2,"Average rating of satisfaction by domain, income quintile, household type and degree of urbanisation"
+pw03,RDB2,"Average rating of trust  by domain, sex,age and education attainment level;"
+pw04,RDB2,"Average rating of trust  by domain, income quintile, household type and degree of urbanisation ;"
+pw05,RDB2,"Percentage of the population rating their satisfaction  as high,  medium and low by domain, age sex  and educational"
+pw06,RDB2,"Frequency of having someone to rely on in case of need by age,  sex, and education attainment level"
+pw07,RDB2,"Frequency of having someone to rely on in case of need by income  quintile, household type and degree of urbanisation"
+pw08,RDB2,"Frequency of being happy in the last 4 weeks by age,  sex, and education attainment level"
+pw09,RDB2,"Frequency of being happy in the last 4 weeks by quintile, household type and degree of urbanisation"

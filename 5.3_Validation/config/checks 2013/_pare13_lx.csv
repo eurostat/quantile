@@ -1,0 +1,30 @@
+no,title,select,from,join,on,where,group,having,
+101,Structural - Error: DB030 - Duplicate ID numbers,"DB010,DB030,DB040,DB050,DB060,DB070",d,,,,DB030,count(DB030) > 1,0
+102,Structural - Error: DB130 - Household data record is missing in H-file (or to drop) or DB130 not filled correctly,"DB010,DB030,DB130,HB030",d,h,DB030 = HB030,(DB130 = 11 and DB135 = 1 and HB030 = .) or (DB130 ne 11 and HB030 ne .),,,0
+103,Structural - Error: DB135 - Records are missing in R- or P-file or DB135 not filled correctly,"DB010,DB030,DB130,DB135,RB030,RB245,RB250",d,r,DB030 = RHID,DB135 = 1 ,RHID,"min(rb250) not in (11,12,13)",0
+104,Structural - Error: DB135 - In R- or P-file records to drop (or are missing) or DB135 not filled correctly,"DB010,DB030,DB130,DB135,RB030,RB245,RB250",d,r,DB030 = RHID,"DB135 ne 1  and RB250 in (11,12,13)",,,0
+120,Structural - Error: RB030 - Duplicate ID numbers,"RB010,RB030,RB070,RB080,RB090,RB220,RB230",r,,,,RB030,count(RB030) > 1,0
+121,Structural - Error: RB030 - Corresponding household does not exist in D-file,"RB010,DB030,RB030,RHID,RB070,RB080,RB090",r,d,RHID = DB030,DB030 = .,,,0
+124,Structural - Warning: RB245 - Age and eligibility are not consistent,"RB010,RB030,RB070,RB080,AGE,RB245",r,,,"(AGE >= 16 and RB245 not in (1,2,3)) or (AGE < 16 and RB245 in (1,2,3))",,,0
+125,"Structural - Error: RB245 - Codes 1 and (2,3) cannot be mixed within the same household","RB010,RHID,RB030,RB070,RB080,RB245",r,,,"RB245  in (1,2,3)",RHID,"min(RB245) = 1 and max(RB245) in (2,3)",0
+126,Structural - Error: RB245 - Only one person can be selected respondant in the same household,"RB010,RHID,RB030,RB070,RB080,RB245",r,,,RB245 = 2,RHID,count(RB245) > 1 ,0
+127,Structural - Error: RB250 - Data can be collected only from eligible persons,"RB010,RB030,RB070,RB080,RB245,RB250",r,,,"(RB250 in (11,12,13) and RB245 not in (1,2,3))",,,0
+128,Structural - Error: RB250 - Personal data record is missing in P-file or RB250 not filled correctly,"RB010,RB030,RB070,RB080,RB250,PB030",r,p,RB030 = PB030,"(RB250 in (11,12,13,14) and PB030 = .) or ((RB250 not in (11,12,13,14)) and PB030 ne .)",,,0
+131,Structural - Warning: RB080 RB090 - Age at date of interview is -1,"HB010,RHID,RB030,RB070,RB080,HB050,HB060",h,r,RHID = HB030,floor(((HB060*100+HB050) - (RB080*100+RB070))/100) = -1,,,0
+150,Structural - Error: HB030 - Duplicate ID numbers,"HB010,HB030,HB040,HB050,HB060",h,,,,HB030,count(HB030) > 1,0
+170,Structural - Error: PB030 - Duplicate ID numbers,"PB010,PB030,PB090,PB100,PB110,PB130,PB140,PB150",p,,,,PB030,count(PB030) > 1,0
+172,Structural - Error: PB130 PB140 PB150 - Birth date and sex must be equal in R- and P-file,"PB010,RB030,RB070,RB080,RB090,PB030,PB130,PB140,PB150",p,r,PB030 = RB030,(PB130 ne RB070) or (PB140 ne RB080) or (PB150 ne RB090),,,0
+173,Structural - Error: RB070 RB080 RB090 - Birth date or sex are missing,"RB010,RB030,RB070,RB080,RB090",r,,,(RB080_F ne 1) or (RB090_F ne 1),,,0
+174,Structural - Warning: PB130 PB140 PB150 - Birth date or sex are missing,"PB010,PB030,PB130,PB140,PB150",p,,,(PB130_F ne 1) or (PB140_F ne 1) or (PB150_F ne 1),,,0
+301,Relationchip - Error: RB220 - Father is not household member or does not exist,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.RB220",r,r,a.RB220 = b.RB030,a.RB220_F ge 0 and  a.RHID ne b.RHID,,,0
+302,Relationchip - Error: RB220 - The person cannot be his own father,"RB010,RHID,RB030,RB070,RB080,RB090,RB220",r,,,RB030 = RB220,,,0
+303,Relationchip - Error: RB230 - Mother is not household member or does not exist,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.RB230",r,r,a.RB230 = b.RB030,a.RB230_F ge 0 and  a.RHID ne b.RHID,,,0
+304,Relationchip - Error: RB230 - The person cannot be his own mother,"RB010,RHID,RB030,RB070,RB080,RB090,RB230",r,,,RB030 = RB230,,,0
+312,Relationchip - Error: RB220 - Sex of father cannot be female,"a.RB010,a.RHID,a.RB030,a.RB220,b.RB090",r,r,a.RB220 = b.RB030,b.RB090 = 2,,,0
+313,Relationchip - Error: RB230 - Sex of mother cannot be male,"a.RB010,a.RHID,a.RB030,a.RB230,b.RB090",r,r,a.RB230 = b.RB030,b.RB090 = 1,,,0
+315,Relationchip - Warning:  RB230 - Child should be at least 15 years younger than its mother,"a.RB010,a.RHID,a.RB030,a.RB070,a.RB080,a.AGE,a.RB230,b.RB070 as m_RB070,b.RB080 as m_RB080,b.AGE as m_AGE",r,r,a.RB230 = b.RB030,a.RB230_F ge 0 and b.AGE - a.AGE < 15 and a.AGE ge 0 and b.AGE ge 0 ,,,0
+800,Basic Data - Error: PB060 PB070 - Not selected respondant but value is filled,"PB010,PB030,PB060_F,PB070_F,SELRES",p,,,(PB060_F= 1 or PB070_F= 1) and SELRES ne 2,,,0
+801,Basic Data - Error: PB060 PB070 Selected respondant but value is not filled,"PB010,PB030,PB060_F,PB070_F,SELRES",p,,,PB060_F ne 1 and PB070_F ne 1  and SELRES = 2,,,0
+810,Health - Error: PH... - Not non-selected respondant but code -3 is used ,"PB010,PB030,PH010_F,PH020_F,PH030_F,PH040_F,SELRES",p,,,(PH010_F=-3 or PH020_F=-3 or PH030_F=-3 or PH040_F=-3) and SELRES ne 3,,,0
+813,Status - Warning: Self defined economic status as in compulsory military service but younger than 18 or older than 55,"PB010,PB030, b.AGE, PL031",p,r,PB030 = RB030,((b.AGE <18 or b.AGE > 55) and PL031=9),,,0
+902,Module - Error: - Not non-selected respondant but code -3 is used ,"PB010,PB030,PW010_F,PW020_F,PW030_F,PW040_F,PW050_F,PW060_F,PW070_F,PW080_F,PW090_F,PW100_F,PW110_F,PW120_F,PW130_F,PW140_F,PW150_F,PW160_F,PW170_F,PW180_F,PW190_F,PW200_F,PW210_F,PW220_F,SELRES",p,,,(PW010_F=-3 or PW020_F=-3 or PW040_F=-3 or PW050_F=-3 or PW060_F=-3 or PW080=-3 or PW090_F=-3 or PW100_F=-3 or PW110_F=-3 or PW120_F=-3 or PW130_F=-3 or PW140_F=-3 or PW150_F=-3 or PW160_F=-3 or PW170_F=-3 or PW180_F=-3 or PW190_F=-3 or PW200_F=-3 or PW210_F=-3 or PW220_F=-3 ) and SELRES ne 3,,,0

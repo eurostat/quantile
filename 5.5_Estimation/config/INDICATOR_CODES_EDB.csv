@@ -1,0 +1,14 @@
+code,lib,description
+E_MDDD11,EDB,Severe material deprivation rate by age and gender
+E_MDDD13,EDB,Severe material deprivation rate by income quintile and household type
+E_MDES01,EDB,Enforced lack of a telephone 
+E_MDES02,EDB,Enforced lack of a colour TV
+E_MDES03,EDB,Enforced lack of a computer
+E_MDES04,EDB,Enforced lack of a washing machine  
+E_MDES05,EDB,Enforced lack of a personal car  
+E_MDES09,EDB,Ability to keep home adequately warm  
+E_MDDU01,EDB,Capacity to afford paying for one week annual holiday away from home  
+E_MDDU02,EDB,"Capacity to afford a meal with meat, chicken, fish (or vegetarian equivalent) every second day"
+E_MDDU03,EDB,Capacity fo face unexpected financial expenses  
+E_MDDU04,EDB,"Arrears (mortgage or rent, utility bills or hire purchase) from 2003"
+E_MDDU05,EDB,Ability to make ends meet  

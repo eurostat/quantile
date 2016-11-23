@@ -1,0 +1,9 @@
+label,variable,start,end,sexcl,eexcl,type,_fmt1_ACSTA_,_fmt2_ACSTA_
+EMP,ACSTA,1,4,0,0,N,1,0
+SAL,ACSTA,2,2,0,0,N,1,0
+NSAL,ACSTA,3,3,0,0,N,1,0
+UNE,ACSTA,5,5,0,0,N,1,0
+RET,ACSTA,6,6,0,0,N,1,0
+INAC_OTH,ACSTA,7,7,0,0,N,1,0
+NEMP,ACSTA,5,8,0,0,N,1,0
+POP,ACSTA,1,8,0,0,N,1,1
