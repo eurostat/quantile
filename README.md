@@ -69,4 +69,6 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 **<a name="References"></a>References**
 
 * Grazzini J. and Lamarche P. (2017): [**Production of social statistics... goes social!**](https://www.conference-service.com/NTTS2017/documents/agenda/data/abstracts/abstract_124.html), in _Proc.  New Techniques and Technologies for Statistics_.
-* Hyndman, R.J. and Fan, Y. (1996): [**Sample quantiles in statistical packages**](http://www.jstor.org/stable/2684934).
+* Hyndman, R.J. and Fan, Y. (1996): [**Sample quantiles in statistical packages**](https://www.amherst.edu/media/view/129116/original/Sample+Quantiles.pdf), _The American Statistician_, 50(4):361-365, doi: [10.2307/2684934](http://www.jstor.org/stable/2684934)
+
+
