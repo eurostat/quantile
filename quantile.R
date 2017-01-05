@@ -1,4 +1,4 @@
-wtdQuantile <- function(x, w, type = 3, probs = 0.5) {
+quantile <- function(x, w, type = 1:9, probs = 0.5) {
   # Compute the quantile for weighted data (e.g. survey data). Includes the 9 methods
   # described by Hyndman and Fan (1996).
   #
@@ -13,8 +13,8 @@ wtdQuantile <- function(x, w, type = 3, probs = 0.5) {
   #  The vector of quantile values.
   if (!exists(as.character(quote(x)))) stop("Parameter 'x' does not exist.")
   if (!exists(as.character(quote(w)))) w = rep(1,nrow(x))
-  if (!type %in% 1:9) stop("Parameter 'type' misspecified. It has to be 1-9.")
-  
+  type <- match.arg(type)
+
   orderInit <- 1:length(x)
   orderInit <- orderInit[order(x)]
   xx <- x[order(x)]
