@@ -1,7 +1,0 @@
-/* input data files (.csv) */
-%let csvfiles=Z:\main/at/csv/;     /* path to input files */
-%let dfile=SILC_RD_A_AT_2014_0000_V0001.CSV;           /* D-file */
-%let rfile=SILC_RR_A_AT_2014_0000_V0001.CSV;           /* R-file */
-%let hfile=SILC_RH_A_AT_2014_0000_V0002.CSV;           /* H-file */
-%let pfile=SILC_RP_A_AT_2014_0000_V0002.CSV;           /* P-file */
-%let load=y;             /* load files before checking */

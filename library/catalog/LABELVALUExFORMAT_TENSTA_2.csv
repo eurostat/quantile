@@ -1,6 +1,0 @@
-label,variable,start,end,sexcl,eexcl,type,_fmt1_TENSTA_2_
-OWN_NL,TENSTA_2,1,1,0,0,N,1
-OWN_L,TENSTA_2,2,2,0,0,N,1
-RENT_MKT,TENSTA_2,3,3,0,0,N,1
-RENT_FR,TENSTA_2,4,4,0,0,N,1
-TOTAL,TENSTA_2,1,4,0,0,N,1

@@ -31,6 +31,7 @@ Nine quantile algorithms are made available, as discussed in Hyndman and Fan's a
 |    7   | interpolation points divide sample range into n-1 intervals
 |    8   | unbiased median (regardless of the distribution)             
 |    9   | approximate unbiased estimate for a normal distribution  
+|   10   | Cunnane's definition (approximately unbiased)
 
 All sample quantiles are defined as weighted averages of consecutive order statistics. Sample 
 quantiles of type `i` are defined for `1 <= i <= 9` by:
@@ -51,7 +52,7 @@ For types 1, 2 and 3, `Q[i](p)` is a discontinuous function:
 |    2   |     `k/N`     |    0    |    .   |   .   | 1/2 if `g>0`, 0 if `g=0`             | 
 |    3   |  `(k+1/2)/N`  |  -1/2   |   1/2  |   0   | 0 if `g=0` and `j` even, 1 otherwise | 
 
-For types 4 through 9, `Q[i](p)` is a continuous function of `p`, with `gamma` and `m` given 
+For types 4 through 10, `Q[i](p)` is a continuous function of `p`, with `gamma` and `m` given 
 below. The sample quantiles can be obtained equivalently by linear interpolation between the 
 points `(p[k],x[k])` where `x[k]` is the `k`-th order statistic:
 
@@ -63,6 +64,7 @@ points `(p[k],x[k])` where `x[k]` is the `k`-th order statistic:
 |    7   |  `(k-1)/(N-1)`  |   `1-p`   |    1   |  -1   |  `g`  | 
 |    8   |`(k-1/3)/(N+1/3)`| `(1+p)3`  |   1/3  |  1/3  |  `g`  | 
 |    9   |`(k-3/8)/(N+1/4)`|`(2*p+3)/8`|   3/8  |  1/4  |  `g`  | 
+|   10   |`(k-1/4)/(N+1/2)`|`(2*p+1)/4`|   1/4  |  1/4  |  `g`  |
 
 In the above tables, the `(alphap,betap)` pair is defined such that:
 
@@ -70,6 +72,7 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 
 **<a name="References"></a>References**
 
+* Cunnane, C. (1978): [**Unbiased plotting positions—a review**](http://www.sciencedirect.com/science/article/pii/0022169478900173), in _Journal of Hydrology_, 37(3-4), 205-222.
 * Grazzini J. and Lamarche P. (2017): [**Production of social statistics... goes social!**](https://www.conference-service.com/NTTS2017/documents/agenda/data/abstracts/abstract_124.html), in _Proc.  New Techniques and Technologies for Statistics_.
 * Hyndman, R.J. and Fan, Y. (1996): [**Sample quantiles in statistical packages**](https://www.amherst.edu/media/view/129116/original/Sample+Quantiles.pdf), _The American Statistician_, 50(4):361-365, doi: [10.2307/2684934](http://www.jstor.org/stable/2684934)
 
