@@ -1,11 +1,12 @@
 quantile <- function(x, type = 1:10, probs = 0.5) {
   # Compute the quantile for weighted data (e.g. survey data). Includes the 9 methods
-  # described by Hyndman and Fan (1996).
+  # described by Hyndman and Fan (1996) + the one by Cunnane (1978).
   #
   # Args:
   #  x: numeric vector giving the values taken by the variable of interest.
-  #  type: an integer between 1 and 9 selecting one of the nine quantile algorithms detailed
-  #in Hyndman and Fan (1996).
+  #  type: an integer between 1 and 10 selecting one of the nine quantile algorithms detailed
+  #in Hyndman and Fan (1996), alternatively the one inspired from Cunnane (1978), as in the 
+  #Python scipy library.
   #  probs: numeric vector of probabilities with values between 0 and 1.
   #
   # Returns:
