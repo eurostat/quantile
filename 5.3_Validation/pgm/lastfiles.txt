@@ -1,4 +1,0 @@
-%let Tss=r;             /* typ last files loaded or checked */
-%let Tcc=at;             /* country last files loaded or checked */
-%let Tyy=2011;             /* year/year1 last files loaded or checked */
-%let Tyy2=2014;           /* year2 last files loaded or checked */
