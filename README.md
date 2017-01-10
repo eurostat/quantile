@@ -18,7 +18,7 @@ As a simple illustration, we implement the same identical algorithms for quantil
 
 **Description/Algorithm**
 
-Nine quantile algorithms are made available, as discussed in Hyndman and Fan's article (see [references](#References)):
+Nine quantile algorithms are made available, as discussed in Hyndman and Fan's, and Cunnane's articles (see [references](#References)):
 
 | `type` |                    description                                
 |:------:|:--------------------------------------------------------------
@@ -33,12 +33,10 @@ Nine quantile algorithms are made available, as discussed in Hyndman and Fan's a
 |    9   | approximate unbiased estimate for a normal distribution  
 |   10   | Cunnane's definition (approximately unbiased)
 
-All sample quantiles are defined as weighted averages of consecutive order statistics. Sample 
-quantiles of type `i` are defined for `1 <= i <= 9` by:
+All sample quantiles are defined as weighted averages of consecutive order statistics. Sample quantiles of type `i` are defined for `1 <= i <= 9` by:
 
 	Q[i](p) = (1 - gamma) * x[j] + gamma *  x[j+1]
-where `x[j]`, for `(j-m)/N<=p<(j-m+1)/N`, is the `j`-th order statistic, `N` is the sample 
-size, the value of `gamma` is a function of:
+where `x[j]`, for `(j-m)/N<=p<(j-m+1)/N`, is the `j`-th order statistic, `N` is the sample size, the value of `gamma` is a function of:
 
 	j = floor(N*p + m)
 	g = N*p + m - j
@@ -52,9 +50,7 @@ For types 1, 2 and 3, `Q[i](p)` is a discontinuous function:
 |    2   |     `k/N`     |    0    |    .   |   .   | 1/2 if `g>0`, 0 if `g=0`             | 
 |    3   |  `(k+1/2)/N`  |  -1/2   |   1/2  |   0   | 0 if `g=0` and `j` even, 1 otherwise | 
 
-For types 4 through 10, `Q[i](p)` is a continuous function of `p`, with `gamma` and `m` given 
-below. The sample quantiles can be obtained equivalently by linear interpolation between the 
-points `(p[k],x[k])` where `x[k]` is the `k`-th order statistic:
+For types 4 through 10, `Q[i](p)` is a continuous function of `p`, with `gamma` and `m` given below. The sample quantiles can be obtained equivalently by linear interpolation between the points `(p[k],x[k])` where `x[k]` is the `k`-th order statistic:
 
 | `type` |     `p[k]`      |    `m`    |`alphap`|`betap`|`gamma`| 
 |:------:|:---------------:|:---------:|:------:|:-----:|:-----:|
