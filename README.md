@@ -8,7 +8,7 @@ Agnostic (re)implementations (R/SAS/Python/C) of common quantile estimation algo
 
 This source code material is intended to support the claim made in [Grazzini and Lamarche's article](#References) on the need for robust, software/language-agnostic statistical processes in the development and deployment of statistical production chains. 
 
-As a simple illustration, we implement the same identical algorithms for quantile estimation (as described in Hyndman and Fan's framework) on different software platforms and/or using programming languages. For that purpose, we either extend (wrap) already existing implementations, or actually reimplement the algorithm from scratch.
+As a simple illustration, we implement the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article) on different software platforms and/or using programming languages. For that purpose, we either extend (wrap) already existing implementations, or actually reimplement the algorithm from scratch.
 
 *version*:      0.9
 
