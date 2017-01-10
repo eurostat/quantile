@@ -1,7 +1,7 @@
 quantile
 ======
 
-Several (re)implementations (R/SAS/Python/C) of common quantile estimation algorithms.
+Agnostic (re)implementations (R/SAS/Python/C) of common quantile estimation algorithms.
 ---
 
 **About**
