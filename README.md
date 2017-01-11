@@ -33,7 +33,7 @@ Nine quantile algorithms are made available, as discussed in Hyndman and Fan's, 
 |    9   | approximate unbiased estimate for a normal distribution  
 |   10   | Cunnane's definition (approximately unbiased)
 
-All sample quantiles are defined as weighted averages of consecutive order statistics. Sample quantiles of type `i` are defined for `1 <= i <= 9` by:
+All sample quantiles are defined as weighted averages of consecutive order statistics. Sample quantiles of type `i` are defined for `1 <= i <= 10` by:
 
 	Q[i](p) = (1 - gamma) * x[j] + gamma *  x[j+1]
 where `x[j]`, for `(j-m)/N<=p<(j-m+1)/N`, is the `j`-th order statistic, `N` is the sample size, the value of `gamma` is a function of:
