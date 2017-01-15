@@ -108,7 +108,7 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 %macro quantile(var			/* Name of the input variable/list 						(REQ) */
 			, probs=		/* List of probabilities 								(OPT) */
 			, type=			/* Type of interpolation considered 					(OPT) */
-			, method=		/* Boolean flag used to select the estimation method 	(OPT) */
+			, method=		/* Flag used to select the estimation method 	(OPT) */
 			, names=		/* Output name of variable/dataset 						(OPT) */
 			, _quantiles_=	/* Name of the output variable 							(OPT) */
 			, idsn=			/* Name of input dataset 								(OPT) */

@@ -2,7 +2,25 @@
  * 
  */
 
-
+/* j_indice: j = floor(n*p + m) */
+#define j_indice(p, n, m) math.floor(n*p + m);
+/* g_indice: g = n*p + m - j */
+#define g_indice(p, n, m, j) (n*p + m - j);
+/* p_indice: p(k)=(k-alphap)/(n+1-alphap-betap) */
+#define p_indice(k, alphap, betap, n) (k-alphap) / (n+1-alphap-betap);
+/* m_indicep: m = alphap + p*(1 - alphap - betap) */
+#define m_indicep(p, alphap, betap) alphap + p * (1 - alphap - betap);	
+#define m_indice(p, i) {
+  if (i==1 || i==2 || i==4) { m = 0; }
+  else if (i==3)            { m = -0.5; }
+  else if (i==5)            { m = 0.5; }
+  else if (i==6)            { m = p; }
+  else if (i==7)            { m = (1-p); }
+  else if (i==8)            { m = (p+1)/3; }
+  else if (i==9)            { m = (2*p+3)/8; }
+  else if (i==10)           { m = .4 + .2 * p; }
+  } ;	
+				
 double
 FUNCTION(gsl_stats,quantile) (const BASE data[], 
                               const size_t stride,
@@ -14,25 +32,6 @@ FUNCTION(gsl_stats,quantile) (const BASE data[],
   const double delta = index - lhs ;
   double result;
 
-#define j_indice(p, n, m) math.floor(n*p+m) /* j = floor(n*p + m) */;
-
-#define g_indice(p, n, m, j) (n*p + m - j) /* g = n*p + m - j */;
-
-#define p_indice(k, alphap, betap, n) (k-alphap)/(n+1-alphap-betap); /* p(k)=(k-alphap)/(n+1-alphap-betap) */
-
-#define m_indice(p, i, alphap, betap);	/* m = alphap + p*(1 - alphap - betap) */
-				%if "&i"^="" %then %do;
-					%if &i=1 or &i=2 or &i=4 %then 				%let m=0;
-					%else %if &i=3 %then 						%let m=-0.5;
-					%else %if &i=5 %then 						%let m=0.5;
-					%else %if &i=6 %then 						%let m=&p;
-					%else %if &i=7 %then 						%let m=%sysevalf(1-&p);
-					%else %if &i=8 %then 						%let m=%sysevalf((&p+1)/3);
-					%else %if &i=9 %then 						%let m=%sysevalf((2*&p+3)/8);
-				%end;
-				%else %if "&alphap"^="" and "&betap"^="" %then
-					%let m = %sysevalf(&alphap + &p*(1 - &alphap - &betap));
-				&m
 
 			%do i=1 %to &nprobs;
 				/* for given p probability, compute the (p,m,j) indices and extract the 
