@@ -412,17 +412,17 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 				SET &olib..&odsn;
 				%if &type=1 %then %do;
 					if g GT 0 then 					gamma=1;
-					else 							gamma=0;
+					else 						gamma=0;
 				%end;
 				%else %if &type=2 %then %do;
 					if g GT 0 then 					gamma=1;
 					else /* if g=0 */				gamma=0.5;
 				%end;
 				%else %if &type=3 %then %do;
-					if g EQ 0 and mod(j,2)=0 then 	gamma=0;
-					else 							gamma=1;
+					if g EQ 0 and mod(j,2)=0 then			gamma=0;
+					else 						gamma=1;
 				%end;
-				%else %if &type GE 4 %then 			gamma=&g;
+				%else %if &type GE 4 %then				gamma=&g;
 				&qname = (1-gamma) * x1 + gamma * x2;
 			run;
 				
