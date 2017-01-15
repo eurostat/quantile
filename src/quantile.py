@@ -28,7 +28,7 @@ Parameters default:
 from scipy.stats import mstats as sp_mstats
 
 import numpy as np
-import numpy.ma as np_ma
+import numpy.ma as np_ma 
 from numpy.ma import masked, nomask
 
 
