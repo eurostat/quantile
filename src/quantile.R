@@ -11,7 +11,7 @@ quantile <- function(x, type = 1:10, probs = 0.5) {
   #
   # Returns:
   #  The vector of quantile values.
-  type <- match.arg(type)
+  if (!type %in% 1:10) stop("Parameter type must be an integer between 1 and 10.")
   
   if (type %in% 1:9) {
     stats::quantile(x = x, type = type, probs = probs)
