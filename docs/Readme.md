@@ -1,4 +1,4 @@
-**Objective**
+**About**
 
 This source code material is intended as a supporting material for _Grazzini and Lamarche_’s article referenced [below](#References).
 
