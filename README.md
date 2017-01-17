@@ -8,14 +8,12 @@ Agnostic (re)implementations (R/SAS/Python/C) of common quantile estimation algo
 
 This source code material is intended to support the claim made in [Grazzini and Lamarche's article](#References) on the need for robust, software/language-agnostic statistical processes in the development and deployment of statistical production chains. 
 
-*documentation*:	https://gjacopo.github.io/quantile/
-
-*version*:      	0.9
-
-*since*:        	Thu Jan  5 10:22:03 2017
-
-*license*:      	[EUPL](https://joinup.ec.europa.eu/sites/default/files/eupl1.1.-licence-en_0.pdf)
-
+<table align="center">
+    <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://gjacopo.github.io/quantile/</td> </tr> 
+    <tr> <td align="left"><i>version</i></td> <td align="left">0.9</td> </tr> 
+    <tr> <td align="left"><i>since</i></td> <td align="left">Thu Jan  5 10:22:03 2017</td> </tr> 
+    <tr> <td align="left"><i>license</i></td> <td align="left"><a href="https://joinup.ec.europa.eu/sites/default/files/eupl1.1.-licence-en_0.pdfEUPL">EUPL</a>  <i>(mention the source code or the reference above)</i> </td> </tr> 
+</table>
 
 **Description**
 
