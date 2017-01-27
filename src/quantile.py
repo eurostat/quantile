@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+.. quantile
+
+**About**
+
+Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+in Proc. New Techniques and Technologies for Statistics.
+
+**Contents**
+"""
 
 
 
@@ -5,8 +18,26 @@ import numpy as np
 import numpy.ma as np_ma 
 from numpy.ma import masked, nomask
 
-def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1)):
-    """
+def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1), is_sorted=False):
+    """Compute the sample quantiles of any vector distribution.
+    
+        >>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
+        
+    Arguments
+    ---------
+    x : numpy.array
+        input vector data; 2D arrays are also accepted.
+    na_rm : bool
+        default: `na_rm=False`.
+    type : int
+        default: `type=7`.
+    method : str
+        string defining the estimation method
+    limit: list,tuple
+    
+    Returns
+    -------
+    
     Documentation of scipy.stats.mstats.mquantiles
     
     Samples quantile are defined by 
@@ -29,7 +60,7 @@ def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1)):
     
     Parameters default:
     * R:        quantile(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type = 7)
-    * Python:   mquantiles(a, prob=[0.25, 0.5, 0.75], alphap=0.4, betap=0.4, axis=None, limit=()
+    * Python:   mquantiles(a, prob=[0.25, 0.5, 0.75], alphap=0.4, betap=0.4, axis=None, limit=())
     """
     
     # check the data
@@ -64,11 +95,7 @@ def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1)):
     if limit:
         condition = (limit[0] < data) & (data < limit[1])
         data[~condition.filled(True)] = masked
-
-    # ind_sorted = np.argsort(x)
-    # sorted_x = x[ind_sorted]
-    sorted_data = np.sort(data.compressed())
-    
+        
     def gamma_indice(g, j, typ):
         if typ==1:
             if g > 0:                       gamma=1
@@ -83,6 +110,9 @@ def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1)):
         return gamma
 
     def _canonical_quantile1D(typ, sorted_x, probs, na_rm = False):
+        """Compute the quantile of a 1D numpy array using the canonical/direct
+        approach derived from the original algorithm from Hyndman & Fan.
+        """
         # inspired by the _quantiles1D function of mquantiles
         N = len(sorted_x) # sorted_x.size
         m_indice = lambda p, i: {1: 0, 2: 0, 3: -0.5, 4: 0, 5: 0.5, 6: p, 7: 1-p, \
@@ -98,7 +128,8 @@ def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1)):
         return (1-gamma) * x1 + gamma * x2;
 
     def _mquantile1D(typ, sorted_x, probs, na_rm = False):
-        """
+        """Compute the quantiles of a 1D numpy array following the implementation
+        of the _quantiles1D function of mquantiles.
         source: https://github.com/scipy/scipy/blob/master/scipy/stats/mstats_basic.py
         """
         N = len(sorted_x) 
@@ -117,9 +148,8 @@ def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1)):
         gamma = gamma_indice(g, j, typ);
         return (1.-gamma)*sorted_x[(j-1).tolist()] + gamma*sorted_x[j.tolist()]
 
-    def wquantile1D(typ, x, probs, weights):
-        """
-        Compute the weighted quantile of a 1D numpy array.
+    def _wquantile1D(typ, x, probs, weights):
+        """Compute the weighted quantile of a 1D numpy array.
         """
         # Check the data
         ind_sorted = np.argsort(x)
@@ -138,11 +168,17 @@ def quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1)):
     elif method == 'MQUANT': 
         _quantile1D = _mquantile1D
 
+    if is_sorted is False:
+        # ind_sorted = np.argsort(x)
+        # sorted_x = x[ind_sorted]
+        sorted_data = np.sort(data.compressed())
+
     # Computes quantiles along axis (or globally)
     if ndim == 1:
-        return _quantile1D(type, sorted_data, probs)
-        
-    return np_ma.apply_along_axis(_quantile1D, 1, type, sorted_data, probs)
+        return _quantile1D(type, data if is_sorted is False else sorted_data, probs)
+    else:
+        return np_ma.apply_along_axis(_quantile1D, 1, type,                         \
+                                      data if is_sorted is False else sorted_data, probs)
 
     
         
