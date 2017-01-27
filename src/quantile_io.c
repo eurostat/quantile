@@ -1,6 +1,21 @@
+/**
+.. quantile_io.c
+
+**About**
+
+This code runs quantile estimation over a sample file. It aims at supporting the 
+following publication:
+
+    Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+    in Proc. New Techniques and Technologies for Statistics.
+
+**Usage**
+
+    quantile filename probs -type=7 -method='DIRECT' -limit=(0,1)
+**/
+
 #include <stdio.h>
 #include <stdlib.h>
-
 
 /** method 1: read # columns/rows, statically alloc then load **/
 // open input file

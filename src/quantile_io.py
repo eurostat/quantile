@@ -1,9 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jan 27 00:59:26 2017
+.. quantile_io
 
-@author: gjacopo
+**About**
+
+This code runs quantile estimation over a sample file. It aims at supporting the 
+following publication:
+
+    Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+    in Proc. New Techniques and Technologies for Statistics.
+
+**Usage**
+
+    >>> q = quantile_io(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
 """
 
 import quantile
