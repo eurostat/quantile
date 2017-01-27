@@ -1,10 +1,8 @@
+Table of Contents
+==============
 
-.. about.md
-
-.. syntax.md
-
-.. usage.md
-
-.. algorithm.md
-
-.. references.md
+* [about](about.md)
+* [syntax](syntax.md)
+* [usage](usage.md)
+* [algorithm](algorithm.md)
+* [references](references.md)
