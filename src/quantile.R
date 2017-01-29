@@ -16,8 +16,9 @@ quantile <- function(x, type = 1:10, probs = 0.5) {
   if (type %in% 1:9) {
     stats::quantile(x = x, type = type, probs = probs)
   } else {
+    if (type == 10) 
+      m <- 0.4 + 02*probs else m <- 0.3175 + 0.365*probs
     n <- length(x)
-    m <- 0.4 + 0.2*probs
     orderInit <- order(x)
     xx <- x[order(x)]
     pp <- (1:n)/n
