@@ -1,24 +1,41 @@
-#!/usr/bin/env python
+#!/usr/bin/env python -run_quantile
 # -*- coding: utf-8 -*-
 """
-.. quantile
+.. run_quantile
 
 **About**
 
-This code implements sample quantiles. It aims at supporting the following 
-publication:
+This code runs quantile estimation over a sample file. It aims at supporting the 
+following publication:
 
     Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
     in Proc. New Techniques and Technologies for Statistics.
 
 **Usage**
 
-    >>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
+Two ways to estimate the quantiles. Using the `quantile` method, _i.e._:
+    
+    >>> from quantile import quantile
+    >>> probs, typ, method, limit = ...
+    >>> data = ...
+    >>> quant = quantile(data, probs, typ=type, method=method, limit=limit)
+    
+Or using the `Quantile` class, _i.e._ when considering the same input parameters:
+    
+    >>> from quantile import Quantile
+    >>> Q = Quantile({'probs': probs, 'typ': typ, 'method': method, 'limit': limit})
+    >>> quant = Q(data)
+
 """
 
-import numpy as np
-import numpy.ma as np_ma 
+import os
+import warnings
 
+QUANTILE_PROGRAM =  "quantile"
+FORMATS =           {'csv':'csv', 'xls':'excel', 'sql':'sql', 'json':'json',    \
+                     'html':'html', 'htm':'html', 'sas':'sas', 'raw':'pickle'}
+
+import numpy as np
 try:
     import pandas as pd
 except:
@@ -26,188 +43,281 @@ except:
         DataFrame = type('dummy',(object,))
         Series = type('dummy',(object,))
 
+import quantile_source 
+
+
+#==============================================================================
+# QUANTILE METHOD
+#==============================================================================
+def quantile(*args, **kwargs):
+    return quantile_source.quantile(*args, **kwargs)
+
+
+#==============================================================================
+# QUANTILE CLASS
+#==============================================================================
+class Quantile(object):
+    
+    #/************************************************************************/
+    def __init__(self, **kwargs):
+        self.__quantile = None
+        self.__params = None
+        # set default values
+        self.__probs = quantile_source.DEF_PROBS
+        self.__typ = quantile_source.DEF_TYPE
+        self.__method = quantile_source.DEF_METHOD 
+        self.__limit = quantile_source.DEF_LIMIT
+        self.__na_rm = quantile_source.DEF_NARM
+        if kwargs == {}:
+            return
+        attrs = ( 'probs','typ','method','limit','na_rm')
+        for attr in list(set(attrs).intersection(kwargs.keys())):
+            try:
+                setattr(self, '{}'.format(attr), kwargs.pop(attr))
+            except: 
+                warnings.warn('wrong attribute value {}'.format(attr.upper()))        
         
-DEF_PROBS =     [0, 0.25, 0.5, 0.75, 1]
-DEF_TYPE =      7
-DEF_METHOD =    'DIRECT'
-DEF_LIMIT =     (0,1)
-DEF_NARM =      False
+    #/************************************************************************/
+    @property
+    def probs(self):
+        return self.__probs
+    @probs.setter
+    def probs(self, probs):
+        if not isinstance(probs, (tuple,list,pd.DataFrame,pd.Series,np.ndarray)):
+            raise TypeError('wrong type for PROBS parameter')
+        self.__probs = probs
+
+    @property
+    def typ(self):
+        return self.__typ
+    @typ.setter
+    def typ(self, typ):
+        if not isinstance(typ, int):
+            raise TypeError('wrong type for TYP parameter')
+        self.__typ = typ
+
+    @property
+    def method(self):
+        return self.__method
+    @method.setter
+    def method(self, method):
+        if not isinstance(method, str):
+            raise TypeError('wrong type for METHOD parameter')
+        self.__method = method
+
+    @property
+    def limit(self):
+        return self.__limit
+    @limit.setter
+    def limit(self, limit):
+        if not isinstance(limit, (tuple,list,np.ndarray)):
+            raise TypeError('wrong type for LIMIT parameter')
+        self.__limit = limit
+
+    @property
+    def na_rm(self):
+        return self.__na_rm
+    @na_rm.setter
+    def na_rm(self, na_rm):
+        if not isinstance(na_rm, bool):
+            raise TypeError('wrong type for NA_RM parameter')
+        self.__na_rm = na_rm
+
+    @property
+    def quantile(self):
+        return self.__quantile
+
+    @property
+    def params(self):
+        return self.__params
+
+    #/************************************************************************/
+    def __repr__(self):
+        # generic representation special method
+        return "<{} instance at {}>".format(self.__class__.__name__, id(self))
+    def __str__(self): 
+        # generic string printing method
+        strprint = ''
+        disp_field = lambda field: '\n'+field+'\n'+ '-'*len(field)
+        disp_attr = lambda attr: "\t{}\n".format(self.params[attr])
+        strprint += disp_field('probs: Numeric vector of probabilities')
+        strprint += disp_attr('probs')
+        strprint += disp_field('limit: Tuple of (lower,upper) probability values')
+        strprint += disp_attr('limit')
+        strprint += disp_field('typ: Index of algorithm selected from Hyndman and Fan')
+        strprint += disp_attr('typ')
+        strprint += disp_field('method: Method of implementation of the quantile algorithm')
+        strprint += disp_attr('method')
+        strprint += disp_field('na_rm: Logical flag used to remov any NA and NaN')
+        strprint += disp_attr('na_rm')
+        return strprint
+
+    #/************************************************************************/
+    def __call__(self, data, **kwargs):  
+        if isinstance(data, str):
+            data = self.__read(data)
+        if data is None:
+            raise IOError("input data not set")
+        elif not isinstance(data, (np.ndarray,pd.DataFrame,pd.Series)):
+            raise TypeError("wrong type for input dataset")
+        kwargs.update({'probs': kwargs.get('probs') or self.probs,
+                       'typ': kwargs.get('typ') or self.typ,
+                       'method': kwargs.get('method') or self.method,
+                       'limit': kwargs.get('limit') or self.limit,
+                       'na_rm': kwargs.get('na_rm') or self.na_rm,
+                       'is_sorted': kwargs.get('is_sorted')})
+        self.__params = kwargs
+        self.__quantile = quantile_source.quantile(data, self.probs, **kwargs)
+        return self.__quantile
+
+    #/************************************************************************/
+    @staticmethod
+    def __read(filename):  
+        if not os.path.exists(filename):
+            raise IOError("input filename not found")
+        data = None
+        # see http://pandas.pydata.org/pandas-docs/stable/io.html
+        ext = filename.split('.')[-1]
+        if ext in FORMATS.keys():   
+            fmts = FORMATS[ext]
+        else:                       
+            fmts = FORMATS.values()
+        for fmt in fmts:
+            try:
+                data = getattr(pd, 'read_{fmt}'.format(fmt=fmt))(filename)
+            except:
+                pass
+        return data
+ 
+    #/************************************************************************/
+    @staticmethod
+    def __write(data, filename, fmt=None):  
+        if os.path.exists(filename):
+            warnings.warn("output filename already exists")
+        # see http://pandas.pydata.org/pandas-docs/stable/io.html
+        if not isinstance(data, (pd.DataFrame,pd.Series)):
+            try:
+                data = pd.DataFrame.from_records(data)
+            except:
+                raise TypeError("wrong type for input dataset")  
+        if fmt is not None:
+            ext = filename.split('.')[-1]
+            if ext in FORMATS.keys():   
+                fmt = FORMATS[ext]
+            else:                       
+                raise IOError("format of output file not recognised")
+        try:
+            getattr(data, 'to_{fmt}'.format(fmt=fmt))(filename)
+        except:
+            raise IOError("output data not saved")
+       
+    #@staticmethod
+    #def load_csv(filename):
+    ##    return np.loadtxt(filename, delimiter=',')            
+    #    return pd.read_csv(filename)            
+    #@staticmethod
+    #def save_csv(filename, x, **kwargs):
+    ##    np.savetxt(filename, x, **kwargs)
+    #    pd.to_csv(filename, x)
+    
+    #/************************************************************************/
+    def __getattribute__(self, obj): # hiding traces of decoration.
+        # known names
+        if obj.startswith('read_','to_'): 
+            try:
+                return getattr(np, obj)
+            except:
+                pass#print getattr(self.func_orig, attr_name) # stopping recursion.
+        try:
+            return self.__get__(obj) # getattr(self, obj) 
+        except:
+            raise AttributeError
 
         
-def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD, 
-             limit = DEF_LIMIT, na_rm = DEF_NARM, is_sorted = False):
-    """Compute the sample quantiles of any vector distribution.
-    
-        >>> quantile(x, probs=DEF_PROBS, type = DEF_TYPE, method=DEF_METHOD, limit=DEF_LIMIT, 
-             na_rm = DEF_NARM, is_sorted=False)
+#==============================================================================
+# MAIN
+#==============================================================================
+if __name__ == "__main__":
+    """Main function launched when module is used as a script.
     """
     
-    ## various parameter checkings
+    import sys, re
+    import argparse
+
+    prog = QUANTILE_PROGRAM
+    try:
+        # return the index of the first element in the list of arguments that   
+        # does not match the program's name
+        _init_argv_ = next(i for i, v in enumerate([re.search(prog, k)  \
+                                                    for k in sys.argv]) if not v)
+    except:
+        _init_argv_ =  1 # 2 # len(sys.argv) #None
+        
+    # this is the only to retrieve the correct list of arguments when calling this function
+    # in both batch and bash scripts
+    argv = sys.argv[_init_argv_:]
     
-    # check the data
-    if isinstance(x, (pd.DataFrame,pd.Series)):
-        try:        x = x.values
-        except:     raise TypeError("conversion type error for input dataset")        
-    elif not isinstance(x, np.ndarray):
-        try:        x = np.asarray(x)
-        except:     raise TypeError("wrong type for input dataset")        
-    ndim = x.ndim
-    if ndim > 2:
-        raise ValueError("array should be 2D at most !")
+    if argv is None:    raise IOError("no arguments passed")
 
-    # check the probs
-    if isinstance(probs, (pd.DataFrame,pd.Series)):
-        try:        probs = probs.values
-        except:     raise TypeError("conversion type error for input probabilities")        
-    elif not isinstance(probs, np.ndarray):
-        try:        probs = np.array(probs, copy=False, ndmin=1)
-        except:     raise TypeError("wrong type for input probabilities")      
-    # adjust the values: this is taken from R implementation, where alues up to 
-    # 2e-14 outside that range are accepted and moved to the nearby endpoint
-    eps = 100*np.finfo(np.double).eps
-    if (probs < -eps).any() or (probs > 1+eps).any():
-        raise ValueError("probs values outside [0,1]")
-    probs = np.maximum(0, np.minimum(1, probs))
+    # parser
+    parser = argparse.ArgumentParser(                                           \
+        description="Run quantile estimation over a sample file\n"              \
+        )
+    parser.add_argument('input', type=str, nargs='?',                           \
+        help="\nfilename defining the path of the input file where the\n"       \
+        "   numeric vector whose sample quantiles are wanted.",                 \
+        default=None)
+    parser.add_argument('output', type=str, nargs='?',                          \
+        help="\nfilename defining the path of the output file where the\n"      \
+        "   quantile data are stored.",                                         \
+        default=None)
+    parser.add_argument('probs', type=list,                                     \
+        help="\nnumeric vector of probabilities with values in [0,1];"          \
+        "    def.: {}.".format(quantile_source.DEF_PROBS),                      \
+        default=quantile_source.DEF_PROBS)
+    parser.add_argument('-typ', type=int, nargs=1,                              \
+        help="\nan integer used to select the quantile algorithm.\n"            \
+        "    def.: {}.".format(quantile_source.DEF_TYPE),                       \
+        default=quantile_source.DEF_TYPE)
+    parser.add_argument('-method', type=str, nargs=1,                           \
+        help="\nmethod of implementation of the quantile algorithm; this can\n" \
+        "    be either: 'MQUANT' for an estimation based on the use of the\n"   \
+        "    mquantiles method available in scipy (package stats.mstats), or\n" \
+        "    'DIRECT' for a canonical implementation based on the direct\n"     \
+        "    transcription of the algorithm;"                                   \
+        "    def.: {}.".format(quantile_source.DEF_METHOD),                     \
+        default=quantile_source.DEF_METHOD)
+    parser.add_argument('-na_rm', type=int, nargs=1,                            \
+        help="\nlogical flag; if true, any NA and NaN's are removed from the\n" \
+        "    input dataset before the quantiles are computed;"                  \
+        "    def.: {}.".format(quantile_source.DEF_NARM),                       \
+        default=quantile_source.DEF_NARM)
+    parser.add_argument('-limit', metavar='(min,max)', type=tuple, nargs=1,     \
+        help="\ntuple of (lower,upper) values; values of a outside this open\n" \
+        "   interval are ignored; def: ignored."                                \
+        )
+    parser.add_argument('--verbose', '-v', dest='verbose', action='count')
     
-    #weights = np.ones(x)
-    ## check the weights
-    #if isinstance(weights, (pd.DataFrame,pd.Series)):
-    #    try:        weights = weights.values
-    #    except:     raise TypeError("conversion type error for input weights")        
-    #elif not isinstance(weights, np.ndarray):
-    #    try:        weights = np.asarray(weights)
-    #    except:     raise TypeError("wrong type for input weights")
-    #if x.shape != weights.shape:
-    #    raise ValueError("the length of data and weights must be the same")
+    argv = parser.parse_args(argv)
 
-    # check parameter typ value
-    if typ not in range(1,11):
-        raise ValueError("typ should be an integer in range [1,10]!")
-
-    # check parameter method value
-    if method not in ('DIRECT', 'MQUANT'):
-        raise ValueError("method should be either 'DIRECT' or 'MQUANT'!")
+    if argv is None:
+        print("!!! no arguments passed !!!")
+        sys.exit(False)
+    elif argv.input is None:
+        print("!!! no input file provided !!!")
+        sys.exit(False)
         
-    # check parameter method
-    if not isinstance(is_sorted,bool):
-        raise TypeError("wrong type for boolean flag is_sorted!")
-
-     # check parameter na_rm
-    if not isinstance(na_rm,bool):
-        raise TypeError("wrong type for boolean flag na_rm!")
-
-     # check parameter limit
-    if not isinstance(limit, (list, tuple, np.array)):
-        raise TypeError("wrong type for boolean flag limit!")
-    if len(limit) != 2:
-        raise ValueError("the length of limit must be 2")
+    if argv.verbose:    print("\tsetting the quantile parameters...")   
+    Q = Quantile({'probs': argv.probs, 'typ': argv.typ, 'method': argv.method, 
+                  'na_rm': argv.na_rm, 'limit': argv.limit})
     
-    ## algorithm implementation
+    # prepare the output
+    if argv.verbose:    print("\tloading and processing the input file...")   
+    Q(argv.input)
+
+    # process
+    if argv.verbose:    print("\tsaving estimated quantiles in output file...")
+    
+    if argv.verbose:    print("OK...")
         
-    def gamma_indice(g, j, typ):
-        if typ==1:
-            if g > 0:                       gamma=1
-            else:                           gamma=0
-        elif typ==2:
-            if g > 0:                       gamma=1
-            else:                           gamma=0.5
-        elif typ==3:
-            if g == 0 and j%2 == 0:         gamma=0;
-            else:                           gamma=1;
-        elif typ >= 4:                      gamma=g;
-        return gamma
-
-    def _canonical_quantile1D(typ, sorted_x, probs):
-        """Compute the quantile of a 1D numpy array using the canonical/direct
-        approach derived from the original algorithm from Hyndman & Fan.
-        """
-        # inspired by the _quantiles1D function of mquantiles
-        N = len(sorted_x) # sorted_x.size
-        m_indice = lambda p, i: {1: 0, 2: 0, 3: -0.5, 4: 0, 5: 0.5, 6: p, 7: 1-p, \
-                                 8:(p+1)/3 , 9:(2*p+3)/8, 10:.4 + .2 * p}[i]
-        j_indice = lambda p, n, m: np.int_(np.floor(n*p + m))
-        g_indice = lambda p, n, m, j: p * n + m - j
-        m = m_indice(probs, type)
-        j = j_indice(probs, N, m)
-        x1 = sorted_x[j-1] # indexes start at 0...
-        x2 = sorted_x[j]
-        g = g_indice(probs, N, m, j)
-        gamma = gamma_indice(g, j, typ);
-        return (1-gamma) * x1 + gamma * x2;
-
-    def _mquantile1D(typ, sorted_x, probs):
-        """Compute the quantiles of a 1D numpy array following the implementation
-        of the _quantiles1D function of mquantiles.
-        source: https://github.com/scipy/scipy/blob/master/scipy/stats/mstats_basic.py
-        """
-        N = len(sorted_x) 
-        if N == 0:
-            return np_ma.array(np.empty(len(probs), dtype=float), mask=True)
-        elif N == 1:
-            return np_ma.array(np.resize(sorted_x, probs.shape), mask=np_ma.nomask)
-        # note that, wrt to the original implementation (see source code mentioned
-        # above), we also added the definitions of (alphap,betap) for typ in [1,2,3]
-        abp_indice = lambda typ: {1: (0, 1), 2: (0, 1), 3: (-.5, -1.5), 4: (0, 1),  \
-                           5: (.5 , .5),  6: (0 , 0),  7:(1 , 1), 8: (1/3, 1/3),    \
-                            9: (3/8 , 3/8), 10: (.4,.4)}[typ]
-        alphap, betap = abp_indice[type]
-        m = alphap + probs * (1.-alphap-betap)
-        aleph = (probs * N + m)
-        j = np.floor(aleph.clip(1, N-1)).astype(int)
-        g = (aleph-j).clip(0,1)
-        gamma = gamma_indice(g, j, typ);
-        return (1.-gamma)*sorted_x[(j-1).tolist()] + gamma*sorted_x[j.tolist()]
-
-    def _wquantile1D(typ, x, probs, weights): # not used
-        """Compute the weighted quantile of a 1D numpy array.
-        """
-        # Check the data
-        ind_sorted = np.argsort(x)
-        sorted_x = x[ind_sorted]
-        sorted_weights = weights[ind_sorted]
-        # Compute the auxiliary arrays
-        Sn = np.cumsum(sorted_weights)
-        #assert Sn != 0, "The sum of the weights must not be zero"
-        Pn = (Sn-0.5*sorted_weights)/np.sum(sorted_weights)
-        # Get the value of the weighted median
-        return np.interp(probs, Pn, sorted_x)
-            
-    ## actual calculation
-
-    # select method
-    if method == 'DIRECT':
-        _quantile1D = _canonical_quantile1D
-        
-    elif method == 'MQUANT': 
-        _quantile1D = _mquantile1D
-
-    # define input data
-    if na_rm is True:
-        data = np_ma.array(x, copy=True, mask = np.isnan(x))
-        # weights = np_ma.array(x, copy=True, mask = np.isnan(x))
-    elif np.isnan(x).any():
-        raise ValueError("missing values and NaN's not allowed if 'na_rm' is FALSE")
-    else:
-        data = np_ma.array(x, copy=False)
-
-    # filter the input data 
-    if limit is True:
-        condition = (limit[0] < data) & (data < limit[1])
-        data[~condition.filled(True)] = np_ma.masked
-       
-    # sort if not already the case  
-    if is_sorted is False:
-        # ind_sorted = np.argsort(x)
-        # sorted_x = x[ind_sorted]
-        sorted_data = np_ma.sort(data.compressed())
-
-    # Computes quantiles along axis (or globally)
-    if ndim == 1:
-        return _quantile1D(typ, data if is_sorted else sorted_data, probs)
-    else:
-        return np_ma.apply_along_axis(_quantile1D, 1, typ,                         \
-                                      data if is_sorted else sorted_data, probs)
-        
-def IQR(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM, is_sorted = False):
-    return np.diff(quantile(x, probs = [0.25, 0.75], typ = typ, method = method,    \
-             limit = DEF_LIMIT, na_rm = na_rm, is_sorted = is_sorted))
+    
