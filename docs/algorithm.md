@@ -14,7 +14,7 @@ Nine quantile algorithms are made available, as discussed in Hyndman and Fan's, 
 |    8   | unbiased median (regardless of the distribution)             
 |    9   | approximate unbiased estimate for a normal distribution  
 |   10   | Cunnane's definition (approximately unbiased)
-|   11   | Filliben’s estimate
+|   11   | Filliben's estimate
 
 All sample quantiles are defined as weighted averages of consecutive order statistics. Sample quantiles of type `i` are defined for `1 <= i <= 10` by:
 
