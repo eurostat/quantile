@@ -9,7 +9,8 @@ How to compute a quantile? Software-agnostic implementations of common quantile 
 This source code material is intended as a supporting material for _Grazzini and Lamarche_;s article referenced [below](#References).
 
 It implements the same identical algorithms for quantile 
-estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languagesm namely:
+estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages, namely:
+
 * [`R`](https://www.r-project.org),
 * [`python`](https://www.python.org),
 * [`SAS`](http://www.sas.com/),
