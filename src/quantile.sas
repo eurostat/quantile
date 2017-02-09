@@ -126,11 +126,11 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 			);
 	%local _mac;
 	%let _mac=&sysmacroname;
+
 	%if %symexist(G_PING_ROOTPATH) EQ 1 %then %do; 
 		%macro_put(&_mac);
 	%end;
-
-	%if %symexist(G_PING_ROOTPATH) EQ 0 or &_FORCE_STANDALONE_ EQ 1 %then %do; 
+	%else %if %symexist(G_PING_ROOTPATH) EQ 0 or &_FORCE_STANDALONE_ EQ 1 %then %do; 
 		/* "dummyfied" macros */
 		%macro error_handle/parmbuff;	0 /* always OK, nothing will ever be checked */
 		%mend;
