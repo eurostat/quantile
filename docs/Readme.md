@@ -6,17 +6,16 @@ How to compute a quantile? Software-agnostic implementations of common quantile 
 
 **<a name="About"></a>About**
 
-This source code material is intended as a supporting material for _Grazzini and Lamarche_;s article referenced [below](#References).
+This source code material is intended as a supporting material for _Grazzini and Lamarche_'s article referenced [below](#References).
 
-It implements the same identical algorithms for quantile 
-estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages, namely:
+It implements the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages, namely:
 
 * [`R`](https://www.r-project.org),
 * [`python`](https://www.python.org),
 * [`SAS`](http://www.sas.com/),
 * `C` with the [gsl](https://www.gnu.org/software/gsl/) library.
 
-For that purpose, it either extends (wraps) already existing implementations when they exist, or actually reimplements the algorithm from scratch.
+For this purpose, it either extends (wraps) already existing implementations when they exist, or actually reimplements the algorithm from scratch.
 
 **Table of Contents**
 

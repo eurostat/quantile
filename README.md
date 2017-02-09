@@ -6,7 +6,7 @@ Software-agnostic (re)implementations (R/SAS/Python/C) of common quantile estima
 
 **About**
 
-This source code material is intended to support the claim made in [Grazzini and Lamarche's article](#References) on the need for robust, software/language-agnostic statistical processes in the development and deployment of statistical production chains. 
+This source code material is intended to promote he need for robust, software/language-agnostic statistical processes in the development and deployment of statistical production chains, as presented in  in [Grazzini and Lamarche's article](#References). 
 
 <table align="center">
     <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://gjacopo.github.io/quantile/</td> </tr> 
@@ -17,7 +17,7 @@ This source code material is intended to support the claim made in [Grazzini and
 
 **Description**
 
-As a simple illustration, we implement the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages. For that purpose, we either extend (wrap) already existing implementations, or actually reimplement the algorithm from scratch.
+As a simple illustration, we implement the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages. For this purpose, we either extend (wrap) already existing implementations, or actually reimplement the algorithm from scratch.
 
 We further implement a microservice (SOA) that runs the quantile estimation through a web interface.
 
