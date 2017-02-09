@@ -1,7 +1,7 @@
 quantile
 ======
 
-Agnostic (re)implementations (R/SAS/Python/C) of common quantile estimation algorithms.
+Software-agnostic (re)implementations (R/SAS/Python/C) of common quantile estimation algorithms.
 ---
 
 **About**
@@ -17,7 +17,7 @@ This source code material is intended to support the claim made in [Grazzini and
 
 **Description**
 
-As a simple illustration, we implement the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article) on different software platforms and/or using programming languages. For that purpose, we either extend (wrap) already existing implementations, or actually reimplement the algorithm from scratch.
+As a simple illustration, we implement the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using programming languages. For that purpose, we either extend (wrap) already existing implementations, or actually reimplement the algorithm from scratch.
 
 **<a name="References"></a>References**
 
