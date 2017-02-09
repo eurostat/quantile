@@ -1,18 +1,25 @@
 /** 
-## quantile {#sas_quantile}
-Produce sample quantiles corresponding to the given probabilities. 
+## io_quantile {#sas_io_quantile}
+Compute empirical quantiles of a file with sample data corresponding to given probabilities. 
 	
-	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
-				idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
+	%io_quantile(ifn, probs=, _quantiles_=, idir=, type=7, method=DIRECT, olib=WORK, fmt=csv);
 
 ### See also
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
 [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html).
+
+### About
+This code is intended as a supporting material for the following publication:
+* Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+    in Proc. New Techniques and Technologies for Statistics.
+
+Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
+Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 */ /** \cond */
 
 
-%macro quantileTest(ifn			/* List of probabilities 								(OPT) */
+%macro io_quantile(ifn			/* List of probabilities 								(OPT) */
 				, probs=		/* List of probabilities 								(OPT) */
 				, type=			/* Type of interpolation considered 					(OPT) */
 				, method=		/* Flag used to select the estimation method 			(OPT) */
@@ -178,7 +185,7 @@ Produce sample quantiles corresponding to the given probabilities.
 
 	%exit:
 	&quantiles
-%mend quantileTest;
+%mend io_quantile;
 
 
 /** \endcond */

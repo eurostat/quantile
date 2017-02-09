@@ -1,3 +1,16 @@
+# quantile
+# 
+# Description:
+# Compute empirical quantiles of a sample data array corresponding to given 
+# probabilities. 
+#
+# About:
+# This code is intended as a supporting material for the following publication:
+#    Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+#    in Proc. New Techniques and Technologies for Statistics.
+# Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
+# Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
+
 quantile <- function(x, type = 1:11, probs = 0.5) {
   # Compute the quantile for weighted data (e.g. survey data). Includes the 9 methods
   # described by Hyndman and Fan (1996) + the one by Cunnane (1978) + the one by Filiben (1975).

@@ -1,5 +1,17 @@
 /* quantile_source.c
  * 
+ * Description:
+ * Compute empirical quantiles of a sample data array corresponding to given 
+ * probabilities. 
+ * 
+ * Usage:
+ *
+ * About:
+ * This code is intended as a supporting material for the following publication:
+ *    Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+ *    in Proc. New Techniques and Technologies for Statistics.
+ * Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
+ * Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
  */
 
 /* j_indice: j = floor(n*p + m) */
