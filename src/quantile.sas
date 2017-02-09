@@ -29,6 +29,8 @@ Produce sample quantiles corresponding to the given probabilities.
 	|    7   | interpolation points divide sample range into n-1 intervals    |   _n.a._  | 
 	|    8   | unbiased median (regardless of the distribution)               |   _n.a._  | 
 	|    9   | approximate unbiased estimate for a normal distribution        |   _n.a._  |
+	|   10   | Cunnane's definition (approximately unbiased)                  |   _n.a._  |
+	|   11   | Filliben's estimate                                            |   _n.a._  |
 
 	default: `type=7` (likewise R `quantile`);
 * `method` : (_option_) choice of the implementation of the quantile estimation method; this can 
@@ -82,14 +84,16 @@ For types 1, 2 and 3, `Q[i](p)` is a discontinuous function:
 For types 4 through 9, `Q[i](p)` is a continuous function of `p`, with `gamma` and `m` given 
 below. The sample quantiles can be obtained equivalently by linear interpolation between the 
 points `(p[k],x[k])` where `x[k]` is the `k`-th order statistic:
-| `type` |     `p[k]`      |    `m`    |`alphap`|`betap`|`gamma`| 
-|:------:|:---------------:|:---------:|:------:|:-----:|:-----:|
-|    4   |      `k/N`      |     0     |    0   |   0   |  `g`  | 
-|    5   |   `(k-1/2)/N`   |    1/2    |   1/2  |   0   |  `g`  | 
-|    6   |     `k/(N+1)`   |    `p`    |    0   |   1   |  `g`  | 
-|    7   |  `(k-1)/(N-1)`  |   `1-p`   |    1   |  -1   |  `g`  | 
-|    8   |`(k-1/3)/(N+1/3)`| `(1+p)3`  |   1/3  |  1/3  |  `g`  | 
-|    9   |`(k-3/8)/(N+1/4)`|`(2*p+3)/8`|   3/8  |  1/4  |  `g`  | 
+| `type` |       `p[k]`       |      `m`     |`alphap`|`betap`|`gamma`| 
+|:------:|:------------------:|:------------:|:------:|:-----:|:-----:|
+|    4   |        `k/N`       |       0      |    0   |   0   |  `g`  | 
+|    5   |     `(k-1/2)/N`    |      1/2     |   1/2  |   0   |  `g`  | 
+|    6   |       `k/(N+1)`    |      `p`     |    0   |   1   |  `g`  | 
+|    7   |    `(k-1)/(N-1)`   |     `1-p`    |    1   |  -1   |  `g`  | 
+|    8   |  `(k-1/3)/(N+1/3)` |   `(1+p)3`   |   1/3  |  1/3  |  `g`  | 
+|    9   |  `(k-3/8)/(N+1/4)` |  `(2*p+3)/8` |   3/8  |  1/4  |  `g`  | 
+|   10   |   `(k-.4)/(N+.2)`  |   `.2*p+.4`  |    .4  |   .4  |  `g`  |
+|   11   |`(k-.3175)/(N+.365)`|`.365*p+.3175`| .3175  | .3175 |  `g`  |
 In the above tables, the `(alphap,betap)` pair is defined such that:
 
 	p[k] = (k - alphap)/(n + 1 - alphap - betap)
@@ -105,6 +109,9 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html).
 */ /** \cond */
 
+%global _FORCE_STANDALONE_;
+%let _FORCE_STANDALONE_=0;
+
 %macro quantile(var			/* Name of the input variable/list 						(REQ) */
 			, probs=		/* List of probabilities 								(OPT) */
 			, type=			/* Type of interpolation considered 					(OPT) */
@@ -119,7 +126,81 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 			);
 	%local _mac;
 	%let _mac=&sysmacroname;
-	%macro_put(&_mac);
+	%if %symexist(G_PING_ROOTPATH) EQ 1 %then %do; 
+		%macro_put(&_mac);
+	%end;
+
+	%if %symexist(G_PING_ROOTPATH) EQ 0 or &_FORCE_STANDALONE_ EQ 1 %then %do; 
+		/* "dummyfied" macros */
+		%macro error_handle/parmbuff;	0 /* always OK, nothing will ever be checked */
+		%mend;
+		%macro ds_check/parmbuff; 		0 /* always OK */
+		%mend;
+		%macro var_check/parmbuff; 		0 /* always OK */
+		%mend;
+		%macro par_check/parmbuff; 		0 /* always OK */
+		%mend;
+		%macro list_sort(l, _list_=); /* does nothing */
+			data _null_;	call symput("&_list_","&l");
+			run;
+		%mend;
+		/* simplified macros */
+		%macro list_quote(l, mark=, sep=%quote( ), rep=%quote(, ));
+			%sysfunc(tranwrd(%qsysfunc(compbl(%sysfunc(strip(&l)))), &sep, &rep))
+		%mend;
+		%macro list_length(l, sep=%quote( ));
+			%sysfunc(countw(&l, &sep))
+		%mend;
+		%macro macro_isblank(v);	
+			%if &v= %then %do;		1
+			%end;
+			%else %do;				0
+			%end;
+		%mend;
+		%macro list_apply(l, macro=, _applst_=, sep=%quote( ));
+			%let ol=;
+			%do i=1 %to %list_length(&l, sep=&sep);	
+				%let ol=&ol %&macro(%scan(&l, &i, &sep));
+			%end;
+			data _null_;	call symput("&_applst_","&ol");
+			run;
+		%mend;
+		%macro list_ones(l, item=, sep=%quote( ));
+			%let ol=;
+			%do i=1 %to %list_length(&l, sep=&sep);
+				%let ol=&ol.&sep.&ol;
+			%end;
+			&ol
+		%mend;
+		%macro list_sequence(start=, step=, end=, sep=%quote( ));
+			%let ol=&start;
+			%let len=%sysevalf((&end - &start)/&step + 1, floor);
+			%do _i=1 %to %eval(&len-1);
+				%let ol=&ol.&sep.%sysevalf(&start + &_i * &step);
+			%end;
+			&ol
+		%mend;
+		%macro list_to_var(v, n, d, fmt=, sep=%quote( ), lib=WORK);
+			DATA &lib..&d;
+				ATTRIB &n FORMAT=&fmt;
+				eof=2;
+				if eof then do;
+					i=1;
+					do while (scan("&v",i,"&sep") ne "");
+						&n=scan("&v",i,"&sep"); output;
+						i + 1;
+					end;
+					drop i;
+				end;
+				if eof=2 then do;
+				 	drop eof;
+				end;
+		   	run; 
+		%mend;
+		%macro work_clean(d);
+			PROC DATASETS lib=WORK nolist; DELETE &d; quit;
+		%mend;
+	%end;
 
 	/************************************************************************************/
 	/**                                 checkings/settings                             **/
@@ -140,6 +221,9 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 	%let SAS_QU_METHODS=	1 2 3 4 6;
 	%let SAS_DEF_QU_METHOD=	3;
 	%let DEF_QU_METHOD=		&R_DEF_QU_METHOD;
+
+	/* shall we use low-level macros from PING, or not?
+	 * find out about it here: https://gjacopo.github.io/PING */
 
 	/* ILIB/IDSN: some basic error checkings... */
 	%if not %macro_isblank(idsn) %then %do;
@@ -465,14 +549,18 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 %mend quantile;
 
 %macro _example_quantile;
-	%if %symexist(G_PING_ROOTPATH) EQ 0 %then %do; 
+	%if %symexist(G_PING_ROOTPATH) EQ 0 and &_FORCE_STANDALONE_ EQ 0 %then %do; 
 		%if %symexist(G_PING_SETUPPATH) EQ 0 %then 	%let G_PING_SETUPPATH=/ec/prod/server/sas/0eusilc; 
 		%include "&G_PING_SETUPPATH/library/autoexec/_setup_.sas";
 		%_default_setup_;
 	%end;
 
-	proc import datafile="/ec/prod/server/sas/0eusilc/x.dbf" 
-	   out=fromr dbms=dbf;
+	data dataframe;
+		call streaminit(123);       /* set random number seed */
+		do i = 1 to 10;
+   			u = rand("Uniform");     /* u ~ U(0,1) */
+   			output;
+		end;
 	run;
 
 	%let quantiles=;
@@ -480,11 +568,11 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 	%let probs=0.001 0.005 0.01 0.02 0.05 0.10 0.50;
 	%quantile(dataframe, probs=&probs, _quantiles_=quantiles, type=&type, idsn=fromr, ilib=WORK, method=UNIVAR);
 	%put quantiles=&quantiles;
-	/* -3.6472 -2.62997 -2.23978 -1.93232 -1.54471 -1.23177 0.019307 */
-	%let type=1;
+
+	%let quantiles=; /* reset */
+	%let probs=0.00 0.25 0.50 0.75 1.00;
 	%quantile(dataframe, probs=&probs, _quantiles_=quantiles, type=&type, idsn=fromr, ilib=WORK, method=DIRECT);
 	%put quantiles=&quantiles;
-	/* -3.15728 -2.46666 -2.21147 -1.92035 -1.54023 -1.22419 0.021192 */
 
 	%put;
 %mend _example_quantile;
