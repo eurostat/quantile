@@ -190,16 +190,17 @@ class Quantile(object):
         return data
  
     #/************************************************************************/
-    @staticmethod
-    def __write(data, filename, fmt=None):  
+    def save(self, filename, fmt=None): 
+        if self.quantile is None:
+            warnings.warn("quantile not calculated yet")
+            return
         if os.path.exists(filename):
             warnings.warn("output filename already exists")
-        # see http://pandas.pydata.org/pandas-docs/stable/io.html
-        if not isinstance(data, (pd.DataFrame,pd.Series)):
-            try:
-                data = pd.DataFrame.from_records(data)
-            except:
-                raise TypeError("wrong type for input dataset")  
+        #if not isinstance(self.quantile, (pd.DataFrame,pd.Series)):
+        #    try:
+        #        self.quantile = pd.DataFrame.from_records(self.quantile)
+        #    except:
+        #        raise TypeError("wrong type for input dataset")  
         if fmt is not None:
             ext = filename.split('.')[-1]
             if ext in FORMATS.keys():   
@@ -207,7 +208,7 @@ class Quantile(object):
             else:                       
                 raise IOError("format of output file not recognised")
         try:
-            getattr(data, 'to_{fmt}'.format(fmt=fmt))(filename)
+            getattr(self.quantile, 'to_{fmt}'.format(fmt=fmt))(filename)
         except:
             raise IOError("output data not saved")
        
@@ -227,13 +228,93 @@ class Quantile(object):
             try:
                 return getattr(np, obj)
             except:
-                pass#print getattr(self.func_orig, attr_name) # stopping recursion.
+                pass # stopping recursion.
         try:
             return self.__get__(obj) # getattr(self, obj) 
         except:
             raise AttributeError
 
+ 
+#==============================================================================
+# QUARTILE CLASS
+#==============================================================================
+class Quartile(Quantile):
+    
+    #/************************************************************************/
+    def __init__(self, **kwargs):
+        kwargs.pop('probs', None) # just in case...
+        super(Quartile, self).__init__(**kwargs)
+       
+    #/************************************************************************/
+    @staticmethod
+    def __custom_boxplot(quantile, ax, *args, **kwargs):
+        """Generate a customized boxplot based on store quartile values
         
+            >>> fig, ax = plt.subplots()
+            >>> Quartile.__custom_boxplot(quartile, ax, notch=0, sym='+', vert=1, whis=1.5)
+            >>> ax.figure.canvas.draw() # canvas is updated
+        """            
+
+        n_box = 1 # len(quantile)
+        dummy = [1, 2, 3, 4, 5] # [-9, -4, 2, 4, 9]
+        box_plot = ax.boxplot([dummy,]*n_box, *args, **kwargs) 
+        # Creates len(percentiles) no of box plots
+    
+        min_y, max_y = float('inf'), -float('inf')
+    
+        for box_no, pdata in enumerate(quantile):
+            if len(pdata) == 6:
+                (q1_start, q2_start, q3_start, q4_start, q4_end, outliers) = pdata
+            elif len(pdata) == 5:
+                (q1_start, q2_start, q3_start, q4_start, q4_end) = pdata
+                outliers = None
+            else:
+                raise ValueError("Quantile arrays must have either 5 or 6 values")
+    
+            # Lower cap
+            box_plot['caps'][2*box_no].set_ydata([q1_start, q1_start])
+            # xdata is determined by the width of the box plot
+    
+            # Lower whiskers
+            box_plot['whiskers'][2*box_no].set_ydata([q1_start, q2_start])
+    
+            # Higher cap
+            box_plot['caps'][2*box_no + 1].set_ydata([q4_end, q4_end])
+    
+            # Higher whiskers
+            box_plot['whiskers'][2*box_no + 1].set_ydata([q4_start, q4_end])
+    
+            # Box
+            path = box_plot['boxes'][box_no].get_path()
+            path.vertices[0][1] = q2_start
+            path.vertices[1][1] = q2_start
+            path.vertices[2][1] = q4_start
+            path.vertices[3][1] = q4_start
+            path.vertices[4][1] = q2_start
+    
+            # Median
+            box_plot['medians'][box_no].set_ydata([q3_start, q3_start])
+    
+            # Outliers
+            if outliers is not None and len(outliers[0]) != 0:
+                # If outliers exist
+                box_plot['fliers'][box_no].set(xdata = outliers[0],
+                                               ydata = outliers[1])
+    
+                min_y = min(q1_start, min_y, outliers[1].min())
+                max_y = max(q4_end, max_y, outliers[1].max())
+    
+            else:
+                min_y = min(q1_start, min_y)
+                max_y = max(q4_end, max_y)
+    
+            # The y axis is rescaled to fit the new box plot completely with 10% 
+            # of the maximum value at both ends
+            ax.set_ylim([min_y*1.1, max_y*1.1])
+
+        return box_plot
+
+    
 #==============================================================================
 # MAIN
 #==============================================================================

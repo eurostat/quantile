@@ -16,6 +16,11 @@ publication:
     >>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
 """
 
+from __future__ import division, print_function, absolute_import
+
+__all__ = ['quantile', 'quartile', 'quintile', 'IQR']
+
+
 import numpy as np
 import numpy.ma as np_ma 
 
@@ -34,7 +39,6 @@ METHODS =       ['DIRECT', 'MQUANT']
 DEF_METHOD =    'DIRECT'
 DEF_LIMIT =     (0,1)
 DEF_NARM =      False
-
         
 def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD, 
              limit = DEF_LIMIT, na_rm = DEF_NARM, is_sorted = False):
@@ -124,7 +128,7 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
         approach derived from the original algorithm from Hyndman & Fan.
         """
         # inspired by the _quantiles1D function of mquantiles
-        N = len(sorted_x) # sorted_x.size
+        N = sorted_x.count() # len(sorted_x) 
         m_indice = lambda p, i: {1: 0, 2: 0, 3: -0.5, 4: 0, 5: 0.5,         \
                                  6: p, 7: 1-p, 8: (p+1)/3 , 9: (2*p+3)/8,   \
                                  10: .4 + .2 * p, 11: .3175 +.365*p}[i]
@@ -143,7 +147,7 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
         of the _quantiles1D function of mquantiles.
         source: https://github.com/scipy/scipy/blob/master/scipy/stats/mstats_basic.py
         """
-        N = len(sorted_x) 
+        N = sorted_x.count() # len(sorted_x) 
         if N == 0:
             return np_ma.array(np.empty(len(probs), dtype=float), mask=True)
         elif N == 1:
@@ -210,7 +214,52 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
     else:
         return np_ma.apply_along_axis(_quantile1D, 1, typ,                         \
                                       data if is_sorted else sorted_data, probs)
+  
+def quartile(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM, 
+             is_sorted = False):
+    return quantile(x, probs = [0., .25, .5, .75, 1.], typ = typ, method = method,    \
+             limit = DEF_LIMIT, na_rm = na_rm, is_sorted = is_sorted)
         
-def IQR(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM, is_sorted = False):
-    return np.diff(quantile(x, probs = [0.25, 0.75], typ = typ, method = method,    \
-             limit = DEF_LIMIT, na_rm = na_rm, is_sorted = is_sorted))
+def quintile(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM, 
+             is_sorted = False):
+    return quantile(x, probs = [0., .2, .4, .6, .8, 1.], typ = typ, method = method,    \
+             limit = DEF_LIMIT, na_rm = na_rm, is_sorted = is_sorted)
+          
+def IQR(data, **kwargs):
+    if len(data) == 5:
+        return data[3] - data[1]
+    else:
+        return np.diff(quantile(data, probs = [0.25, 0.75], **kwargs))
+
+def outlier_limits(data, whis=1.5, **kwargs):
+    if len(data) == 5:
+        quart = data
+    else:
+        quart = quartile(data, **kwargs)
+    iqr = IQR(data)
+    low = quart[1] - whis * iqr
+    hi = quart[3] + whis * iqr
+    return [low, hi]
+
+
+def whisker_limits(data, whis=1.5, **kwargs):
+    quart = quartile(data, **kwargs)
+    iqr = IQR(quart)
+
+    # get low extreme
+    low = quart[1] - whis * iqr
+    wisk_low = np.compress(data >= low, data)
+    if len(wisk_low) == 0 or np.min(wisk_low) > quart[1]:
+        wisk_low = quart[1]
+    else:
+        wisk_low = min(wisk_low)
+
+    # get high extreme
+    hi = quart[3] + whis * iqr
+    wisk_hi = np.compress(data <= hi, data)
+    if len(wisk_hi) == 0 or np.max(wisk_hi) < quart[3]:
+        wisk_hi = quart[3]
+    else:
+        wisk_hi = max(wisk_hi)
+
+    return [wisk_low, wisk_hi]
