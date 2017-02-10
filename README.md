@@ -6,7 +6,7 @@ Software-agnostic (re)implementations (R/SAS/Python/C) of common quantile estima
 
 **About**
 
-This source code material is intended to promote he need for robust, software/language-agnostic statistical processes in the development and deployment of statistical production chains, as presented in  in [Grazzini and Lamarche's article](#References). 
+This source code material is intended to promote software/language-agnostic development and deployment of statistical processes, as presented in [Grazzini and Lamarche's article](#References). 
 
 <table align="center">
     <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://gjacopo.github.io/quantile/</td> </tr> 
@@ -17,9 +17,13 @@ This source code material is intended to promote he need for robust, software/la
 
 **Description**
 
-As a simple illustration, we implement the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages. For this purpose, we either extend (wrap) already existing implementations, or actually reimplement the algorithm from scratch.
+We consider here the implementation of quantile estimates based on order statistics. 
+Although _quantiles_ are often implemented throughout various packages of statistical software (R, Python, SAS, Stata, Maple,…), the different implementations may not be consistent with each other and, thus, provide different output estimates. 
+Typically, different estimation methods are available in the literature, and each one of them corresponds to a specific implementation. 
 
-We further implement a microservice (SOA) that runs the quantile estimation through a web interface.
+We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiber, in R, Python, C and SAS. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation, or actually reimplement the algorithm from scratch.
+
+We further implement microservices (SOA) that run the quantile estimation through a web interface.
 
 **<a name="References"></a>References**
 
