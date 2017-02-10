@@ -14,7 +14,7 @@ Compute empirical quantiles of a file with sample data corresponding to given pr
 ### Returns
 * `ofn` : name of the output file  and variable where quantile estimates are saved; quantiles are 
 	stored in a variable named `QUANT`;
-* `ofmt` : (_option_) type of the output file; default: `ofmt=csv`.
+* `ofmt` : (_option_) type of the output file; default: `ofmt=csv`;
 * `_quantiles_` : (_option_) name of the output numeric list where quantiles can be stored in 
 	increasing `probs` order.
 
