@@ -11,7 +11,7 @@ This source code material is intended as a supporting material for _Grazzini and
 It implements the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages, namely:
 
 * [`R`](https://www.r-project.org),
-* [`python`](https://www.python.org),
+* [`Python`](https://www.python.org),
 * [`SAS`](http://www.sas.com/),
 * `C` with the [gsl](https://www.gnu.org/software/gsl/) library.
 

@@ -18,10 +18,10 @@ This source code material is intended to promote software/language-agnostic deve
 **Description**
 
 We consider here the implementation of quantile estimates based on order statistics. 
-Although _quantiles_ are often implemented throughout various packages of statistical software (R, Python, SAS, Stata, Maple,…), the different implementations may not be consistent with each other and, thus, provide different output estimates. 
-Typically, different estimation methods are available in the literature, and each one of them corresponds to a specific implementation. 
+Although _quantiles_ are often implemented throughout various packages of statistical software ([`R`](https://www.r-project.org), [`Python`](https://www.python.org), [`SAS`](http://www.sas.com/), Stata, Maple,…), the different implementations may not be consistent with each other and, therefore, provide different output estimates. 
+Typically, this happens because different estimation methods are available in the [literature](http://mathworld.wolfram.com/Quantile.html), and each one of them corresponds to a specific implementation. 
 
-We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiber, in R, Python, C and SAS. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation, or actually reimplement the algorithm from scratch.
+We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiber (see references [below](#References)), in `R`, `Python`, `C` and `SAS`. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation (`R` [`quantiles`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html), `Python` [`mquantiles`](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mstats.mquantiles.html), or `SAS` [`UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm)), or actually reimplement the algorithm from scratch (`SAS`, `C` and `Python`).
 
 We further implement microservices (SOA) that run the quantile estimation through a web interface.
 
