@@ -2,32 +2,54 @@
 ## io_quantile {#sas_io_quantile}
 Compute empirical quantiles of a file with sample data corresponding to given probabilities. 
 	
-	%io_quantile(ifn, probs=, _quantiles_=, idir=, type=7, method=DIRECT, olib=WORK, fmt=csv);
+	%io_quantile(ifn, ofn, idir=, odir=, probs=, _quantiles_=, 
+				 type=7, method=DIRECT, ifmt=csv, ofmt=csv);
+
+### Arguments
+* `ifn` : input filename; 2 sample data are stored as  to import;
+* `probs`, `type`, `method` : list of probabilities, type and method flags used for the definition
+	of the quantile algorithm and its actual estimation; see macro [%quantile](@ref sas_io_quantile);
+* `ifmt` : (_option_) type of the input file; default: `ifmt=csv`.
+
+### Returns
+* `ofn` : name of the output file  and variable where quantile estimates are saved; quantiles are 
+	stored in a variable named `QUANT`;
+* `ofmt` : (_option_) type of the output file; default: `ofmt=csv`.
+* `_quantiles_` : (_option_) name of the output numeric list where quantiles can be stored in 
+	increasing `probs` order.
+
+### Description
+Return estimates of underlying distribution quantiles based on one or two order statistics from 
+the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
+defined by `type` (see macro [%quantile](@ref sas_io_quantile)). 
 
 ### See also
+[%quantile](@ref sas_io_quantile),
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
-[mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html).
+[mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html),
+[gsl_stats_quantile* (C)](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html).
+*/ /** \cond */
 
+/*
 ### About
 This code is intended as a supporting material for the following publication:
 * Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
     in Proc. New Techniques and Technologies for Statistics.
 
+### Notice
 Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
 Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
-*/ /** \cond */
+*/
 
-
-%macro io_quantile(ifn			/* List of probabilities 								(OPT) */
-				, probs=		/* List of probabilities 								(OPT) */
-				, type=			/* Type of interpolation considered 					(OPT) */
-				, method=		/* Flag used to select the estimation method 			(OPT) */
-				, names=		/* Output name of variable/dataset 						(OPT) */
-				, _quantiles_=	/* Name of the output variable 							(OPT) */
-				, idir=			/* Full path of input directory 						(OPT) */
-				, olib=			/* Output  library 										(OPT) */
-				, fmt=			/* Format of import 									(OPT) */
+%macro io_quantile(ifn			/* Full path of input filename 					(REQ) */
+				, ofn=			/* Full path of output filename 				(REQ) */
+				, probs=		/* List of probabilities 						(OPT) */
+				, type=			/* Type of interpolation considered 			(OPT) */
+				, method=		/* Flag used to select the estimation method 	(OPT) */
+				, _quantiles_=	/* Name of the output variable 					(OPT) */
+				, ifmt=			/* Format of input file 						(OPT) */
+				, ofmt=			/* Format of output file 						(OPT) */
 				);
 	%local _mac;
 	%let _mac=&sysmacroname;
@@ -36,28 +58,51 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 		%macro_put(&_mac);
 	%end;
 	%else %if %symexist(G_PING_ROOTPATH) EQ 0 or &_FORCE_STANDALONE_ EQ 1 %then %do; 
-		/* "dummyfied" macros */
-		%macro error_handle/parmbuff;	0 /* always OK, nothing will ever be checked */
-		%mend;
-		%macro ds_check/parmbuff; 		0 /* always OK */
-		%mend;
-		%macro var_check/parmbuff; 		0 /* always OK */
-		%mend;
-		%macro dir_check/parmbuff; 		0 /* always OK */
-		%mend;
-		%macro par_check/parmbuff; 		0 /* always OK */
-		%mend;
-		%macro file_check/parmbuff; 	0 /* always OK */
-		%mend;
-		/* simplified macros */
-		%macro macro_isblank(v);	
-			%if &v= %then %do;		1
+		%macro error_handle(m, cond, mac=, txt=, verb=);
+			%if &cond %then %do;									%put &m - &mac: &txt; 	1
 			%end;
-			%else %do;				0
+			%else %do;																		0
 			%end;
 		%mend;
-		%macro work_clean(d);
-			PROC DATASETS lib=WORK nolist; DELETE &d; quit;
+		%macro macro_isblank(v);
+			%let __v = %superq(&v);
+			%let ___v = %sysfunc(compbl(%quote(&__v))); 
+			%put v=&v;
+			%put __v=&__v;
+			%put ___v=&___v;
+			%if %sysevalf(%superq(__v)=, boolean) or %nrbquote(&___v) EQ 	%then %do;		1
+			%end;
+			%else %do;																		0
+			%end;
+		%mend;
+		%macro par_check(p, type=, set=); 
+			%if "%datatyp(&p)" EQ "&type" %sysfunc(find(&set, &p)) GT 0 	%then %do;		1
+			%end;
+			%else %do;																		0
+			%end;
+		%mend;
+		%macro file_check(f); 
+		  	%if %sysfunc(fileexist(&f))=1 %then %do;										0 
+			%end;
+		  	%else %do;  																	1
+			%end;
+		%mend;
+		%macro work_clean/parmbuff;
+			%let i=1;
+   			%do %while(%scan(&syspbuff,&i) ne);			
+				PROC DATASETS lib=WORK nolist; DELETE %scan(&syspbuff,&i); quit;
+	   			%let i=%eval(&i+1);
+			%end;
+		%mend;
+		%macro ds_nvars(d, lib=);
+			%local dsid nvars rc;
+			%let nvars=0;
+			%let dsid=%sysfunc(open(&lib..&d));
+			%if dsid NE 0 %then %do; 
+				%let nvars=%sysfunc(attrn(&dsid,NVARS));
+				%let rc=%sysfunc(close(&dsid));
+			%end;
+			&nvars	
 		%mend;
 	%end;
 
@@ -78,99 +123,55 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 		isbl_idir 	/* test of existence of input directory parameter */
 		isbl_dir; 	/* test of existence of directory in input filename */
 	%let _file=&ifn;
-	
-	/* OLIB */
-	%if %macro_isblank(olib) %then 	%let olib=WORK;
-
-	/* FMT: set default/update parameter */
-	%if %macro_isblank(fmt)  %then 			%let fmt=CSV; 
-	%else									%let fmt=%upcase(&fmt);
-
-	%if %error_handle(ErrorInputParameter, 
-			%par_check(&fmt, type=CHAR, set=&FMTS) NE 0, mac=&_mac,	
-			txt=!!! Parameter FMT is an identifier in &FMTS !!!) %then
-		%goto exit; 
-
-	/* IDIR/FILE: set default/update parameter */
-	%let _base=%file_name(&ifn, res=base); /* we possibly have _base = _file */
-	%let _dir=%file_name(&ifn, res=dir);
-	%let _ext=%file_name(&ifn, res=ext);
-	%let _fn=%file_name(&ifn, res=file);
-
-	%let isbl_idir=%macro_isblank(idir);
-	%let isbl_dir=%macro_isblank(_dir);
-
-	%if &isbl_idir=0 and &isbl_dir=0 %then %do;
-		%if %error_handle(ErrorInputParameter, 
-			%quote(&_dir) NE %quote(&idir), mac=&_mac,	
-			txt=!!! Incompatible parameters IDIR and IFN - Check paths !!!) %then
-		%goto exit;
-		/* else: do nothing, change nothing - _file as is */
-	%end;
-	%else %if &isbl_idir=1 and &isbl_dir=1 %then %do;
-		/* look in current directory */
-		%if %symexist(_SASSERVERNAME) %then /* working with SAS EG */
-			%let thisprog = &_CLIENTPROJECTNAME; /* note: this include the quotes '' */
-			%let lenprog = %sysfunc(length(&thisprog));
-			%let thispath = &_CLIENTPROJECTPATH; /* ibid: quotes are included */
-			%let lenpath = %sysfunc(length(&thispath));
-			%let output=%sysfunc(substr(&thispath, 2, &lenpath-&lenprog-1));
-			%let lenpath = %sysfunc(length(&output));
-			%let i=%sysfunc(find(&output, \));  /*starting from the left */
-			%let idir=%sysfunc(substr(&output,&i+1,&lenpath-&i));
-		%else %if &sysscp = WIN %then %do; 	/* working on Windows server */
-			%let idir=%sysget(SAS_EXECFILEPATH);
-			%if not %macro_isblank(idir) %then
-				%let idir=%qsubstr(&idir, 1, %length(&idir)-%length(%sysget(SAS_EXECFILENAME));
-		%end;
-	%end;
-	%else %if &isbl_idir=1 /* and &isbl_dir=0 */ %then %do;
-		%let idir=&_dir;
-	%end;
-	%else %if &isbl_idir=0 /* and &isbl_dir=1 */ %then %do;
-		/* do nothing */ ;
-	%end;
-		
-	/* IDIR: check/set default/update parameter */
-	%if %error_handle(ErrorInputParameter, 
-			%dir_check(&idir) NE 0, mac=&_mac,		
-			txt=%quote(!!! Input directory %upcase(&idir) does not exist !!!)) %then
-		%goto exit;
-
-	/* FMT: check parameter */
-	%if not %macro_isblank(fmt) %then %do;
-		%let fmt=%lowcase(&fmt);
-		%if %error_handle(ErrorInputParameter, 
-			not %macro_isblank(_ext) and %quote(&_ext) NE %quote(&fmt), mac=&_mac,	
-			txt=!!! Incompatible parameter FMT with extension %upcase(&_ext) !!!) %then
-		%goto exit;
-		/* else: do nothing, change nothing */
-	%end;
-
-	/* reset the full input file path */
-	%if not %macro_isblank(fmt) and %macro_isblank(_ext) %then 	%let _file=&idir./&_base..&fmt;
-	%else 														%let _file=&idir./&_fn;
 
 	/* IFN: check parameter */
 	%if %error_handle(ErrorInputFile, 
-		%file_check(&_file) EQ 1, mac=&_mac,	
-		txt=%quote(!!! File %upcase(&_file) does not exist !!!)) %then
-	%goto exit;
+			%file_check(&ifn) EQ 1, mac=&_mac,	
+			txt=%quote(!!! File %upcase(&ifn) does not exist !!!)) %then
+		%goto exit;
+
+	/* OFN: set the full output file path */
+	%if %error_handle(WarningOutputFile, 
+			%file_check(&ofn) EQ 0, mac=&_mac,	
+			txt=%quote(! File %upcase(&ofn) already exists !), verb=warn) %then
+		%goto warning;
+	%warning:
+
+	/* IFMT: set default/update parameter */
+	%if %macro_isblank(ifmt)  %then 		%let ifmt=CSV; 
+	%else									%let ifmt=%upcase(&ifmt);
+
+	%if %error_handle(ErrorInputParameter, 
+			%par_check(&ifmt, type=CHAR, set=&FMTS) NE 0, mac=&_mac,	
+			txt=!!! Parameter IFMT is an identifier in &FMTS !!!) %then
+		%goto exit; 
+
+	/* OFMT: ibid, set default/update parameter */
+	%if %macro_isblank(ofmt)  %then 		%let ofmt=&ifmt; 
+	%else									%let ofmt=%upcase(&ofmt);
+
+	%if %error_handle(ErrorInputParameter, 
+			%par_check(&ofmt, type=CHAR, set=&FMTS) NE 0, mac=&_mac,	
+			txt=!!! Parameter OFMT is an identifier in &FMTS !!!) %then
+		%goto exit; 
 
 	/************************************************************************************/
 	/**                                 actual computation                             **/
 	/************************************************************************************/
 
 	%local dsn
-		quantiles;
-	%let dsn=TMp&_mac;
+		var
+		names;
+	%let idsn=iTMP&_mac;
+	%let odsn=qTMP&_mac;
+	%let names=QUANT;
 
-	PROC IMPORT DATAFILE="&file" OUT=WORK.&_base REPLACE 
-		DBMS=&fmt;
+	/* import */
+	PROC IMPORT DATAFILE="&ifn" OUT=WORK.&idsn REPLACE 
+		DBMS=&ifmt;
 		GETNAMES=no;
-		/* MIXED = yes; /* works only on Windows system (http://support.sas.com/kb/32/619.html) */
 	quit;
-	
+
 	/* note that there may be an issue occurs when the file has been created on a Windows
 	* PC and SAS is running on Unix/Linux. 
 	* One difference between both operating systems is the newline char. While Windows uses 
@@ -178,14 +179,48 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	* can be solved by using dos2unix in the shell of the unix-box to transform the newline 
 	* chars. */
 
-	%let quantiles=;
-	%quantile(VAR2, probs=&probs, _quantiles_=quantiles, type=&type, idsn=&dsn, ilib=WORK, method=&method);
+	/* compute */
+	%let nvars = %ds_nvars(&idsn, lib=WORK);
+	%put nvars=&nvars;
+	%quantile(VAR&nvars, probs=&probs, method=&method, type=&type, idsn=&idsn, ilib=WORK, 
+			names=&names, odsn=&odsn, olib=WORK);
 
-	%work_clean(&dsn); 
+	/* export */
+	PROC EXPORT DATA=&odsn OUTFILE="&ofn" REPLACE
+		DBMS=&ofmt;
+	quit;
+
+	%if not %macro_isblank(_quantiles_) %then %do;
+		PROC SQL noprint;	
+			SELECT &names into :&_quantiles_ SEPARATED BY ' '
+			FROM WORK.&odsn;
+		quit;
+	%end;
+
+	%work_clean(&idsn); 
 
 	%exit:
-	&quantiles
 %mend io_quantile;
 
+%macro _example_io_quantile;
+
+	%let dir=/ec/prod/server/sas/0eusilc/test/samples;
+
+	%let ifn=&dir./sample5.csv;
+	%let ofn=&dir./sample5_quantile.csv;
+	%let quantiles=;
+	%let type=1;
+	%let probs=0.001 0.005 0.01 0.02 0.05 0.10 0.50;
+	%io_quantile(&ifn, ofn=&ofn, probs=&probs, type=&type, method=DIRECT, 
+			_quantiles_=quantiles);
+	%put quantiles=&quantiles;
+
+%mend _example_io_quantile;
+
+/* Uncomment for quick testing
+options NOSOURCE MRECALL MLOGIC MPRINT NOTES;
+%_example_io_quantile; 
+*/
 
 /** \endcond */
+

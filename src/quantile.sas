@@ -60,8 +60,8 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 	`probs` order; incompatible with parameters `odsn` and `names `below;
 * `odsn, names` : (_option_) respective names of the output dataset and variable where quantiles are 
 	stored; if both `odsn` and `names` are set, the quantiles are saved in the `names` variable ot the
-	`odsn` dataset; if just `odsn` is  `names`, then they are stored in a variable named `QUANT`; if 
-	instead only `names` is set, then the dataset will  also be named after `names`.
+	`odsn` dataset; if just `odsn` is set, then they are stored in a variable named `QUANT`; if 
+	instead only `names` is set, then the dataset will also be named after `names`.
 
 ### Algorithm
 All sample quantiles are defined as weighted averages of consecutive order statistics. Sample 
@@ -106,19 +106,23 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 ### See also
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
-[mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html).
+[mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html),
+[gsl_stats_quantile* (C)](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html).
+*/ /** \cond */
 
+/*
 ### About
 This code is intended as a supporting material for the following publication:
 * Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
     in Proc. New Techniques and Technologies for Statistics.
 
+### Notice
 Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
 Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
-*/ /** \cond */
+*/
 
 %global _FORCE_STANDALONE_;
-%let _FORCE_STANDALONE_=0;
+%let _FORCE_STANDALONE_=1;
 
 %macro quantile(var			/* Name of the input variable/list 						(REQ) */
 			, probs=		/* List of probabilities 								(OPT) */
@@ -143,42 +147,53 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 		%macro error_handle/parmbuff;	0 /* always OK, nothing will ever be checked */
 		%mend;
 		%macro ds_check/parmbuff; 		0 /* always OK */
+			/*%macro ds_check(d, lib=); 		
+				%if %sysfunc(exist(&lib..&d, data)) or %sysfunc(exist(&lib..&d,view)) %then %do;	0 
+				%end;
+			  	%else %do;																			1
+				%end;
+			%mend;*/
 		%mend;
 		%macro var_check/parmbuff; 		0 /* always OK */
 		%mend;
 		%macro par_check/parmbuff; 		0 /* always OK */
+			/*%macro par_check(p, type=, range=, set=); 	
+				%list_ones(%list_length(&p), item=0)
+			%mend;*/
 		%mend;
 		%macro list_sort(l, _list_=); /* does nothing */
 			data _null_;	call symput("&_list_","&l");
 			run;
 		%mend;
 		/* simplified macros */
+		%macro macro_isblank(v);
+			%let __v = %superq(&v);
+			%let ___v = %sysfunc(compbl(%quote(&__v))); 
+			%if %sysevalf(%superq(__v)=, boolean) or %nrbquote(&___v) EQ 	%then %do;			1
+			%end;
+			%else %do;																			0
+			%end;
+		%mend;
 		%macro list_quote(l, mark=, sep=%quote( ), rep=%quote(, ));
 			%sysfunc(tranwrd(%qsysfunc(compbl(%sysfunc(strip(&l)))), &sep, &rep))
 		%mend;
 		%macro list_length(l, sep=%quote( ));
 			%sysfunc(countw(&l, &sep))
 		%mend;
-		%macro macro_isblank(v);	
-			%if &v= %then %do;		1
+		%macro list_ones(l, item=, sep=%quote( ));
+			%let ol=&item;
+			%do i=2 %to &l;
+				%let ol=&ol.&sep.&item;
 			%end;
-			%else %do;				0
-			%end;
+			&ol
 		%mend;
 		%macro list_apply(l, macro=, _applst_=, sep=%quote( ));
-			%let ol=;
-			%do i=1 %to %list_length(&l, sep=&sep);	
+			%let ol=%&macro(%scan(&l, 1, &sep));
+			%do i=2 %to %list_length(&l, sep=&sep);	
 				%let ol=&ol %&macro(%scan(&l, &i, &sep));
 			%end;
 			data _null_;	call symput("&_applst_","&ol");
 			run;
-		%mend;
-		%macro list_ones(l, item=, sep=%quote( ));
-			%let ol=;
-			%do i=1 %to %list_length(&l, sep=&sep);
-				%let ol=&ol.&sep.&ol;
-			%end;
-			&ol
 		%mend;
 		%macro list_sequence(start=, step=, end=, sep=%quote( ));
 			%let ol=&start;
@@ -191,22 +206,20 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 		%macro list_to_var(v, n, d, fmt=, sep=%quote( ), lib=WORK);
 			DATA &lib..&d;
 				ATTRIB &n FORMAT=&fmt;
-				eof=2;
-				if eof then do;
-					i=1;
-					do while (scan("&v",i,"&sep") ne "");
-						&n=scan("&v",i,"&sep"); output;
-						i + 1;
-					end;
-					drop i;
+				i=1;
+				do while (scan("&v",i,"&sep") ne "");
+					&n=scan("&v",i,"&sep"); output;
+					i + 1;
 				end;
-				if eof=2 then do;
-				 	drop eof;
-				end;
+				drop i eof;
 		   	run; 
 		%mend;
-		%macro work_clean(d);
-			PROC DATASETS lib=WORK nolist; DELETE &d; quit;
+		%macro work_clean/parmbuff;
+			%let i=1;
+   			%do %while(%scan(&syspbuff,&i) ne);			
+				PROC DATASETS lib=WORK nolist; DELETE %scan(&syspbuff,&i); quit;
+	   			%let i=%eval(&i+1);
+			%end;
 		%mend;
 	%end;
 
@@ -381,7 +394,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 			/* run TRANSPOSE to format the quantile table */
 			PROC TRANSPOSE data=&tmp out=&olib..&odsn(drop=_NAME_ _LABEL_) prefix=&qname;
 			run;
-				
+			
 			/* some adjustment... */
 			DATA &olib..&odsn;
 				SET &olib..&odsn(rename=(&qname.1=&qname));
@@ -498,7 +511,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 				%end;
 			%end;
 
-			/* run the second calculation for estimating the gamma index, plus the final 
+		/* run the second calculation for estimating the gamma index, plus the final 
 			* quantile value */
 			DATA &olib..&odsn(keep=&qname);
 				SET &olib..&odsn;
@@ -521,7 +534,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 			/* clean your shit */
 			%work_clean(&tmp, s_&tmp);
 
-		%mend _quantile_canonical;
+	%mend _quantile_canonical;
 		/* run the macro */
 		%_quantile_canonical(&var, probs=&probs, type=&type, qname=&qname, 
 			idsn=&idsn, ilib=&ilib, odsn=&tmp, olib=WORK);
@@ -563,9 +576,13 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 		%_default_setup_;
 	%end;
 
-	data dataframe;
+	%local dsn N;
+	%let dsn=TMP&sysmacroname;	
+	%let N=1000;
+
+	data &dsn;
 		call streaminit(123);       /* set random number seed */
-		do i = 1 to 10;
+		do i = 1 to &N;
    			u = rand("Uniform");     /* u ~ U(0,1) */
    			output;
 		end;
@@ -574,15 +591,16 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%let quantiles=;
 	%let type=1;
 	%let probs=0.001 0.005 0.01 0.02 0.05 0.10 0.50;
-	%quantile(dataframe, probs=&probs, _quantiles_=quantiles, type=&type, idsn=fromr, ilib=WORK, method=UNIVAR);
+	%quantile(u, probs=&probs, _quantiles_=quantiles, type=&type, idsn=&dsn, ilib=WORK, method=UNIVAR);
 	%put quantiles=&quantiles;
 
 	%let quantiles=; /* reset */
 	%let probs=0.00 0.25 0.50 0.75 1.00;
-	%quantile(dataframe, probs=&probs, _quantiles_=quantiles, type=&type, idsn=fromr, ilib=WORK, method=DIRECT);
+	%quantile(u, probs=&probs, _quantiles_=quantiles, type=&type, idsn=&dsn, ilib=WORK, method=DIRECT);
 	%put quantiles=&quantiles;
 
 	%put;
+	PROC DATASETS lib=WORK nolist; DELETE &dsn; quit;
 %mend _example_quantile;
 
 /* Uncomment for quick testing
