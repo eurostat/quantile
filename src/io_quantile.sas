@@ -42,6 +42,9 @@ Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
 Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 */
 
+%global _FORCE_STANDALONE_;
+%let _FORCE_STANDALONE_=1;
+
 %macro io_quantile(ifn			/* Full path of input filename 					(REQ) */
 				, ofn=			/* Full path of output filename 				(REQ) */
 				, probs=		/* List of probabilities 						(OPT) */
