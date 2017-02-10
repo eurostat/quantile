@@ -122,7 +122,6 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 */
 
 %global _FORCE_STANDALONE_;
-%let _FORCE_STANDALONE_=1;
 
 %macro quantile(var			/* Name of the input variable/list 						(REQ) */
 			, probs=		/* List of probabilities 								(OPT) */
@@ -138,6 +137,8 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 			);
 	%local _mac;
 	%let _mac=&sysmacroname;
+
+	%if &_FORCE_STANDALONE_ EQ %then %let _FORCE_STANDALONE_=1;
 
 	%if %symexist(G_PING_ROOTPATH) EQ 1 %then %do; 
 		%macro_put(&_mac);
