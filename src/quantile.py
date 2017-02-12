@@ -30,7 +30,11 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 
 from __future__ import division, print_function, absolute_import
 
-__all__ = ['quantile', 'quartile', 'quintile', 'IQR']
+
+import warnings
+
+__all__ = ['quantile', 'quartile', 'quintile', 'IQR',
+           'Quantile', 'Quartile', 'Quintile']
 
 
 import numpy as np
@@ -51,7 +55,12 @@ METHODS =       ['DIRECT', 'MQUANT']
 DEF_METHOD =    'DIRECT'
 DEF_LIMIT =     (0,1)
 DEF_NARM =      False
+ 
         
+#==============================================================================
+# QUANTILE METHOD
+#==============================================================================
+       
 def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD, 
              limit = DEF_LIMIT, na_rm = DEF_NARM, is_sorted = False):
     """Compute the sample quantiles of any vector distribution.
@@ -226,52 +235,175 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
     else:
         return np_ma.apply_along_axis(_quantile1D, 1, typ,                         \
                                       data if is_sorted else sorted_data, probs)
+
+        
+#==============================================================================
+# QUANTILE CLASS
+#==============================================================================
+
+class Quantile(object):
+    
+    #/************************************************************************/
+    def __init__(self, **kwargs):
+        self.__operator = quantile
+        self.__quantile = None
+        self.__params = None
+        # set default values
+        self.__probs = DEF_PROBS
+        self.__typ = DEF_TYPE
+        self.__method = DEF_METHOD 
+        self.__limit = DEF_LIMIT
+        self.__na_rm = DEF_NARM
+        if kwargs == {}:
+            return
+        attrs = ( 'probs','typ','method','limit','na_rm')
+        for attr in list(set(attrs).intersection(kwargs.keys())):
+            try:
+                setattr(self, '{}'.format(attr), kwargs.pop(attr))
+            except: 
+                warnings.warn('wrong attribute value {}'.format(attr.upper()))        
+        
+    #/************************************************************************/
+    @property
+    def probs(self):
+        return self.__probs
+    @probs.setter
+    def probs(self, probs):
+        if not isinstance(probs, (tuple,list,pd.DataFrame,pd.Series,np.ndarray)):
+            raise TypeError('wrong type for PROBS parameter')
+        self.__probs = probs
+
+    @property
+    def typ(self):
+        return self.__typ
+    @typ.setter
+    def typ(self, typ):
+        if not isinstance(typ, int):
+            raise TypeError('wrong type for TYP parameter')
+        self.__typ = typ
+
+    @property
+    def method(self):
+        return self.__method
+    @method.setter
+    def method(self, method):
+        if not isinstance(method, str):
+            raise TypeError('wrong type for METHOD parameter')
+        self.__method = method
+
+    @property
+    def limit(self):
+        return self.__limit
+    @limit.setter
+    def limit(self, limit):
+        if not isinstance(limit, (tuple,list,np.ndarray)):
+            raise TypeError('wrong type for LIMIT parameter')
+        self.__limit = limit
+
+    @property
+    def na_rm(self):
+        return self.__na_rm
+    @na_rm.setter
+    def na_rm(self, na_rm):
+        if not isinstance(na_rm, bool):
+            raise TypeError('wrong type for NA_RM parameter')
+        self.__na_rm = na_rm
+
+    @property
+    def quantile(self):
+        return self.__quantile
+
+    @property
+    def params(self):
+        return self.__params
+
+    #/************************************************************************/
+    def __repr__(self):
+        # generic representation special method
+        return "<{} instance at {}>".format(self.__class__.__name__, id(self))
+    def __str__(self): 
+        # generic string printing method
+        strprint = ''
+        disp_field = lambda field: '\n'+field+'\n'+ '-'*len(field)
+        disp_attr = lambda attr: "\t{}\n".format(self.params[attr])
+        strprint += disp_field('probs: Numeric vector of probabilities')
+        strprint += disp_attr('probs')
+        strprint += disp_field('limit: Tuple of (lower,upper) probability values')
+        strprint += disp_attr('limit')
+        strprint += disp_field('typ: Index of algorithm selected from Hyndman and Fan')
+        strprint += disp_attr('typ')
+        strprint += disp_field('method: Method of implementation of the quantile algorithm')
+        strprint += disp_attr('method')
+        strprint += disp_field('na_rm: Logical flag used to remov any NA and NaN')
+        strprint += disp_attr('na_rm')
+        return strprint
+
+    #/************************************************************************/
+    def __call__(self, data, **kwargs):  
+        if data is None:
+            raise IOError("input data not set")
+        elif not isinstance(data, (np.ndarray,pd.DataFrame,pd.Series)):
+            raise TypeError("wrong type for input dataset")
+        kwargs.update({'probs': kwargs.get('probs') or self.probs,
+                       'typ': kwargs.get('typ') or self.typ,
+                       'method': kwargs.get('method') or self.method,
+                       'limit': kwargs.get('limit') or self.limit,
+                       'na_rm': kwargs.get('na_rm') or self.na_rm,
+                       'is_sorted': kwargs.get('is_sorted')})
+        self.__params = kwargs
+        self.__quantile = self.__operator(data, self.probs, **kwargs)
+        return self.__quantile
   
+        
+#==============================================================================
+# QUARTILE METHOD
+#==============================================================================
+
 def quartile(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM, 
              is_sorted = False):
     return quantile(x, probs = [0., .25, .5, .75, 1.], typ = typ, method = method,    \
              limit = DEF_LIMIT, na_rm = na_rm, is_sorted = is_sorted)
+
+#==============================================================================
+# QUARTILE CLASS
+#==============================================================================
+
+class Quartile(Quantile):
+    
+    def __init__(self, **kwargs):
+        kwargs.pop('probs', None) # just in case...
+        super(Quartile, self).__init__(**kwargs)
+        self.__operator = quartile
+
         
+#==============================================================================
+# QUINTILE METHOD
+#==============================================================================
+    
 def quintile(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM, 
              is_sorted = False):
     return quantile(x, probs = [0., .2, .4, .6, .8, 1.], typ = typ, method = method,    \
              limit = DEF_LIMIT, na_rm = na_rm, is_sorted = is_sorted)
-          
+     
+#==============================================================================
+# QUINTILE CLASS
+#==============================================================================
+
+class Quintile(Quantile):
+    
+    def __init__(self, **kwargs):
+        kwargs.pop('probs', None) # just in case...
+        super(Quartile, self).__init__(**kwargs)
+        self.__operator = quintile
+     
+     
+#==============================================================================
+# IQR METHOD
+#==============================================================================
+
 def IQR(data, **kwargs):
     if len(data) == 5:
         return data[3] - data[1]
     else:
         return np.diff(quantile(data, probs = [0.25, 0.75], **kwargs))
 
-def outlier_limits(data, whis=1.5, **kwargs):
-    if len(data) == 5:
-        quart = data
-    else:
-        quart = quartile(data, **kwargs)
-    iqr = IQR(data)
-    low = quart[1] - whis * iqr
-    hi = quart[3] + whis * iqr
-    return [low, hi]
-
-
-def whisker_limits(data, whis=1.5, **kwargs):
-    quart = quartile(data, **kwargs)
-    iqr = IQR(quart)
-
-    # get low extreme
-    low = quart[1] - whis * iqr
-    wisk_low = np.compress(data >= low, data)
-    if len(wisk_low) == 0 or np.min(wisk_low) > quart[1]:
-        wisk_low = quart[1]
-    else:
-        wisk_low = min(wisk_low)
-
-    # get high extreme
-    hi = quart[3] + whis * iqr
-    wisk_hi = np.compress(data <= hi, data)
-    if len(wisk_hi) == 0 or np.max(wisk_hi) < quart[3]:
-        wisk_hi = quart[3]
-    else:
-        wisk_hi = max(wisk_hi)
-
-    return [wisk_low, wisk_hi]
