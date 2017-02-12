@@ -6,7 +6,8 @@ Compute empirical quantiles of a file with sample data corresponding to given pr
 				 type=7, method=DIRECT, ifmt=csv, ofmt=csv);
 
 ### Arguments
-* `ifn` : input filename; 2 sample data are stored as  to import;
+* `ifn` : input filename; 1- or 2-column file where input data are stored; the last column is 
+	imported as sample data (the first one, when it exists, is regarded as the index list);
 * `probs`, `type`, `method` : list of probabilities, type and method flags used for the definition
 	of the quantile algorithm and its actual estimation; see macro [%quantile](@ref sas_io_quantile);
 * `ifmt` : (_option_) type of the input file; default: `ifmt=csv`.
