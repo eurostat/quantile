@@ -12,7 +12,7 @@ Compute empirical quantiles of a variable with sample data corresponding to give
 		+ a list of (blank separated) numeric values;
 * `probs` : (_option_) list of probabilities with values in [0,1]; the smallest observation 
 	corresponds to a probability of 0 and the largest to a probability of 1; in the case 
-	`method=UNIVAR` (see below), these values are multiplied by 100 in order to be used by 
+	`method=INHERIT` (see below), these values are multiplied by 100 in order to be used by 
 	`PROC UNIVARIATE`; default: `probs=0 0.25 0.5 0.75 1`, so as to match default values 
 	`seq(0, 1, 0.25)` used in R 
 	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
@@ -35,12 +35,12 @@ Compute empirical quantiles of a variable with sample data corresponding to give
 	default: `type=7` (likewise R `quantile`);
 * `method` : (_option_) choice of the implementation of the quantile estimation method; this can 
 	be either:
-		+ `UNIVAR` for an estimation based on the use of the `PROC UNIVARIATE` procedure already
+		+ `INHERIT` for an estimation based on the use of the `PROC UNIVARIATE` procedure already
 			implemented in SAS,
 		+ `DIRECT` for a canonical implementation based on the direct transcription of the various
 			quantile estimation algorithms (see below) into SAS language;
 
-	note that the former (`method=UNIVAR`) is incompatible with `type` other than `(1,2,3,4,6)` since 
+	note that the former (`method=INHERIT`) is incompatible with `type` other than `(1,2,3,4,6)` since 
 	`PROC UNIVARIATE` does actually not support these quantile definitions (see table above); in the 
 	case `type=5`, `7`, `8`, or `9`, `method` is then set to `DIRECT`; default: `method=DIRECT`;
 * `idsn` : (_option_) when input data is passed as a variable name, `idsn` represents the dataset
@@ -283,18 +283,18 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	/* METHOD: check/set */
 	%if %macro_isblank(method) %then 	%let method=DIRECT;
 	%if %error_handle(ErrorInputParameter, 
-			%par_check(%upcase(&method), type=CHAR, set=DIRECT UNIVAR) NE 0, mac=&_mac,		
+			%par_check(%upcase(&method), type=CHAR, set=DIRECT INHERIT) NE 0, mac=&_mac,		
 			txt=%quote(!!! Wrong parameter for METHOD calculation method selection !!!)) %then
 		%goto exit;
 	%let method=%upcase(&method);
 
 	/* METHOD/TYPE: check compatibility */
-	%if "&method"="UNIVAR" %then %do;
+	%if "&method"="INHERIT" %then %do;
 		%if %error_handle(WarningInputParameter, 
 				%par_check(&type, type=CHAR, set=&SAS_QU_METHODS) NE 0, mac=&_mac,		
-				txt=%quote(!!! Interpolation type &type incompatible with method based on UNIVAR procedure - DIRECT method used instead !!!),
+				txt=%quote(!!! Interpolation type &type incompatible with method based on UNIVARIATE procedure - DIRECT method used instead !!!),
 				verb=warn) %then %do;
-			%let method=UNIVAR;
+			%let method=DIRECT;
 			%goto warning1; /* dummy/useless here ... */
 		%end;
 		%warning1:
@@ -342,7 +342,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%let tmp=		QU_&_mac;
 	%let qname=		QUANT;
 
-	%if "&method"="UNIVAR" %then %do;
+	%if "&method"="INHERIT" %then %do;
 		/* implementation based on existing PROC UNIVARIATE */
 		%macro _quantile_univariate(var, probs=, type=, qname=, idsn=, ilib=, odsn=, olib=);
 
@@ -593,7 +593,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%let quantiles=;
 	%let type=1;
 	%let probs=0.001 0.005 0.01 0.02 0.05 0.10 0.50;
-	%quantile(u, probs=&probs, _quantiles_=quantiles, type=&type, idsn=&dsn, ilib=WORK, method=UNIVAR);
+	%quantile(u, probs=&probs, _quantiles_=quantiles, type=&type, idsn=&dsn, ilib=WORK, method=INHERIT);
 	%put quantiles=&quantiles;
 
 	%let quantiles=; /* reset */
