@@ -8,9 +8,10 @@ Compute empirical quantiles of a variable with sample data corresponding to give
 	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
 * `type` : (_option_) an integer between 1 and 11 selecting one of the nine quantile algorithms 
 	discussed in Hyndman and Fan's article (see references) and detailed below to be used; 
+	
 	| `type` |                    description                                 |
 	|:------:|:---------------------------------------------------------------|
-	|    1   | inverted empirical CDF					                      |
+	|    1   | inverted empirical CDF					  |
 	|    2   | inverted empirical CDF with averaging at discontinuities       |       
 	|    3   | observation numberer closest to qN (piecewise linear function) | 
 	|    4   | linear interpolation of the empirical CDF                      | 
@@ -33,6 +34,7 @@ size, the value of `gamma` is a function of:
 	g = N*p + m - j
 and `m` is a constant determined by the sample quantile type. 
 For types 1, 2 and 3, `Q[i](p)` is a discontinuous function:
+
 | `type` |     `p[k]`    |   `m`   |`alphap`|`betap`|	             `gamma`               | 
 |:------:|:-------------:|:-------:|:------:|:-----:|:------------------------------------:|
 |    1   |     `k/N`     |    0    |    0   |   0   | 1 if `g>0`, 0 if `g=0`               |
@@ -41,6 +43,7 @@ For types 1, 2 and 3, `Q[i](p)` is a discontinuous function:
 For types 4 through 9, `Q[i](p)` is a continuous function of `p`, with `gamma` and `m` given 
 below. The sample quantiles can be obtained equivalently by linear interpolation between the 
 points `(p[k],x[k])` where `x[k]` is the `k`-th order statistic:
+
 | `type` |       `p[k]`       |      `m`     |`alphap`|`betap`|`gamma`| 
 |:------:|:------------------:|:------------:|:------:|:-----:|:-----:|
 |    4   |        `k/N`       |       0      |    0   |   0   |  `g`  | 
