@@ -17,19 +17,19 @@ Compute empirical quantiles of a variable with sample data corresponding to give
 	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
 * `type` : (_option_) an integer between 1 and 9 selecting one of the nine quantile algorithms 
 	discussed in Hyndman and Fan's article (see references) and detailed below to be used; 
-	| `type` |                    description                                 | `PCTLDEF` |
-	|:------:|:---------------------------------------------------------------|:---------:|
-	|    1   | inverted empirical CDF					  |     3     |
-	|    2   | inverted empirical CDF with averaging at discontinuities       |     5     |        
-	|    3   | observation numberer closest to qN (piecewise linear function) |     2     | 
-	|    4   | linear interpolation of the empirical CDF                      |     1     | 
-	|    5   | Hazen's model (piecewise linear function)                      |   _n.a._  | 
-	|    6   | Weibull quantile                                               |     4     | 
-	|    7   | interpolation points divide sample range into n-1 intervals    |   _n.a._  | 
-	|    8   | unbiased median (regardless of the distribution)               |   _n.a._  | 
-	|    9   | approximate unbiased estimate for a normal distribution        |   _n.a._  |
-	|   10   | Cunnane's definition (approximately unbiased)                  |   _n.a._  |
-	|   11   | Filliben's estimate                                            |   _n.a._  |
+| `type` |                    description                                 | `PCTLDEF` |
+|:------:|:---------------------------------------------------------------|:---------:|
+|    1   | inverted empirical CDF					  |     3     |
+|    2   | inverted empirical CDF with averaging at discontinuities       |     5     |        
+|    3   | observation numberer closest to qN (piecewise linear function) |     2     | 
+|    4   | linear interpolation of the empirical CDF                      |     1     | 
+|    5   | Hazen's model (piecewise linear function)                      |   _n.a._  | 
+|    6   | Weibull quantile                                               |     4     | 
+|    7   | interpolation points divide sample range into n-1 intervals    |   _n.a._  | 
+|    8   | unbiased median (regardless of the distribution)               |   _n.a._  | 
+|    9   | approximate unbiased estimate for a normal distribution        |   _n.a._  |
+|   10   | Cunnane's definition (approximately unbiased)                  |   _n.a._  |
+|   11   | Filliben's estimate                                            |   _n.a._  |
 	default: `type=7` (likewise R `quantile`);
 * `method` : (_option_) choice of the implementation of the quantile estimation method; this can 
 	be either:
