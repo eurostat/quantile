@@ -37,7 +37,7 @@
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
 				idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
 				
-#### Arguments
+##### Arguments
 
 * `var` : data whose sample quantiles are estimated; this can be either:
 		+ the name of the variable in a dataset storing the data; in that case, the parameter 
@@ -74,7 +74,7 @@
 * `na_rm` : (_obsolete_) logical; if true (`yes`), any NA and NaN's are removed from x before the quantiles 
 	are computed.
 	
-#### Returns
+##### Returns
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
 the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
 defined by `type`. The output sample quantile are stored either in a list or as a table, through:
@@ -90,9 +90,7 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 
 ###  <a name="python_quantile"></a> `Python` method
 
-	``` python
 	>>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
-        ```
 	
 #### Arguments
 * `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
