@@ -1,4 +1,4 @@
-## quantile {#sas_quantile}
+##<a name="sas_quantile"></a> quantile
 Compute empirical quantiles of a variable with sample data corresponding to given probabilities. 
 	
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
@@ -71,6 +71,7 @@ size, the value of `gamma` is a function of:
 	g = N*p + m - j
 and `m` is a constant determined by the sample quantile type. 
 For types 1, 2 and 3, `Q[i](p)` is a discontinuous function:
+
 | `type` |     `p[k]`    |   `m`   |`alphap`|`betap`|	             `gamma`               | 
 |:------:|:-------------:|:-------:|:------:|:-----:|:------------------------------------:|
 |    1   |     `k/N`     |    0    |    0   |   0   | 1 if `g>0`, 0 if `g=0`               |
@@ -79,6 +80,7 @@ For types 1, 2 and 3, `Q[i](p)` is a discontinuous function:
 For types 4 through 9, `Q[i](p)` is a continuous function of `p`, with `gamma` and `m` given 
 below. The sample quantiles can be obtained equivalently by linear interpolation between the 
 points `(p[k],x[k])` where `x[k]` is the `k`-th order statistic:
+
 | `type` |       `p[k]`       |      `m`     |`alphap`|`betap`|`gamma`| 
 |:------:|:------------------:|:------------:|:------:|:-----:|:-----:|
 |    4   |        `k/N`       |       0      |    0   |   0   |  `g`  | 
@@ -98,13 +100,13 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 3. Barnett, V. (1975): ["Probability plotting methods and order statistics"](http://www.jstor.org/stable/2346708).
  
 ### See also
-[%io_quantile](@ref sas_io_quantile),
+[%io_quantile](sas_io_quantile),
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
 [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html),
 [gsl_stats_quantile* (C)](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html).
 
-## io_quantile {#sas_io_quantile}
+##<a name="sas_io_quantile"></a> io_quantile
 Compute empirical quantiles of a file with sample data corresponding to given probabilities. 
 	
 	%io_quantile(ifn, ofn, idir=, odir=, probs=, _quantiles_=, 
@@ -115,7 +117,7 @@ Compute empirical quantiles of a file with sample data corresponding to given pr
 	are stored; the last column of the file will be used for quantile estimation (since the first, when
 	it exists, will be regarded as a list of indexes);
 * `probs`, `type`, `method` : list of probabilities, type and method flags used for the definition
-	of the quantile algorithm and its actual estimation; see macro [%quantile](@ref sas_io_quantile);
+	of the quantile algorithm and its actual estimation; see macro [%quantile](sas_quantile) above;
 * `ifmt` : (_option_) type of the input file; default: `ifmt=csv`.
 
 ### Returns
@@ -128,10 +130,10 @@ Compute empirical quantiles of a file with sample data corresponding to given pr
 ### Description
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
 the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
-defined by `type` (see macro [%quantile](@ref sas_io_quantile)). 
+defined by `type` (see macro [%quantile](sas_quantile)). 
 
 ### See also
-[%quantile](@ref sas_quantile),
+[%quantile](sas_quantile),
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
 [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html),
