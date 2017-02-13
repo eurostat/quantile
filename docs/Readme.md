@@ -17,11 +17,17 @@ For this purpose, it either extends (wraps) already existing implementations whe
 
 **Table of Contents**
 
-* [algorithm](algorithm.md): algorithm(s) used for quantile estimation of sample data.
-  + [detailed algorithms](algorithm.md#Algorithms)
-  + [references](algorithm.md#References)
-* [usage](usage.md): how to run and install the programs.
-* [syntax](syntax.md): play with parameters.
+* algorithm [page](algorithm.md): Algorithm(s) used for quantile estimation of sample data.
+  + [detailed algorithms](algorithm.md#Algorithms).
+  + [references](algorithm.md#References).
+* syntax [page](syntax.md): play with parameters in the different languages.
+  + [common implementation](quantile.md) of quantile estimation.
+  + `Python` method [quantile.py](python_quantile.md).
+  + `C` `gsl`-based function [quantile.](C_quantile.md).
+  + `R` function [quantile.](r_quantile.md).
+  + `SAS` macro [`quantile.sas`](python_quantile.md).
+* usage [page](usage.md): how to run and test the programs.
+* service applications [page](service.md): run a web-service for quantile estimation.
 
 **<a name="About"></a>About**
 
