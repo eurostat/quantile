@@ -1,7 +1,7 @@
 quantile
 ======
 
-_How shall I compute a quantile?_ Software-agnostic implementation of common quantile estimation algorithms.
+_How can I compute quantiles?_ Software-agnostic implementation of common quantile estimation algorithms.
 ---
 
 **<a name="Description"></a>Description**
