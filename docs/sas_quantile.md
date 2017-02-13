@@ -1,4 +1,4 @@
-##<a name="sas_quantile"></a> SAS quantile {#sas_quantile}
+##<a name="sas_quantile"></a> SAS quantile
 	
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
 				idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
