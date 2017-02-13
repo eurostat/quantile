@@ -27,8 +27,9 @@ This source code material is intended as a supporting material for _Grazzini and
     
 **<a name="Notice"></a>Notice**
 
-Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
-Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
+Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission.
+
+Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11).
 
 **<a name="References"></a>References**
 
