@@ -21,11 +21,11 @@ For this purpose, it either extends (wraps) already existing implementations whe
   + [detailed description](algorithm.md#Algorithms).
   + [references from the literature](algorithm.md#References).
 * [syntax](syntax.md): Play with parameters in the different languages.
-  + [common arguments](quantile.md) of the quantile estimation.
-  + `Python` method [`quantile.py`](python_quantile.md).
-  + `C` `gsl`-based functions [`quantile*.c`](c_quantile.md).
-  + `R` function [`quantile.r`](r_quantile.md).
-  + `SAS` macro [`quantile.sas`](python_quantile.md).
+  + [common arguments](syntax.md#quantile) of the quantile estimation.
+  + `Python` method [`quantile.py`](syntax.md#python_quantile).
+  + `C` `gsl`-based functions [`quantile*.c`](syntax.md#c_quantile).
+  + `R` function [`quantile.r`](syntax.md#r_quantile).
+  + `SAS` macro [`quantile.sas`](syntax.md#python_quantile).
 * [usage](usage.md): Run and test the programs.
 * [service applications](service.md): Run a web-service for quantile estimation.
 
