@@ -1,6 +1,6 @@
 ##<a name="Algorithm"></a>Algorithm
 
-Nine quantile algorithms are made available, as discussed in Hyndman and Fan's, and Cunnane's articles (see [references](#References)):
+Nine quantile algorithms are made available, as discussed in Hyndman and Fan's, Cunnane's and Filliben's articles (see [references](#References)):
 
 | `type` |                    description                                
 |:------:|:--------------------------------------------------------------
