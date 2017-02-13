@@ -20,11 +20,11 @@
 	available methods in `PROC UNIVARIATE` (through the use of `PCTLDEF` parameter):
 
 <table align="center">
-    <tr> <td align="centre">`type`</td>
+    <tr> <td align="centre"><code>type</code></td>
          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
     </tr>
-    <tr> <td align="centre">`PCTLDEF`</td>
-         <td>3</td><td>5</td><td>2</td><td>1</td><td> _n.a._</td><td>4</td><td> _n.a._</td><td> _n.a._</td><td> _n.a._</td><td> _n.a._</td><td> _n.a._</td>
+    <tr> <td align="centre"><code>PCTLDEF</code></td>
+         <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a</i></td>
     </tr>
 </table>
 	default: `type=7` (likewise R `quantile`);
