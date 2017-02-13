@@ -55,8 +55,8 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 
 ## <a name="References"></a>References
 
-# Makkonen, L. and Pajari, M. (2014): [**Defining sample quantiles by the true rank probability**](https://www.hindawi.com/journals/jps/2014/326579/cta/), _Journal of Probability and Statistics_, vol. 2014, Article ID 326579, doi:[10.1155/2014/326579](https://dx.doi.org/10.1155/2014/326579)
-# Hyndman, R.J. and Fan, Y. (1996): [**Sample quantiles in statistical packages**](https://www.amherst.edu/media/view/129116/original/Sample+Quantiles.pdf), _The American Statistician_, 50(4):361-365, doi:[10.2307/2684934](http://www.jstor.org/stable/2684934)
-# Cunnane, C. (1978): [**Unbiased plotting positions: a review**](http://www.sciencedirect.com/science/article/pii/0022169478900173), _Journal of Hydrology_, 37(3-4):205-222, doi:[10.1016/0022-1694(78)90017-3](https://dx.doi.org/10.1016/0022-1694(78)90017-3).
-# Barnett, V. (1975): **Probability plotting methods and order statistics**, _Journal of the Royal Statistical Society. Series C (Applied Statistics)_, 24(1):95-108, doi:[10.2307/2346708 ](http://www.jstor.org/stable/2346708).
-# Filliben, J.J. (1975): [**The probability plot correlation coefficient test for normality**](http://www1.cmc.edu/pages/faculty/MONeill/Math152/Handouts/filliben.pdf), _Technometrics_, 17(1):111-117, doi:[10.2307/1268008](https://dx.doi.org/10.2307/1268008).
+1. Makkonen, L. and Pajari, M. (2014): [**Defining sample quantiles by the true rank probability**](https://www.hindawi.com/journals/jps/2014/326579/cta/), _Journal of Probability and Statistics_, vol. 2014, Article ID 326579, doi:[10.1155/2014/326579](https://dx.doi.org/10.1155/2014/326579)
+2. Hyndman, R.J. and Fan, Y. (1996): [**Sample quantiles in statistical packages**](https://www.amherst.edu/media/view/129116/original/Sample+Quantiles.pdf), _The American Statistician_, 50(4):361-365, doi:[10.2307/2684934](http://www.jstor.org/stable/2684934)
+3. Cunnane, C. (1978): [**Unbiased plotting positions: a review**](http://www.sciencedirect.com/science/article/pii/0022169478900173), _Journal of Hydrology_, 37(3-4):205-222, doi:[10.1016/0022-1694(78)90017-3](https://dx.doi.org/10.1016/0022-1694(78)90017-3).
+4. Barnett, V. (1975): **Probability plotting methods and order statistics**, _Journal of the Royal Statistical Society. Series C (Applied Statistics)_, 24(1):95-108, doi:[10.2307/2346708 ](http://www.jstor.org/stable/2346708).
+5. Filliben, J.J. (1975): [**The probability plot correlation coefficient test for normality**](http://www1.cmc.edu/pages/faculty/MONeill/Math152/Handouts/filliben.pdf), _Technometrics_, 17(1):111-117, doi:[10.2307/1268008](https://dx.doi.org/10.2307/1268008).
