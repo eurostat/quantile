@@ -1,4 +1,4 @@
-## SAS quantile {#sas_quantile}
+##<a name="sas_quantile"></a> SAS quantile {#sas_quantile}
 	
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
 				idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
@@ -17,7 +17,6 @@
 * `type` : (_option_) an integer between 1 and 11 selecting one of the nine quantile algorithms 
 	discussed in Hyndman and Fan's article (see references) and detailed below to be used; 
 	
-	|:--------:|---|---|---|---|--------|---|--------|--------|--------|--------|--------|
 	|  `type`  | 1 | 2 | 3 | 4 |   5    | 6 |    7   |    8   |    9   |   10   |   11   |
 	|`PCTLDEF` | 3 | 5 | 2 | 1 | _n.a._ | 4 | _n.a._ | _n.a._ | _n.a._ | _n.a._ | _n.a._ |
 	default: `type=7` (likewise R `quantile`);
