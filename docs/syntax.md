@@ -86,7 +86,7 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 	`odsn` dataset; if just `odsn` is set, then they are stored in a variable named `QUANT`; if 
 	instead only `names` is set, then the dataset will also be named after `names`.  
 
----
+<hr height="3" style="color:purple;background-color:purple;"></hr>
 
 ###  <a name="python_quantile"></a> `Python` method
 
@@ -103,6 +103,8 @@ defined by `type`. The output sample quantile are stored either in a list or as 
        
 #### Returns
 * `q` : (`numpy.array`) 
+
+<hr height="5" style="color:grey;background-color:grey;"></hr>
 
 ### See also
 * [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm).
