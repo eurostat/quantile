@@ -1,4 +1,4 @@
-##<a name="Algorithm"></a>Algorithm
+## <a name="Algorithm"></a>Algorithm
 
 Nine quantile algorithms are made available, as discussed in Hyndman and Fan's, Cunnane's and Filliben's articles (see [references](#References)):
 
