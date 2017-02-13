@@ -26,7 +26,7 @@ the supplied elements in `var` at probabilities in `probs`, following quantile e
 defined by `type` (see macro [%quantile](@ref sas_io_quantile)). 
 
 ### See also
-[%quantile](@ref sas_io_quantile),
+[%quantile](@ref sas_quantile),
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
 [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html),
