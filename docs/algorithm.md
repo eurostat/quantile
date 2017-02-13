@@ -1,4 +1,4 @@
-**<a name="Algorithm"></a>Algorithm**
+##<a name="Algorithm"></a>Algorithm
 
 Nine quantile algorithms are made available, as discussed in Hyndman and Fan's, and Cunnane's articles (see [references](#References)):
 
@@ -51,3 +51,10 @@ For types 4 through 11, `Q[i](p)` is a continuous function of `p`, with `gamma` 
 In the above tables, the `(alphap,betap)` pair is defined such that:
 
 	p[k] = (k - alphap)/(N + 1 - alphap - betap)
+
+
+## <a name="References"></a>References
+
+* Hyndman, R.J. and Fan, Y. (1996): [**Sample quantiles in statistical packages**](https://www.amherst.edu/media/view/129116/original/Sample+Quantiles.pdf), _The American Statistician_, 50(4):361-365, doi:[10.2307/2684934](http://www.jstor.org/stable/2684934)
+* Cunnane, C. (1978): [**Unbiased plotting positions: a review**](http://www.sciencedirect.com/science/article/pii/0022169478900173), _Journal of Hydrology_, 37(3-4):205-222, doi:[10.1016/0022-1694(78)90017-3](https://dx.doi.org/10.1016/0022-1694(78)90017-3).
+* Filliben, J.J. (1975): [**The probability plot correlation coefficient test for normality**](http://www1.cmc.edu/pages/faculty/MONeill/Math152/Handouts/filliben.pdf), _Technometrics_, 17(1):111-117, doi:[10.2307/1268008](https://dx.doi.org/10.2307/1268008).
