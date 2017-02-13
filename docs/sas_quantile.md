@@ -15,10 +15,18 @@
 	`seq(0, 1, 0.25)` used in R 
 	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
 * `type` : (_option_) an integer between 1 and 11 selecting one of the nine quantile algorithms 
-	discussed in Hyndman and Fan's article (see references) and detailed below to be used; 
-	
-	|  `type`  | 1 | 2 | 3 | 4 |   5    | 6 |    7   |    8   |    9   |   10   |   11   |
-	|`PCTLDEF` | 3 | 5 | 2 | 1 | _n.a._ | 4 | _n.a._ | _n.a._ | _n.a._ | _n.a._ | _n.a._ |
+	discussed in Hyndman and Fan's, Cunane's and Filliben's articles (see references); note
+	the (non bijective) correspondance between the different algorithms and the currently 
+	available methods in `PROC UNIVARIATE` (through the use of `PCTLDEF` parameter):
+
+<table align="center">
+    <tr> <td align="centre">`type`</td>
+         <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
+    </tr>
+    <tr> <td align="centre">`PCTLDEF`</td>
+         <td>3</td><td>5</td><td>2</td><td>1</td><td> _n.a._</td><td>4</td><td> _n.a._</td><td> _n.a._</td><td> _n.a._</td><td> _n.a._</td><td> _n.a._</td>
+    </tr>
+</table>
 	default: `type=7` (likewise R `quantile`);
 * `method` : (_option_) choice of the implementation of the quantile estimation method; this can 
 	be either:
