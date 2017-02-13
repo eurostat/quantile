@@ -4,7 +4,9 @@
 
 <hr size="5" style="color:black;background-color:black;" />
 
-### Common Arguments
+### Common parameterisation
+
+Some arguments are common to the implementations in the different languages:
 
 * `probs` : <a name="probs"></a> (_option_) list of probabilities with values in [0,1]; the smallest observation 
 	corresponds to a probability of 0 and the largest to a probability of 1; default: probs is set to the
@@ -29,6 +31,14 @@
 	|   11   | Filliben's estimate                                            |
 
 	default: `type=7` (likewise R `quantile`);
+* `method` : (_option_) choice of the implementation of the quantile estimation method; this can be either:
+	
+		+ `INHERIT` for an estimation based on the use of an already existing implementation in 
+			the given language,
+		+ `DIRECT` for a canonical implementation based on the direct transcription of the various
+			quantile estimation algorithms (see below) into the given language;
+		
+	default: `method=DIRECT`;
 
 <hr size="5" style="color:black;background-color:black;" />
 
@@ -74,6 +84,24 @@
 * `na_rm` : (_obsolete_) logical; if true (`yes`), any NA and NaN's are removed from x before the quantiles 
 	are computed.
 	
+##### Notes
+* `probs` : (see [above](#probs)) in the case `method=UNIVAR` (see below), these values are multiplied by 100 
+	in order to be used by `PROC UNIVARIATE`;  
+* `type` : (see [above](#type))  note the (non bijective) correspondance between the different algorithms and the currently 
+	available methods in `PROC UNIVARIATE` (through the use of `PCTLDEF` parameter):
+<table align="center">
+    <tr> <td align="centre"><code>type</code></td>
+         <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
+    </tr>
+    <tr> <td align="centre"><code>PCTLDEF</code></td>
+         <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a</i></td>
+    </tr>
+</table>
+* `method` : (see [above](#method)) in the case `method=INHERIT`, the macro uses the `PROC UNIVARIATE` procedure 
+	already implemented in SAS; this is incompatible with `type` other than `(1,2,3,4,6)` since `PROC UNIVARIATE` 
+	does actually not support these quantile definitions (see table above); in the case `type=5`, `7`, `8`, or `9`, 
+	`method` is then set to `DIRECT`.
+
 ##### Returns
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
 the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
@@ -92,14 +120,14 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 
 	>>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
 	
-#### Arguments
+##### Arguments
 * `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
 * `na_rm` : (`bool`) default: `na_rm=False`.
 * `type` : (`int`) default: `type=7`.
 * `method` : (`str`) string defining the estimation method
 * `limit` : (`list,tuple`)
        
-#### Returns
+##### Returns
 * `q` : (`numpy.array`) 
 
 <hr size="5" style="color:black;background-color:black;" />
