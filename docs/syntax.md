@@ -4,12 +4,13 @@
 
 ### Common Arguments
 
-* `probs` : (_option_) list of probabilities with values in [0,1]; the smallest observation 
-	corresponds to a probability of 0 and the largest to a probability of 1; default: 
-	`probs=0 0.25 0.5 0.75 1`, so as to match default values `seq(0, 1, 0.25)` used in R 
+* `probs` : <a name="probs"></a> (_option_) list of probabilities with values in [0,1]; the smallest observation 
+	corresponds to a probability of 0 and the largest to a probability of 1; default: probs is set to the
+	sequence `0 0.25 0.5 0.75 1`, so as to match default values `seq(0, 1, 0.25)` used in R 
 	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
-* `type` : (_option_) an integer between 1 and 11 selecting one of the nine quantile algorithms 
-	discussed in Hyndman and Fan's article (see references) and detailed below to be used; 
+* `type` : <a name="type"></a> (_option_) an integer between 1 and 11 selecting one of the 9+1+1 quantile algorithms 
+	discussed in Hyndman and Fan's, Cunane's and Filliben's articles (see [references](algorithm.md#References)) 
+	and detailed below to be used; 
 	
 	| `type` |                    description                                 |
 	|:------:|:---------------------------------------------------------------|
@@ -25,27 +26,23 @@
 	|   10   | Cunnane's definition (approximately unbiased)                  |
 	|   11   | Filliben's estimate                                            |
 
+	default: `type=7` (likewise R `quantile`);
+	
 ### <a name="sas_quantile"></a> SAS macro
 	
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
 				idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
 				
 #### Arguments
+
 * `var` : data whose sample quantiles are estimated; this can be either:
 		+ the name of the variable in a dataset storing the data; in that case, the parameter 
 			`idsn` (see below) should be set; 
 		+ a list of (blank separated) numeric values;
-* `probs` : (_option_) list of probabilities with values in [0,1]; the smallest observation 
-	corresponds to a probability of 0 and the largest to a probability of 1; in the case 
-	`method=UNIVAR` (see below), these values are multiplied by 100 in order to be used by 
-	`PROC UNIVARIATE`; default: `probs=0 0.25 0.5 0.75 1`, so as to match default values 
-	`seq(0, 1, 0.25)` used in R 
-	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
-* `type` : (_option_) an integer between 1 and 11 selecting one of the nine quantile algorithms 
-	discussed in Hyndman and Fan's, Cunane's and Filliben's articles (see references); note
-	the (non bijective) correspondance between the different algorithms and the currently 
+* `probs` : (_option_, see [above](#probs)) in the case `method=UNIVAR` (see below), these values are multiplied by 100 
+	in order to be used by `PROC UNIVARIATE`;  
+* `type` : (_option_) note the (non bijective) correspondance between the different algorithms and the currently 
 	available methods in `PROC UNIVARIATE` (through the use of `PCTLDEF` parameter):
-
 <table align="center">
     <tr> <td align="centre"><code>type</code></td>
          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
@@ -54,7 +51,6 @@
          <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a</i></td>
     </tr>
 </table>
-	default: `type=7` (likewise R `quantile`);
 * `method` : (_option_) choice of the implementation of the quantile estimation method; this can 
 	be either:
 		+ `UNIVAR` for an estimation based on the use of the `PROC UNIVARIATE` procedure already
@@ -77,6 +73,7 @@
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
 the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
 defined by `type`. The output sample quantile are stored either in a list or as a table, through:
+
 * `_quantiles_` : (_option_) name of the output numeric list where quantiles are stored in increasing
 	`probs` order; incompatible with parameters `odsn` and `names `below;
 * `odsn, names` : (_option_) respective names of the output dataset and variable where quantiles are 
@@ -86,7 +83,7 @@ defined by `type`. The output sample quantile are stored either in a list or as 
   
 ###  <a name="python_quantile"></a> `Python` method
 
-  >>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
+	>>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
         
 #### Arguments
 * `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
