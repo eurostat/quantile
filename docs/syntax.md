@@ -44,7 +44,7 @@ Some arguments are common to the implementations in the different languages:
 ### <a name="sas_quantile"></a> SAS macro
 	
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
-				idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
+		  idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
 				
 ##### Arguments
 
