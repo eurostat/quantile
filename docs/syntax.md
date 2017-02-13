@@ -2,7 +2,7 @@
 
 `quantile`: Compute empirical quantiles of a variable with sample data corresponding to given probabilities. 
 
----
+<hr size="3" />
 
 ### Common Arguments
 
@@ -30,7 +30,7 @@
 
 	default: `type=7` (likewise R `quantile`);
 
----
+<hr size="2" />
 
 ### <a name="sas_quantile"></a> SAS macro
 	
