@@ -104,6 +104,7 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 3. Barnett, V. (1975): ["Probability plotting methods and order statistics"](http://www.jstor.org/stable/2346708).
  
 ### See also
+[%io_quantile](@ref sas_io_quantile),
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
 [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html),
