@@ -17,6 +17,7 @@ Compute empirical quantiles of a variable with sample data corresponding to give
 	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
 * `type` : (_option_) an integer between 1 and 9 selecting one of the nine quantile algorithms 
 	discussed in Hyndman and Fan's article (see references) and detailed below to be used; 
+	
 | `type` |                    description                                 | `PCTLDEF` |
 |:------:|:---------------------------------------------------------------|:---------:|
 |    1   | inverted empirical CDF					  |     3     |
