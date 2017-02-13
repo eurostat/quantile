@@ -10,7 +10,7 @@ Compute empirical quantiles of a file with sample data corresponding to given pr
 	are stored; the last column of the file will be used for quantile estimation (since the first, when
 	it exists, will be regarded as a list of indexes);
 * `probs`, `type`, `method` : list of probabilities, type and method flags used for the definition
-	of the quantile algorithm and its actual estimation; see macro [%quantile](@ref sas_io_quantile);
+	of the quantile algorithm and its actual estimation; see macro [%quantile](@ref sas_quantile);
 * `ifmt` : (_option_) type of the input file; default: `ifmt=csv`.
 
 ### Returns
@@ -23,7 +23,7 @@ Compute empirical quantiles of a file with sample data corresponding to given pr
 ### Description
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
 the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
-defined by `type` (see macro [%quantile](@ref sas_io_quantile)). 
+defined by `type` (see macro [%quantile](@ref sas_quantile)). 
 
 ### See also
 [%quantile](@ref sas_quantile),
