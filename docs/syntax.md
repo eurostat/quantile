@@ -32,9 +32,9 @@ Some arguments are common to the implementations in the different languages:
 
 	default: `type=7` (likewise R `quantile`);
 * `method` : (_option_) choice of the implementation of the quantile estimation method; this can be either:
-	* `INHERIT` for an estimation based on the use of an already existing implementation in 
+	+ `INHERIT` for an estimation based on the use of an already existing implementation in 
 	the given language,
-	* `DIRECT` for a canonical implementation based on the direct transcription of the various
+	+ `DIRECT` for a canonical implementation based on the direct transcription of the various
 	quantile estimation algorithms (see below) into the given language;
 		
 	default: `method=DIRECT`;
@@ -49,9 +49,9 @@ Some arguments are common to the implementations in the different languages:
 ##### Arguments
 
 * `var` : data whose sample quantiles are estimated; this can be either:
-	* the name of the variable in a dataset storing the data; in that case, the parameter 
+	+ the name of the variable in a dataset storing the data; in that case, the parameter 
 			`idsn` (see below) should be set; 
-	* a list of (blank separated) numeric values;
+	+ a list of (blank separated) numeric values;
 * `probs` : (_option_, see [above](#probs)) in the case `method=UNIVAR` (see below), these values are multiplied by 100 
 	in order to be used by `PROC UNIVARIATE`;  
 * `type` : (_option_) note the (non bijective) correspondance between the different algorithms and the currently 
