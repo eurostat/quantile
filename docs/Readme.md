@@ -4,11 +4,9 @@ quantile
 How to compute a quantile? Software-agnostic implementations of common quantile estimation algorithms.
 ---
 
-**<a name="About"></a>About**
+**<a name="Description"></a>Description**
 
-This source code material is intended as a supporting material for _Grazzini and Lamarche_'s article referenced [below](#References).
-
-It implements the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages, namely:
+The source code implements the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiber) on different software platforms and/or using different programming languages, namely:
 
 * [`R`](https://www.r-project.org),
 * [`Python`](https://www.python.org),
@@ -22,6 +20,15 @@ For this purpose, it either extends (wraps) already existing implementations whe
 * [algorithm](algorithm.md)
 * [syntax](syntax.md)
 * [usage](usage.md)
+
+**<a name="About"></a>About**
+
+This source code material is intended as a supporting material for _Grazzini and Lamarche_'s article referenced [below](#References).
+    
+**<a name="Notice"></a>Notice**
+
+Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
+Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 
 **<a name="References"></a>References**
 
