@@ -17,9 +17,11 @@ For this purpose, it either extends (wraps) already existing implementations whe
 
 **Table of Contents**
 
-* [algorithm](algorithm.md): algorithms used for quantile estimation of sample data.
+* [algorithm](algorithm.md): algorithm(s) used for quantile estimation of sample data.
+  + [detailed algorithms](algorithm.md#algorithms)
+  + [references](algorithm.md#references)
 * [usage](usage.md): how to run and install the programs.
-* [syntax](syntax.md): play with the parameters.
+* [syntax](syntax.md): play with parameters.
 
 **<a name="About"></a>About**
 
