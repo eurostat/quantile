@@ -2,6 +2,8 @@
 
 `quantile`: Compute empirical quantiles of a variable with sample data corresponding to given probabilities. 
 
+---
+
 ### Common Arguments
 
 * `probs` : <a name="probs"></a> (_option_) list of probabilities with values in [0,1]; the smallest observation 
@@ -27,7 +29,9 @@
 	|   11   | Filliben's estimate                                            |
 
 	default: `type=7` (likewise R `quantile`);
-	
+
+---
+
 ### <a name="sas_quantile"></a> SAS macro
 	
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
@@ -53,6 +57,7 @@
 </table>
 * `method` : (_option_) choice of the implementation of the quantile estimation method; this can 
 	be either:
+	
 		+ `UNIVAR` for an estimation based on the use of the `PROC UNIVARIATE` procedure already
 			implemented in SAS,
 		+ `DIRECT` for a canonical implementation based on the direct transcription of the various
@@ -79,12 +84,16 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 * `odsn, names` : (_option_) respective names of the output dataset and variable where quantiles are 
 	stored; if both `odsn` and `names` are set, the quantiles are saved in the `names` variable ot the
 	`odsn` dataset; if just `odsn` is set, then they are stored in a variable named `QUANT`; if 
-	instead only `names` is set, then the dataset will also be named after `names`.
-  
+	instead only `names` is set, then the dataset will also be named after `names`.  
+
+---
+
 ###  <a name="python_quantile"></a> `Python` method
 
+	``` python
 	>>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
-        
+        ```
+	
 #### Arguments
 * `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
 * `na_rm` : (`bool`) default: `na_rm=False`.
