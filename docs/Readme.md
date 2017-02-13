@@ -1,7 +1,7 @@
 quantile
 ======
 
-How to compute a quantile? Software-agnostic implementations of common quantile estimation algorithms.
+_How shall I compute a quantile?_ Software-agnostic implementations of common quantile estimation algorithms.
 ---
 
 **<a name="Description"></a>Description**
@@ -23,8 +23,8 @@ For this purpose, it either extends (wraps) already existing implementations whe
 * syntax [page](syntax.md): play with parameters in the different languages.
   + [common implementation](quantile.md) of quantile estimation.
   + `Python` method [quantile.py](python_quantile.md).
-  + `C` `gsl`-based function [quantile.](C_quantile.md).
-  + `R` function [quantile.](r_quantile.md).
+  + `C` `gsl`-based functions [quantile*.c](c_quantile.md).
+  + `R` function [quantile.r](r_quantile.md).
   + `SAS` macro [`quantile.sas`](python_quantile.md).
 * usage [page](usage.md): how to run and test the programs.
 * service applications [page](service.md): run a web-service for quantile estimation.
