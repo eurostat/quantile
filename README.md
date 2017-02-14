@@ -32,7 +32,7 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 <td><kbd><img src="docs/doc_r.png" alt="doc R" width="400"> </kbd></td>
 </tr>
 </table>
-from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
+from whith it appears that there is not one-to-one correspondance between the algorithms implemented:
 <table>
 <tr>
 <td>algorithm</td>
@@ -56,7 +56,7 @@ from whith it appears that there is not one-to-one correspondance between the al
 <td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td>
 </tr>
 </table>
-
+where HF\#n, C, and F stand respectively for Hyndman and Fan's algorithm \#n, Cunnane's algorithm, and Filliben's  algorithm.
 
 |     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |
 |:--------------------------------|:---------------:|:--------------------:|
@@ -72,9 +72,7 @@ from whith it appears that there is not one-to-one correspondance between the al
 | Cunnane's algorithm             |      _n.a._     |         _n.a._       |
 | Filliben's  algorithm           |      _n.a._     |         _n.a._       |
 
-In particular, the default values do not match, since Hyndman and Fan's algorithm \#7 is the default one in `R quantile`
-implementation, while \#2 is the default one in `SAS UNIVARIATE` implementation. Similarly note that `Python mquantiles`
-considers another default algorithm in its implementation (Cunane's algorithm with (&alpha;,&beta;)=(.4,.4)).
+In particular, the algorithms implemented by default (_i.e._, when no parameter is passed) do not match, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python mquantiles` considers Cunane's algorithm as its default algorithm in its implementation (`(&alpha;,&beta;)=(.4,.4)`).
 
 
 **Description**
