@@ -36,9 +36,9 @@ from whith it appears that there is not one-to-one correspondance between the al
 <table>
 <tr>
 <td>algorithm</td>
-<td align="centre"><i>HF1</i></td> <td align="centre"><i>HF2</i></td> <td align="centre"><i>HF3</i></td>
-<td align="centre"><i>HF4</i></td> <td align="centre"><i>HF5</i></td> <td align="centre"><i>HF6</i></td>
-<td align="centre"><i>HF7</i></td> <td align="centre"><i>HF8</i></td> <td align="centre"><i>HF9</i></td> 
+<td align="centre"><i>HF&num;1</i></td> <td align="centre"><i>HF&num;2</i></td> <td align="centre"><i>HF&num;3</i></td>
+<td align="centre"><i>HF&num;4</i></td> <td align="centre"><i>HF&num;5</i></td> <td align="centre"><i>HF&num;6</i></td>
+<td align="centre"><i>HF&num;7</i></td> <td align="centre"><i>HF&num;8</i></td> <td align="centre"><i>HF&num;9</i></td> 
 <td align="centre"><i>C</i></td> <td align="centre"><i>F</i></td> 
 </tr>
 <tr>
@@ -58,21 +58,7 @@ from whith it appears that there is not one-to-one correspondance between the al
 </table>
 where HF\#n, C, and F stand respectively for Hyndman and Fan's algorithm \#n, Cunnane's algorithm, and Filliben's  algorithm.
 
-|     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |
-|:--------------------------------|:---------------:|:--------------------:|
-| Hyndman and Fan's algorithm \#1 |        1        |           3          |
-| Hyndman and Fan's algorithm \#2 |        2        |    5 (**default**)   |
-| Hyndman and Fan's algorithm \#3 |        3        |           2          | 
-| Hyndman and Fan's algorithm \#4 |        4        |           1          | 
-| Hyndman and Fan's algorithm \#5 |        5        |         _n.a._       | 
-| Hyndman and Fan's algorithm \#6 |        6        |           4          |
-| Hyndman and Fan's algorithm \#7 | 7 (**default**) |         _n.a._       |
-| Hyndman and Fan's algorithm \#8 |        8        |         _n.a._       |
-| Hyndman and Fan's algorithm \#9 |        9        |         _n.a._       |
-| Cunnane's algorithm             |      _n.a._     |         _n.a._       |
-| Filliben's  algorithm           |      _n.a._     |         _n.a._       |
-
-In particular, the algorithms implemented by default (_i.e._, when no parameter is passed) do not match, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python mquantiles` considers Cunane's algorithm as its default algorithm in its implementation (`(&alpha;,&beta;)=(.4,.4)`).
+In particular, the algorithms implemented by default (_i.e._, when no parameter is passed) do not match, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python mquantiles` considers Cunane's algorithm as its default algorithm in its implementation (<code>(&alpha;,&beta;)=(.4,.4)</code>).
 
 
 **Description**
