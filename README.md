@@ -21,7 +21,12 @@ We consider here the implementation of [quantile estimates](http://www.math.ntu.
 Although _quantiles_ are often implemented throughout various packages of statistical software ([`R`](https://www.r-project.org), [`Python`](https://www.python.org), [`SAS`](http://www.sas.com/), Stata, Maple,…), the different implementations may not be consistent with each other and, therefore, provide different output estimates. 
 Typically, this happens because different estimation methods are available in the [literature](http://mathworld.wolfram.com/Quantile.html), and each one of them corresponds to a specific implementation. 
 
-Let's consider for instance the implementations available in both `R` and `SAS` software, through the `quantile` function and the `UNIVARIATE` procedure respectively. 
+Let us consider for instance the implementations available in both `R` and `SAS` software, through the `quantile` function and the `UNIVARIATE` procedure respectively. 
+
+<kbd>
+  <img src="docs/doc_sas.png">
+</kbd>
+
 ---
 ![UNIVAR-doc](docs/doc_sas.png).
 ---
