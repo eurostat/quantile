@@ -28,11 +28,32 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 <td align="centre"><code>SAS UNIVARIATE</code></td>
 </header>
 <tr>
-<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" width="450"> </kbd></td>
-<td><kbd><img src="docs/doc_r.png" alt="doc R" width="450"> </kbd></td>
+<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" width="400"> </kbd></td>
+<td><kbd><img src="docs/doc_r.png" alt="doc R" width="400"> </kbd></td>
 </tr>
 </table>
 from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
+<table>
+<tr>
+<td>algorithm</td>
+<td>H&amp;F &num;1</td> <td>H&amp;F &num;2</td> <td>H&amp;F &num;3</td> <td>H&amp;F &num;4</td> <td>H&amp;F &num;5</td>
+<td>H&amp;F &num;6</td> <td>H&amp;F &num;7</td> <td>H&amp;F &num;8</td> <td>H&amp;F &num;9</td> <td>C</td>
+<td>F</td> 
+</tr>
+<tr>
+<td><code>quantile type</code></td>
+<td> 1 </td> <td> 2 </td> <td> 3 </td> <td> 4 </td> <td> 5 </td> 
+<td> 6 </td> <td> 7 </td> <td> 8 </td> <td> 9 </td> <td> <i>n.a.</i> </td> 
+<td> <i>n.a.</i> </td>
+</tr>
+<tr>
+<td><code>UNIVARIATE PCTLDEF</code></td>
+<td> 3</td> <td> 5</td> <td> 2 </td> <td> 1 </td> <td> <i>n.a.</i> </td> 
+<td> 4 </td> <td> <i>n.a.</i> </td> <td> <i>n.a.</i> </td> <td> <i>n.a.</i> </td> <td> <i>n.a.</i> </td> 
+<td> <i>n.a.</i> </td>
+</tr>
+</table>
+
 
 |     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |
 |:--------------------------------|:---------------:|:--------------------:|
