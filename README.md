@@ -36,7 +36,7 @@ from whith it appears that there is not one-to-one correspondance between the al
 <table>
 <tr>
 <td>algorithm</td>
-<td align="centre">H&amp;F &num;1</td> <td align="centre">H&amp;F &num;2</td> <td align="centre">H&amp;F &num;3</td>
+<td align="centre">HF1</td> <td align="centre">H&amp;F &num;2</td> <td align="centre">H&amp;F &num;3</td>
 <td align="centre">H&amp;F &num;4</td> <td align="centre">H&amp;F &num;5</td> <td align="centre">H&amp;F &num;6</td>
 <td align="centre">H&amp;F &num;7</td> <td align="centre">H&amp;F &num;8</td> <td align="centre">H&amp;F &num;9</td> 
 <td align="centre">C</td> <td align="centre">F</td> 
