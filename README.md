@@ -33,7 +33,7 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 </tr>
 </table>
 from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
-<table>
+<table align="centre">
 <tr>
 <td>algorithm</td>
 <td>H&amp;F &num;1</td> <td>H&amp;F &num;2</td> <td>H&amp;F &num;3</td> <td>H&amp;F &num;4</td> <td>H&amp;F &num;5</td>
