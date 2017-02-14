@@ -66,7 +66,7 @@ In particular, the algorithms implemented by default (_i.e._, when no parameter 
 
 Altogether, a user may be left at a disadvantage since he may neither understand all the implications of the estimation process &ndash; depending on which platform he performs his calculations, depending on whether he chooses default parameters or not, ... &ndash; not how to test the validity of results produced by the software. A stronger control of the practical and effective implementation of statistical methods and techniques is required. 
 
-**Description**
+**Objectives**
 
 We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiben (see references [below](#References)), in `R`, `Python`, `C` and `SAS`. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation (`R` function `quantile`, `Python` method `mquantiles`, `C` [function `gsl_stats`](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html), or `SAS` procedure `UNIVARIATE`), or actually reimplement the algorithm from scratch (`SAS`, `C` and `Python`).
 
