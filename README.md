@@ -21,7 +21,7 @@ We consider here the implementation of [quantile estimates](http://www.math.ntu.
 Although _quantiles_ are often implemented throughout various packages of statistical software ([`R`](https://www.r-project.org), [`Python`](https://www.python.org), [`SAS`](http://www.sas.com/), Stata, Maple,…), the different implementations may not be consistent with each other and, therefore, provide different output estimates. 
 Typically, this happens because different estimation methods are available in the [literature](http://mathworld.wolfram.com/Quantile.html), and each one of them corresponds to a specific implementation. 
 
-Let us consider for instance the implementations available in both `R` and `SAS` software. We consider below the documentations available for the `R quantile` function and the `SAS UNIVARIATE` procedure respectively: 
+Let us consider, for instance, the (broad) range of techniques for quantile estimation implemented ad-hoc in both `R` and `SAS` software. They are respectively made available through the `R quantile` function and the `SAS UNIVARIATE` procedure, whose documentations are displayed below: 
 <table>
 <header>
 <td align="centre"><code>R quantile</code></td>
@@ -32,34 +32,38 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 <td><kbd><img src="docs/doc_r.png" alt="doc R" width="400"> </kbd></td>
 </tr>
 </table>
-from whith it appears that there is not one-to-one correspondance between the algorithms implemented:
+Looking at which of Hyndman and Fan's (<code>HF\#n</code>), Cunnane's (<code>C</code>), and Filliben's (<code>F</code>) algorithms are actually available on either software, it appears that there is no one-to-one correspondance between the implementations:
 <table>
 <tr>
 <td>algorithm</td>
-<td align="centre"><code>HF&num;1</code></td> <td align="centre"><i>HF&num;2</i></td> <td align="centre"><i>HF&num;3</i></td>
-<td align="centre"><i>HF&num;4</i></td> <td align="centre"><i>HF&num;5</i></td> <td align="centre"><i>HF&num;6</i></td>
-<td align="centre"><i>HF&num;7</i></td> <td align="centre"><i>HF&num;8</i></td> <td align="centre"><i>HF&num;9</i></td> 
-<td align="centre"><i>C</i></td> <td align="centre"><i>F</i></td> 
+<td align="centre"><code>HF&num;1</code></td> <td align="centre"><code>HF&num;2</code></td> 
+<td align="centre"><code>HF&num;3</code></td> <td align="centre"><code>HF&num;4</code></td> 
+<td align="centre"><code>HF&num;5</code></td> <td align="centre"><code>HF&num;6</code></td>
+<td align="centre"><code>HF&num;7</code></td> <td align="centre"><code>HF&num;8</code></td> 
+<td align="centre"><code>HF&num;9</code></td> <td align="centre"><code>C</code></td> 
+<td align="centre"><code>F</code></td> 
 </tr>
 <tr>
 <td><code>quantile type</code></td>
-<td align="centre"> 1 </td> <td align="centre"> 2 </td> <td align="centre"> 3 </td> 
-<td align="centre"> 4 </td> <td align="centre"> 5 </td>  <td align="centre"> 6 </td> 
-<td align="centre"> 7 </td> <td align="centre"> 8 </td> <td align="centre"> 9 </td> 
-<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td>
+<td align="centre"> 1 </td> <td align="centre"> 2 </td> 
+<td align="centre"> 3 </td> <td align="centre"> 4 </td> 
+<td align="centre"> 5 </td>  <td align="centre"> 6 </td> 
+<td align="centre"> 7 </td> <td align="centre"> 8 </td> 
+<td align="centre"> 9 </td> <td align="centre"> <i>n.a.</i> </td> 
+<td align="centre"> <i>n.a.</i> </td>
 </tr>
 <tr>
 <td><code>UNIVARIATE PCTLDEF</code></td>
-<td align="centre"> 3</td> <td align="centre"> 5</td> <td align="centre"> 2 </td> 
-<td align="centre"> 1 </td> <td align="centre"> <i>n.a.</i> </td> <td align="centre"> 4 </td> 
-<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> 
-<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td>
+<td align="centre"> 3</td> <td align="centre"> 5</td> 
+<td align="centre"> 2 </td> <td align="centre"> 1 </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> 4 </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> 
+<td align="centre"> <i>n.a.</i> </td>
 </tr>
 </table>
-where HF\#n, C, and F stand respectively for Hyndman and Fan's algorithm \#n, Cunnane's algorithm, and Filliben's  algorithm.
-
-In particular, the algorithms implemented by default (_i.e._, when no parameter is passed) do not match, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python mquantiles` considers Cunane's algorithm as its default algorithm in its implementation (<code>(&alpha;,&beta;)=(.4,.4)</code>).
-
+In particular, the algorithms implemented by default (_i.e._, when no parameter `type/PCTLDEF` is passed) differ, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Instead, note that `Python mquantiles` implements Cunnane's algorithm as the default algorithm (<code>(&alpha;,&beta;)=(.4,.4)</code>). Therefore, the user may be left at a disadvantage since he may neither understand all the implications of the estimation process &ndash; depending on which platform he performs his calculations, depending on whether he chooses default parameters or not, ... &ndash; not how to test the validity of results produced by the software. 
+A strong control of the practical and effective implementation of statistical methods and techniques is required. 
 
 **Description**
 
