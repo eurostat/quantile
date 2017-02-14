@@ -29,9 +29,10 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 </tr>
 </table>
 from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
+<small>
 <table align="center">
    <tr> <td align="centre">algorithm</td>
-        <td>H&amp;F &num;1</td><td>H&amp;F &num;2</td><td>H&amp;F &num;3</td><td>H&amp;F &num;4</td><td>H&amp;F &num;5</td><td>H&amp;F &num;6</td><td>H&amp;F &num;7</td><td>H&amp;F &num;8</td><td>H&amp;F &num;9</td><td>H&amp;F &num;10</td><td>H&amp;F &num;11</td>
+        <td>H&amp;F &num;1</td><td>H&amp;F &num;2</td><td>H&amp;F &num;3</td><td>H&amp;F &num;4</td><td>H&amp;F &num;5</td><td>H&amp;F &num;6</td><td>H&amp;F &num;7</td><td>H&amp;F &num;8</td><td>H&amp;F &num;9</td><td>C</td><td>F</td>
    </tr>
    <tr> <td align="centre"><code>quantile type</code></td>
          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td><i>n.a.</i></td><td><i>n.a.</i></td>
@@ -43,6 +44,7 @@ from whith it appears that there is not one-to-one correspondance between the al
          <td>(0,1)</td><td>(0,1)</td><td> (-.5, -1.5)</td><td>(0,1)</td><td> (.5,.5) </td><td>(0,0)</td><td> (1,1)</td><td> (1/3,1/3)</td><td> (3/8,3/8)</td><td> (.4,.4)</td><td> (.5,.5)</td>
     </tr>
 </table>  
+</small>
 
 |     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |  `Python mquantiles`  |
 |:--------------------------------|:---------------:|:--------------------:|:---------------------:|
