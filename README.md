@@ -43,15 +43,17 @@ from whith it appears that there is not one-to-one correspondance between the al
 </tr>
 <tr>
 <td><code>quantile type</code></td>
-<td> 1 </td> <td> 2 </td> <td> 3 </td> <td> 4 </td> <td> 5 </td> 
-<td> 6 </td> <td> 7 </td> <td> 8 </td> <td> 9 </td> <td> <i>n.a.</i> </td> 
-<td> <i>n.a.</i> </td>
+<td align="centre"> 1 </td> <td align="centre"> 2 </td> <td align="centre"> 3 </td> 
+<td align="centre"> 4 </td> <td align="centre"> 5 </td>  <td align="centre"> 6 </td> 
+<td align="centre"> 7 </td> <td align="centre"> 8 </td> <td align="centre"> 9 </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td>
 </tr>
 <tr>
 <td><code>UNIVARIATE PCTLDEF</code></td>
-<td> 3</td> <td> 5</td> <td> 2 </td> <td> 1 </td> <td> <i>n.a.</i> </td> 
-<td> 4 </td> <td> <i>n.a.</i> </td> <td> <i>n.a.</i> </td> <td> <i>n.a.</i> </td> <td> <i>n.a.</i> </td> 
-<td> <i>n.a.</i> </td>
+<td align="centre"> 3</td> <td align="centre"> 5</td> <td align="centre"> 2 </td> 
+<td align="centre"> 1 </td> <td align="centre"> <i>n.a.</i> </td> <td align="centre"> 4 </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td>
 </tr>
 </table>
 
