@@ -23,9 +23,13 @@ Typically, this happens because different estimation methods are available in th
 
 Let us consider for instance the implementations available in both `R` and `SAS` software. We consider below the documentations available for the `R quantile` function and the `SAS UNIVARIATE` procedure respectively: 
 <table>
+<header>
+<td><code>R quantile</code></td>
+<td><code>SAS UNIVARIATE</code></td>
+</header>
 <tr>
-<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" width="250p"> </kbd></td>
-<td><kbd><img src="docs/doc_r.png" alt="doc R" width="250"> </kbd></td>
+<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" width="350p"> </kbd></td>
+<td><kbd><img src="docs/doc_r.png" alt="doc R" width="350"> </kbd></td>
 </tr>
 </table>
 
