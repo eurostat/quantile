@@ -83,7 +83,7 @@ defined by `type`. The output sample quantile are stored either in a list or as 
          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
     </tr>
     <tr> <td align="centre"><code>PCTLDEF</code></td>
-         <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a</i></td>
+         <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td>
     </tr>
 </table>
 * `method` : (see [above](#method)) in the case `method=INHERIT`, the macro uses the `PROC UNIVARIATE` procedure 
