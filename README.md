@@ -33,12 +33,13 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 </tr>
 </table>
 from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
-<table align="centre">
+<table>
 <tr>
 <td>algorithm</td>
-<td>H&amp;F &num;1</td> <td>H&amp;F &num;2</td> <td>H&amp;F &num;3</td> <td>H&amp;F &num;4</td> <td>H&amp;F &num;5</td>
-<td>H&amp;F &num;6</td> <td>H&amp;F &num;7</td> <td>H&amp;F &num;8</td> <td>H&amp;F &num;9</td> <td>C</td>
-<td>F</td> 
+<td align="centre">H&amp;F &num;1</td> <td align="centre">H&amp;F &num;2</td> <td align="centre">H&amp;F &num;3</td>
+<td align="centre">H&amp;F &num;4</td> <td align="centre">H&amp;F &num;5</td> <td align="centre">H&amp;F &num;6</td>
+<td align="centre">H&amp;F &num;7</td> <td align="centre">H&amp;F &num;8</td> <td align="centre">H&amp;F &num;9</td> 
+<td align="centre">C</td> <td align="centre">F</td> 
 </tr>
 <tr>
 <td><code>quantile type</code></td>
