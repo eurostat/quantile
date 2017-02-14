@@ -1,7 +1,7 @@
 quantile
 ======
 
-_How can I compute quantiles?_ Software-agnostic implementation of common quantile estimation algorithms.
+_How shall I compute quantiles?_ Software-agnostic implementation of standard quantile estimation algorithms.
 ---
 
 **<a name="Description"></a>Description**
@@ -13,7 +13,7 @@ The source code implements the same identical algorithms for quantile estimation
 * [`SAS`](http://www.sas.com/),
 * `C` with the [gsl](https://www.gnu.org/software/gsl/) library.
 
-For this purpose, it either extends (wraps) already existing implementations when they exist, or actually reimplements the algorithm from scratch.
+For this purpose, it either extends (wraps) already existing implementations when they exist, or actually reimplements the algorithm(s) from scratch.
 
 **Table of Contents**
 
@@ -27,7 +27,7 @@ For this purpose, it either extends (wraps) already existing implementations whe
   + `R` function [`quantile.r`](syntax.md#r_quantile).
   + `SAS` macro [`quantile.sas`](syntax.md#python_quantile).
 * [usage](usage.md): Run and test the programs.
-* [service applications](service.md): Run a web-service for quantile estimation.
+* [service applications](service.md): Run a micro web-service for quantile estimation.
 
 **<a name="About"></a>About**
 
