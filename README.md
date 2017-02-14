@@ -22,7 +22,9 @@ Although _quantiles_ are often implemented throughout various packages of statis
 Typically, this happens because different estimation methods are available in the [literature](http://mathworld.wolfram.com/Quantile.html), and each one of them corresponds to a specific implementation. 
 
 Let's consider for instance the implementations available in both `R` and `SAS` software, through the `quantile` function and the `UNIVARIATE` procedure respectively. 
+---
 ![UNIVAR-doc](docs/doc_sas.png).
+---
 
 **Description**
 
