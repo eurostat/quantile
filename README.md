@@ -28,7 +28,7 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 <td><kbd><img src="docs/doc_r.png" width="500"> </kbd></td>
 </tr>
 </table>
-from whith it appears
+from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
 <table align="center">
     <tr> <td align="centre"><code>quantile type</code></td>
          <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
@@ -36,8 +36,24 @@ from whith it appears
     <tr> <td align="centre"><code>UNIVARIATE PCTLDEF</code></td>
          <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a</i></td>
     </tr>
-</table>
+</table>  
 
+	|     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` | `Python mquantiles` |
+	|:--------------------------------|:---------------:|:--------------------:|:-------------------:|
+	| Hyndman and Fan's algorithm \#1 |        1        |           3          |        (0,1)        |
+	| Hyndman and Fan's algorithm \#2 |        2        |     5 (*default*)      |        (0,1)        |
+	| Hyndman and Fan's algorithm \#3 |        3        |           2          |     (-.5, -1.5)     | 
+	| Hyndman and Fan's algorithm \#4 |        4        |           1          |        (0,1)        | 
+	| Hyndman and Fan's algorithm \#5 |        5        |         _n.a._       |       (.5,.5)       | 
+	| Hyndman and Fan's algorithm \#6 |        6        |           4          |        (0,0)        |
+	| Hyndman and Fan's algorithm \#7 |  7 (*default*)    |         _n.a._       |        (1,1)        |
+	| Hyndman and Fan's algorithm \#8 |        8        |         _n.a._       |      (1/3,1/3)      |
+	| Hyndman and Fan's algorithm \#9 |        9        |         _n.a._       |      (3/8,3/8)      |
+	| Cunnane's algorithm             |      _n.a._     |         _n.a._       |  (.4,.4) (*default*)  |
+	| Filliben's  algorithm           |      _n.a._     |         _n.a._       |       (.5,.5)       |
+
+
+and, above all, the default values for the selection of the 
 **Description**
 
 We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiben (see references [below](#References)), in `R`, `Python`, `C` and `SAS`. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation (`R` [function `quantiles`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html), `Python` [method `mquantiles`](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mstats.mquantiles.html), `C` [function `gsl_stats`](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html), or `SAS` [procedure `UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm)), or actually reimplement the algorithm from scratch (`SAS`, `C` and `Python`).
