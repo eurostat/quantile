@@ -24,16 +24,15 @@ Typically, this happens because different estimation methods are available in th
 Let us consider for instance the implementations available in both `R` and `SAS` software. We consider below the documentations available for the `R quantile` function and the `SAS UNIVARIATE` procedure respectively: 
 <table>
 <tr>
-<td><kbd><img src="docs/doc_sas.png" style="width: 250px;"/> </kbd></td>
-<td><kbd><img src="docs/doc_r.png" style="width: 250px;"/> </kbd></td>
+<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" style="width: 250px;"> </kbd></td>
+<td><kbd><img src="docs/doc_r.png" alt="doc R"style="width: 250px;"> </kbd></td>
 </tr>
 </table>
 
-|         `R quantile`          |
 |:-----------------------------:|
+|         `R quantile`          |
 |   ![doc_r](docs/doc_r.png)    |
 |      `SAS UNIVARIATE`         |
-|:-----------------------------:|
 |  ![doc_sas](docs/doc_sas.png) |
 
 from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
