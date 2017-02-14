@@ -36,10 +36,10 @@ from whith it appears that there is not one-to-one correspondance between the al
 <table>
 <tr>
 <td>algorithm</td>
-<td align="centre">HF1</td> <td align="centre">H&amp;F &num;2</td> <td align="centre">H&amp;F &num;3</td>
-<td align="centre">H&amp;F &num;4</td> <td align="centre">H&amp;F &num;5</td> <td align="centre">H&amp;F &num;6</td>
-<td align="centre">H&amp;F &num;7</td> <td align="centre">H&amp;F &num;8</td> <td align="centre">H&amp;F &num;9</td> 
-<td align="centre">C</td> <td align="centre">F</td> 
+<td align="centre"><i>HF1</i></td> <td align="centre"><i>HF2</i></td> <td align="centre"><i>HF3</i></td>
+<td align="centre"><i>HF4</i></td> <td align="centre"><i>HF5</i></td> <td align="centre"><i>HF6</i></td>
+<td align="centre"><i>HF7</i></td> <td align="centre"><i>HF8</i></td> <td align="centre"><i>HF9</i></td> 
+<td align="centre"><i>C</i></td> <td align="centre"><i>F</i></td> 
 </tr>
 <tr>
 <td><code>quantile type</code></td>
