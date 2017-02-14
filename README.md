@@ -46,7 +46,7 @@ from whith it appears that there is not one-to-one correspondance between the al
 </table>  
 </small>
 
-|     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |  `Python mquantiles`  |
+|     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |  `Python mquantiles` (&alpha;,&beta;) |
 |:--------------------------------|:---------------:|:--------------------:|:---------------------:|
 | Hyndman and Fan's algorithm \#1 |        1        |           3          |         (0,1)         |
 | Hyndman and Fan's algorithm \#2 |        2        |    5 (**default**)   |         (0,1)         |
