@@ -12,18 +12,65 @@ This source code material is intended to promote software/language-agnostic deve
     <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://gjacopo.github.io/quantile/</td> </tr> 
     <tr> <td align="left"><i>version</i></td> <td align="left">0.9</td> </tr> 
     <tr> <td align="left"><i>since</i></td> <td align="left">Thu Jan  5 10:22:03 2017</td> </tr> 
-    <tr> <td align="left"><i>license</i></td> <td align="left"><a href="https://joinup.ec.europa.eu/sites/default/files/eupl1.1.-licence-en_0.pdfEUPL">EUPL</a>  <i>(you can cite the source code or the reference above!)</i> </td> </tr> 
+    <tr> <td align="left"><i>license</i></td> <td align="left"><a href="https://joinup.ec.europa.eu/sites/default/files/eupl1.1.-licence-en_0.pdfEUPL">EUPL</a>  <i>(cite the source code or the reference above!)</i> </td> </tr> 
 </table>
 
-**Description**
+**Rationale**
 
 We consider here the implementation of [quantile estimates](http://www.math.ntu.edu.tw/~hchen/teaching/LargeSample/notes/noteorder.pdf) based on order statistics. 
 Although _quantiles_ are often implemented throughout various packages of statistical software ([`R`](https://www.r-project.org), [`Python`](https://www.python.org), [`SAS`](http://www.sas.com/), Stata, Maple,…), the different implementations may not be consistent with each other and, therefore, provide different output estimates. 
 Typically, this happens because different estimation methods are available in the [literature](http://mathworld.wolfram.com/Quantile.html), and each one of them corresponds to a specific implementation. 
 
-We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiber (see references [below](#References)), in `R`, `Python`, `C` and `SAS`. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation (`R` [function `quantiles`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html), `Python` [method `mquantiles`](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mstats.mquantiles.html), `C` [function `gsl_stats`](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html), or `SAS` [procedure `UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm)), or actually reimplement the algorithm from scratch (`SAS`, `C` and `Python`).
+Let us consider, for instance, the (broad) range of techniques for quantile estimation implemented ad-hoc in both `R` and `SAS` software. They are respectively made available through the `R` [function `quantile`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html) and the `SAS` [procedure `UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm), whose documentations are displayed below: 
+<table>
+<header>
+<td align="centre"><code>R quantile</code></td>
+<td align="centre"><code>SAS UNIVARIATE</code></td>
+</header>
+<tr>
+<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" width="400"> </kbd></td>
+<td><kbd><img src="docs/doc_r.png" alt="doc R" width="400"> </kbd></td>
+</tr>
+</table>
+Looking at which of Hyndman and Fan's (<code>HF\#n</code>), Cunnane's (<code>C</code>), and Filliben's (<code>F</code>) algorithms are actually available on either software, it appears that there is no one-to-one correspondance between the implementations:
+<table>
+<tr>
+<td>algorithm</td>
+<td align="centre"><code>HF&num;1</code></td> <td align="centre"><code>HF&num;2</code></td> 
+<td align="centre"><code>HF&num;3</code></td> <td align="centre"><code>HF&num;4</code></td> 
+<td align="centre"><code>HF&num;5</code></td> <td align="centre"><code>HF&num;6</code></td>
+<td align="centre"><code>HF&num;7</code></td> <td align="centre"><code>HF&num;8</code></td> 
+<td align="centre"><code>HF&num;9</code></td> <td align="centre"><code>C</code></td> 
+<td align="centre"><code>F</code></td> 
+</tr>
+<tr>
+<td><code>quantile type</code></td>
+<td align="centre"> 1 </td> <td align="centre"> 2 </td> 
+<td align="centre"> 3 </td> <td align="centre"> 4 </td> 
+<td align="centre"> 5 </td>  <td align="centre"> 6 </td> 
+<td align="centre"> 7 </td> <td align="centre"> 8 </td> 
+<td align="centre"> 9 </td> <td align="centre"> <i>n.a.</i> </td> 
+<td align="centre"> <i>n.a.</i> </td>
+</tr>
+<tr>
+<td><code>UNIVARIATE PCTLDEF</code></td>
+<td align="centre"> 3</td> <td align="centre"> 5</td> 
+<td align="centre"> 2 </td> <td align="centre"> 1 </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> 4 </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> 
+<td align="centre"> <i>n.a.</i> </td> <td align="centre"> <i>n.a.</i> </td> 
+<td align="centre"> <i>n.a.</i> </td>
+</tr>
+</table>
+In particular, the algorithms implemented by default (_i.e._, when no parameter `type/PCTLDEF` is passed) differ, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python` [method `mquantiles`](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mstats.mquantiles.html) implements Cunnane's algorithm as the default algorithm (<code>(&alpha;,&beta;)=(.4,.4)</code>). 
 
-We further implement microservices (SOA) that run the quantile estimation through a web interface.
+Altogether, a user may be left at a disadvantage since he may neither understand all the implications of the estimation process &ndash; depending on which platform he performs his calculations, depending on whether he chooses default parameters or not, ... &ndash; not how to test the validity of results produced by the software. A stronger control of the practical and effective implementation of statistical methods and techniques is required. 
+
+**Objectives**
+
+We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiben (see references [below](#References)), in `R`, `Python`, `C` and `SAS`. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation (`R` function `quantile`, `Python` method `mquantiles`, `C` [function `gsl_stats`](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html), or `SAS` procedure `UNIVARIATE`), or actually reimplement the algorithm from scratch (`SAS`, `C` and `Python`).
+
+However, unnecessary duplication (the same algorithm is being, above, implemented on 4 different platforms) shall be avoided, and, instead the choice of statistical software/packages should be transparent to the user, _i.e._ the quantile estimation should be provided in a _"software-agnostic"_ manner. To this end, we show that it is possible to easily implement microservices (SOA) that run the quantile estimation (either operated using `R` or `Python`) through a web interface ([`shiny`](https://shiny.rstudio.com/) for `R`, [`flask`](http://flask.pocoo.org/) for `Python`).
 
 **<a name="References"></a>References**
 

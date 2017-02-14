@@ -1,47 +1,116 @@
-**<a name="Syntax"></a>Syntax**
+## <a name="Syntax"></a>Syntax
 
+`quantile`: Compute empirical quantiles of a variable with sample data corresponding to given probabilities. 
 
-* _Python_ code
+<hr size="5" style="color:black;background-color:black;" />
 
-    
-        >>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
-        
-    Arguments
-    ---------
-    x : numpy.array
-        input vector data; 2D arrays are also accepted.
-    na_rm : bool
-        default: `na_rm=False`.
-    type : int
-        default: `type=7`.
-    method : str
-        string defining the estimation method
-    limit: list,tuple
-    
-    Returns
-    -------
-    
-    Documentation of scipy.stats.mstats.mquantiles
-    
-    Samples quantile are defined by 
-        Q(p) = (1-gamma)*x[j] + gamma*x[j+1], 
-    where x[j] is the j-th order statistic, and gamma is a function of j = floor(n*p + m), 
-    m = alphap + p*(1 - alphap - betap) and g = n*p + m - j.
-    
-    Reinterpreting the above equations to compare to R lead to the equation: 
-        p(k) = (k - alphap)/(n + 1 - alphap - betap)
-    
-    Typical values of (alphap,betap) are:
-    - (0,1) : p(k) = k/n : linear interpolation of cdf (R type 4)
-    - (.5,.5) : p(k) = (k - 1/2.)/n : piecewise linear function (R type 5)
-    - (0,0) : p(k) = k/(n+1) : (R type 6)
-    - (1,1) : p(k) = (k-1)/(n-1): p(k) = mode[F(x[k])]. (R type 7, R default)
-    - (1/3,1/3): p(k) = (k-1/3)/(n+1/3): Then p(k) ~ median[F(x[k])]. The resulting quantile estimates are approximately median-unbiased regardless of the distribution of x. (R type 8)
-    - (3/8,3/8): p(k) = (k-3/8)/(n+1/4): Blom. The resulting quantile estimates are approximately unbiased if x is normally distributed (R type 9)
-    - (.4,.4) : approximately quantile unbiased (Cunnane)
-    - (.35,.35): APL, used with PWM
-    
-    Parameters default:
-    * R:        quantile(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type = 7)
-    * Python:   mquantiles(a, prob=[0.25, 0.5, 0.75], alphap=0.4, betap=0.4, axis=None, limit=())
-    """
+### Common parameterisation
+
+Some arguments are common to the implementations in the different languages:
+
+* `probs` : <a name="probs"></a> (_option_) list of probabilities with values in [0,1]; the smallest observation 
+	corresponds to a probability of 0 and the largest to a probability of 1; default: probs is set to the
+	sequence `0 0.25 0.5 0.75 1`, so as to match default values `seq(0, 1, 0.25)` used in R 
+	[quantile](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html); 
+* `type` : <a name="type"></a> (_option_) an integer between 1 and 11 selecting one of the 9+1+1 quantile algorithms 
+	discussed in Hyndman and Fan's, Cunane's and Filliben's articles (see [references](algorithm.md#References)) 
+	and detailed below to be used; 
+	
+	| `type` |                    description                                 |
+	|:------:|:---------------------------------------------------------------|
+	|    1   | inverted empirical CDF					  |
+	|    2   | inverted empirical CDF with averaging at discontinuities       |       
+	|    3   | observation numberer closest to qN (piecewise linear function) | 
+	|    4   | linear interpolation of the empirical CDF                      | 
+	|    5   | Hazen's model (piecewise linear function)                      | 
+	|    6   | Weibull quantile                                               |
+	|    7   | interpolation points divide sample range into n-1 intervals    |
+	|    8   | unbiased median (regardless of the distribution)               |
+	|    9   | approximate unbiased estimate for a normal distribution        |
+	|   10   | Cunnane's definition (approximately unbiased)                  |
+	|   11   | Filliben's estimate                                            |
+
+	default: `type=7` (likewise R `quantile`);
+* `method` : (_option_) choice of the implementation of the quantile estimation method; this can be either:
+	+ `INHERIT` for an estimation based on the use of an already existing implementation in 
+	the given language,
+	+ `DIRECT` for a canonical implementation based on the direct transcription of the various
+	quantile estimation algorithms (see below) into the given language;
+		
+	default: `method=DIRECT`;
+
+<hr size="5" style="color:black;background-color:black;" />
+
+### <a name="sas_quantile"></a> SAS macro
+	
+	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
+		  idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
+				
+##### Arguments
+
+* `var` : data whose sample quantiles are estimated; this can be either:
+	+ the name of the variable in a dataset storing the data; in that case, the parameter 
+			`idsn` (see below) should be set; 
+	+ a list of (blank separated) numeric values;
+* `idsn` : (_option_) when input data is passed as a variable name, `idsn` represents the dataset
+	to look for the variable `var` (see above);
+* `ilib` : (_option_) name of the input library; by default: empty, _i.e._ `WORK` is used if `idsn` is 
+	set;
+* `olib` : (_option_) name of the output library (see `names` below); by default: empty, _i.e._ `WORK` 
+	is also used when `odsn` is set;
+* `na_rm` : (_obsolete_) logical; if true (`yes`), any NA and NaN's are removed from x before the quantiles 
+	are computed.
+
+##### Returns
+Return estimates of underlying distribution quantiles based on one or two order statistics from 
+the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
+defined by `type`. The output sample quantile are stored either in a list or as a table, through:
+
+* `_quantiles_` : (_option_) name of the output numeric list where quantiles are stored in increasing
+	`probs` order; incompatible with parameters `odsn` and `names `below;
+* `odsn, names` : (_option_) respective names of the output dataset and variable where quantiles are 
+	stored; if both `odsn` and `names` are set, the quantiles are saved in the `names` variable ot the
+	`odsn` dataset; if just `odsn` is set, then they are stored in a variable named `QUANT`; if 
+	instead only `names` is set, then the dataset will also be named after `names`.  
+	
+##### Notes
+* `probs` : (see [above](#probs)) in the case `method=UNIVAR` (see below), these values are multiplied by 100 
+	in order to be used by `PROC UNIVARIATE`;  
+* `type` : (see [above](#type))  note the (non bijective) correspondance between the different algorithms and the currently 
+	available methods in `PROC UNIVARIATE` (through the use of `PCTLDEF` parameter):
+<table align="center">
+    <tr> <td align="centre"><code>type</code></td>
+         <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
+    </tr>
+    <tr> <td align="centre"><code>PCTLDEF</code></td>
+         <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td>
+    </tr>
+</table>
+* `method` : (see [above](#method)) in the case `method=INHERIT`, the macro uses the `PROC UNIVARIATE` procedure 
+	already implemented in SAS; this is incompatible with `type` other than `(1,2,3,4,6)` since `PROC UNIVARIATE` 
+	does actually not support these quantile definitions (see table above); in the case `type=5`, `7`, `8`, or `9`, 
+	`method` is then set to `DIRECT`.
+
+<hr size="5" style="color:black;background-color:black;" />
+
+###  <a name="python_quantile"></a> `Python` method
+
+	>>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
+	
+##### Arguments
+* `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
+* `na_rm` : (`bool`) default: `na_rm=False`.
+* `type` : (`int`) default: `type=7`.
+* `method` : (`str`) string defining the estimation method
+* `limit` : (`list,tuple`)
+       
+##### Returns
+* `q` : (`numpy.array`) 
+
+<hr size="5" style="color:black;background-color:black;" />
+
+### See also
+* [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm).
+* [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html).
+* [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html).
+* [gsl_stats_quantile* (C)](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html).  

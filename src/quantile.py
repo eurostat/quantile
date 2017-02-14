@@ -51,7 +51,7 @@ except:
 DEF_PROBS =     [0, 0.25, 0.5, 0.75, 1]
 TYPES =         11
 DEF_TYPE =      7
-METHODS =       ['DIRECT', 'MQUANT']
+METHODS =       ['DIRECT', 'INHERIT']
 DEF_METHOD =    'DIRECT'
 DEF_LIMIT =     (0,1)
 DEF_NARM =      False
@@ -206,7 +206,7 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
     if method == 'DIRECT':
         _quantile1D = _canonical_quantile1D
         
-    elif method == 'MQUANT': 
+    elif method == 'INHERIT': 
         _quantile1D = _mquantile1D
 
     # define input data

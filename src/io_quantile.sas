@@ -6,26 +6,32 @@ Compute empirical quantiles of a file with sample data corresponding to given pr
 				 type=7, method=DIRECT, ifmt=csv, ofmt=csv);
 
 ### Arguments
+<<<<<<< HEAD
 * `ifn` : input filename; 1- or 2-column file where input data are stored; the last column is 
 	imported as sample data (the first one, when it exists, is regarded as the index list);
+=======
+* `ifn` : input filename; 2-columns or 1-column data file (_e.g._, in csv format) where input data samples
+	are stored; the last column of the file will be used for quantile estimation (since the first, when
+	it exists, will be regarded as a list of indexes);
+>>>>>>> origin/master
 * `probs`, `type`, `method` : list of probabilities, type and method flags used for the definition
-	of the quantile algorithm and its actual estimation; see macro [%quantile](@ref sas_io_quantile);
+	of the quantile algorithm and its actual estimation; see macro [%quantile](@ref sas_quantile);
 * `ifmt` : (_option_) type of the input file; default: `ifmt=csv`.
 
 ### Returns
 * `ofn` : name of the output file  and variable where quantile estimates are saved; quantiles are 
 	stored in a variable named `QUANT`;
-* `ofmt` : (_option_) type of the output file; default: `ofmt=csv`.
+* `ofmt` : (_option_) type of the output file; default: `ofmt=csv`;
 * `_quantiles_` : (_option_) name of the output numeric list where quantiles can be stored in 
 	increasing `probs` order.
 
 ### Description
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
 the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
-defined by `type` (see macro [%quantile](@ref sas_io_quantile)). 
+defined by `type` (see macro [%quantile](@ref sas_quantile)). 
 
 ### See also
-[%quantile](@ref sas_io_quantile),
+[%quantile](@ref sas_quantile),
 [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm),
 [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html),
 [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html),
@@ -42,6 +48,9 @@ This code is intended as a supporting material for the following publication:
 Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
 Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 */
+
+%global _FORCE_STANDALONE_;
+%let _FORCE_STANDALONE_=1;
 
 %macro io_quantile(ifn			/* Full path of input filename 					(REQ) */
 				, ofn=			/* Full path of output filename 				(REQ) */
