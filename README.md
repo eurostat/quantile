@@ -28,7 +28,15 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 <td><kbd><img src="docs/doc_r.png" width="500"> </kbd></td>
 </tr>
 </table>
-
+from whith it appears
+<table align="center">
+    <tr> <td align="centre"><code>quantile type</code></td>
+         <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
+    </tr>
+    <tr> <td align="centre"><code>UNIVARIATE PCTLDEF</code></td>
+         <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a</i></td>
+    </tr>
+</table>
 
 **Description**
 
