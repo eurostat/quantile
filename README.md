@@ -38,19 +38,19 @@ from whith it appears that there is not one-to-one correspondance between the al
     </tr>
 </table>  
 
-	|     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` | `Python mquantiles` |
-	|:--------------------------------|:---------------:|:--------------------:|:-------------------:|
-	| Hyndman and Fan's algorithm \#1 |        1        |           3          |        (0,1)        |
-	| Hyndman and Fan's algorithm \#2 |        2        |     5 (*default*)      |        (0,1)        |
-	| Hyndman and Fan's algorithm \#3 |        3        |           2          |     (-.5, -1.5)     | 
-	| Hyndman and Fan's algorithm \#4 |        4        |           1          |        (0,1)        | 
-	| Hyndman and Fan's algorithm \#5 |        5        |         _n.a._       |       (.5,.5)       | 
-	| Hyndman and Fan's algorithm \#6 |        6        |           4          |        (0,0)        |
-	| Hyndman and Fan's algorithm \#7 |  7 (*default*)    |         _n.a._       |        (1,1)        |
-	| Hyndman and Fan's algorithm \#8 |        8        |         _n.a._       |      (1/3,1/3)      |
-	| Hyndman and Fan's algorithm \#9 |        9        |         _n.a._       |      (3/8,3/8)      |
-	| Cunnane's algorithm             |      _n.a._     |         _n.a._       |  (.4,.4) (*default*)  |
-	| Filliben's  algorithm           |      _n.a._     |         _n.a._       |       (.5,.5)       |
+|     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |  `Python mquantiles`  |
+|:--------------------------------|:---------------:|:--------------------:|:---------------------:|
+| Hyndman and Fan's algorithm \#1 |        1        |           3          |         (0,1)         |
+| Hyndman and Fan's algorithm \#2 |        2        |    5 (**default**)   |         (0,1)         |
+| Hyndman and Fan's algorithm \#3 |        3        |           2          |      (-.5, -1.5)      | 
+| Hyndman and Fan's algorithm \#4 |        4        |           1          |         (0,1)         | 
+| Hyndman and Fan's algorithm \#5 |        5        |         _n.a._       |        (.5,.5)        | 
+| Hyndman and Fan's algorithm \#6 |        6        |           4          |         (0,0)         |
+| Hyndman and Fan's algorithm \#7 | 7 (**default**) |         _n.a._       |         (1,1)         |
+| Hyndman and Fan's algorithm \#8 |        8        |         _n.a._       |       (1/3,1/3)       |
+| Hyndman and Fan's algorithm \#9 |        9        |         _n.a._       |       (3/8,3/8)       |
+| Cunnane's algorithm             |      _n.a._     |         _n.a._       | (.4,.4) (**default**) |
+| Filliben's  algorithm           |      _n.a._     |         _n.a._       |        (.5,.5)        |
 
 
 and, above all, the default values for the selection of the 
