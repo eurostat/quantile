@@ -28,6 +28,14 @@ Let us consider for instance the implementations available in both `R` and `SAS`
 <td><kbd><img src="docs/doc_r.png" width="500"> </kbd></td>
 </tr>
 </table>
+
+|         `R quantile`          |
+|:-----------------------------:|
+|   ![doc_r](docs/doc_r.png)    |
+|      `SAS UNIVARIATE`         |
+|:-----------------------------:|
+|  ![doc_sas](docs/doc_sas.png) |
+
 from whith it appears that there is not one-to-one correspondance between the algorithms implemented :
 
 |     estimation algorithm        | `quantile type` | `UNIVARIATE PCTLDEF` |
