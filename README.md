@@ -23,13 +23,13 @@ Typically, this happens because different estimation methods are available in th
 
 Let us consider for instance the implementations available in both `R` and `SAS` software, through the `quantile` function and the `UNIVARIATE` procedure respectively. 
 
-<kbd>
-  <img src="docs/doc_sas.png">
-</kbd>
+<table>
+<tr>
+<td><kbd><img src="docs/doc_sas.png"> </kbd></td>
+<td><kbd><img src="docs/doc_r.png"> </kbd></td>
+</tr>
+</table>
 
----
-![UNIVAR-doc](docs/doc_sas.png).
----
 
 **Description**
 
