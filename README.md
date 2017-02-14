@@ -40,7 +40,7 @@ from whith it appears that there is not one-to-one correspondance between the al
     <tr> <td align="centre"><code>PCTLDEF</code></td>
          <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td>
     </tr>
-    <tr> <td align="centre"><code>mquantiles</code> (&alpha;,&beta;)</td>
+    <tr> <td align="centre"><code>(&alpha;,&beta;)</code></td>
          <td>(0,1)</td><td>(0,1)</td><td> (-.5, -1.5)</td><td>(0,1)</td><td> (.5,.5) </td><td>(0,0)</td><td> (1,1)</td><td> (1/3,1/3)</td><td> (3/8,3/8)</td><td> (.4,.4)</td><td> (.5,.5)</td>
     </tr>
 </table>  
