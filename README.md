@@ -6,7 +6,7 @@ Software-agnostic (re)implementations (R/SAS/Python/C) of common quantile estima
 
 **About**
 
-This source code material is intended to promote software/language-agnostic development and deployment of statistical processes, as presented in [Grazzini and Lamarche's article](#References). 
+This material is meant as a proof of concept for [Grazzini and Lamarche's article](#References) and aims at promoting software/language-agnostic development and deployment of statistical processes. 
 
 <table align="center">
     <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://gjacopo.github.io/quantile/</td> </tr> 
