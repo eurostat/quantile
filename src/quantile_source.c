@@ -21,8 +21,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include <gsl/gsl_sort.h>
 
-#include <quantile.h>
+#include "quantile.h"
 
 /* J_INDICE: j = floor(n*p + m) */
 #define J_INDICE(p, n, m) math.floor(n*p + m);
