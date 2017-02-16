@@ -20,7 +20,7 @@ To estimate the quantiles, one can run:
 
 **About**
 
-This code is intended as a supporting material for the following publication:
+This code is intended as a proof of concept for the following publication:
 * Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
     in Proc. New Techniques and Technologies for Statistics.
 
