@@ -34,7 +34,6 @@
 /* M_INDICEP: m = alphap + p*(1 - alphap - betap) */
 #define M_INDICEP(p, alphap, betap) alphap + p * (1 - alphap - betap);	
 
-
 inline double M_INDICE(p, i) {
   if (i==1 || i==2 || i==4) { m = 0; }
   else if (i==3)            { m = -0.5; }
