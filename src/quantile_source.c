@@ -21,8 +21,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include <gsl/gsl_sort.h>
 
-#include <quantile.h>
+#include "quantile.h"
 
 /* J_INDICE: j = floor(n*p + m) */
 #define J_INDICE(p, n, m) math.floor(n*p + m);
@@ -33,7 +34,8 @@
 /* M_INDICEP: m = alphap + p*(1 - alphap - betap) */
 #define M_INDICEP(p, alphap, betap) alphap + p * (1 - alphap - betap);	
 
-inline double m_indice(p, i) {
+
+inline double M_INDICE(p, i) {
   if (i==1 || i==2 || i==4) { m = 0; }
   else if (i==3)            { m = -0.5; }
   else if (i==5)            { m = 0.5; }
@@ -46,7 +48,7 @@ inline double m_indice(p, i) {
   return m;
 }
 	
-inline double gamma_indice(g, j, type) {
+inline double GAMMA_INDICE(g, j, type) {
   if (type == 1) {
     if (g > 0.)             gamma = 1.;
     else                    gamma = 0.;
@@ -97,7 +99,7 @@ FUNCTION(quantile,from_gsl) (BASE data[],
 
     /* run the calculation for estimating the gamma index, plus the final 
      * quantile value */
-    gamma = gamma_indice(g, j, type);
+    gamma = GAMMA_INDICE(g, j, type);
     quant[i] = (1. - gamma) * data[firstobs] + gamma * data[obs];
   }
 

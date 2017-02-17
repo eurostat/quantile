@@ -1,9 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Jan 15 23:11:10 2017
+.. flask_quantile
 
-@author: gjacopo
+**Description**
+
+Run a micro web-service that runs the calculation of empirical quantiles. 
+   
+**Usage**
+
+
+**About**
+
+This code is intended as a proof of concept for the following publication:
+* Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+    in Proc. New Techniques and Technologies for Statistics.
+
+Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
+Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 """
 
 import os
