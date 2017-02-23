@@ -32,7 +32,7 @@ Let us consider, for instance, the (broad) range of techniques for quantile esti
 <td><kbd><img src="docs/doc_r.png" alt="doc R" width="400"> </kbd></td>
 </tr>
 </table>
-Looking at which of Hyndman and Fan's (<code>HF\#n</code>), Cunnane's (<code>C</code>), and Filliben's (<code>F</code>) algorithms are actually available on either software, it appears that there is no one-to-one correspondance between the implementations:
+Looking at which of Hyndman and Fan's (<code>HF\#n</code>), Cunnane's (<code>C</code>), and/or Filliben's (<code>F</code>) algorithms are actually available (or not: _n.a._) on either software, it appears that there is no one-to-one correspondance between the implementations:
 <table>
 <tr>
 <td>algorithm</td>
@@ -62,9 +62,9 @@ Looking at which of Hyndman and Fan's (<code>HF\#n</code>), Cunnane's (<code>C</
 <td align="centre"> <i>n.a.</i> </td>
 </tr>
 </table>
-In particular, the algorithms implemented by default (_i.e._, when no parameter `type` or `PCTLDEF` is passed) differ, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python` [method `mquantiles`](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mstats.mquantiles.html) implements Cunnane's algorithm as the default algorithm (through <code>(&alpha;,&beta;)=(.4,.4)</code> parameter). 
+In particular, the algorithms implemented by default (_i.e._, when no parameter `type`, or `PCTLDEF`, is passed) differ, since indeed HF\#7 (`type=7`) is the default algorithm in `R quantile` implementation, while HF\#2 (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python` [method `mquantiles`](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mstats.mquantiles.html) implements Cunnane's algorithm as the default algorithm (through <code>(&alpha;,&beta;)=(.4,.4)</code> parameter). 
 
-Altogether, a user may be left at a disadvantage since he may neither understand all the implications of the estimation process &ndash; depending on which platform he performs his calculations, depending on whether he chooses default parameters or not, ... &ndash; not how to test the validity of results produced by the software. A stronger control of the practical and effective implementation of statistical methods and techniques is required. 
+Altogether, a user may be left at a disadvantage since he may neither understand all the implications of the estimation process &ndash; depending on which platform he performs his calculations, depending on whether he chooses default parameters or not, ... &ndash; nor how to test the validity of results produced by the software. A stronger control of the practical and effective implementation of statistical methods and techniques is required. 
 
 **Objectives**
 
