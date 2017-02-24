@@ -1,6 +1,4 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.322313.svg)](https://doi.org/10.5281/zenodo.322313)
-quantile
-======
 
 _How shall I compute quantiles?_ Software-agnostic implementation of standard quantile estimation algorithms.
 ---
