@@ -2,7 +2,7 @@
 quantile
 ======
 
-Software-agnostic (re)implementations (R/SAS/Python/C) of common quantile estimation algorithms.
+Software-agnostic (re)implementations (R/SAS/Python/C) of common quantile estimation algorithms
 ---
 
 **About**
