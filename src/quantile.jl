@@ -1,21 +1,36 @@
-# based on Julia base/statistics.jl
+"""
+.. quantile
 
-"""
+**Description**
+
+Compute empirical quantiles of sample data corresponding to given probabilities. 
+
+This extendsn the original implementation of quantile in Julia from base/statistics.jl.
+in the original source code, quantiles are computed via linear interpolation 
+between the points `((k-1)/(n-1), v[k])`, for `k = 1:n` where `n = length(v)`. 
+This corresponds to Definition 7 of Hyndman and Fan (the same as the R default).
+   
+**Usage**
     quantile!([q, ] v, p; sorted=false)
-Compute the quantile(s) of a vector `v` at the probabilities `p`, with optional output into
-array `q` (if not provided, a new output array is created). The keyword argument `sorted`
-indicates whether `v` can be assumed to be sorted; if `false` (the default), then the
-elements of `v` may be partially sorted.
-The elements of `p` should be on the interval [0,1], and `v` should not have any `NaN`
-values.
-Quantiles are computed via linear interpolation between the points `((k-1)/(n-1), v[k])`,
-for `k = 1:n` where `n = length(v)`. This corresponds to Definition 7 of Hyndman and Fan
-(1996), and is the same as the R default.
-!!! note
-    Julia does not ignore `NaN` values in the computation. For applications requiring the
-    handling of missing data, the `DataArrays.jl` package is recommended. `quantile!` will
-    throw an `ArgumentError` in the presence of `NaN` values in the data array.
+
+Compute the quantile(s) of a vector `v` at the probabilities `p`, with optional 
+output into array `q` (if not provided, a new output array is created). 
+The keyword argument `sorted` indicates whether `v` can be assumed to be sorted; 
+if `false` (the default), then the elements of `v` may be partially sorted.
+The elements of `p` should be on the interval [0,1], and `v` should not have any 
+`NaN` values.
+
+**About**
+
+This code is intended as a proof of concept for the following publication:
+* Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
+    in Proc. New Techniques and Technologies for Statistics.
+
+Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
+Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 """
+
+
 function quantile!(q::AbstractArray, v::AbstractVector, p::AbstractArray;
                    sorted::Bool=false, type::Int=7)
     if size(p) != size(q)
@@ -41,6 +56,12 @@ function quantile!(q::AbstractArray, v::AbstractVector, p::AbstractArray;
     return q
 end
 
+"""
+!!! note
+    Julia does not ignore `NaN` values in the computation. For applications requiring the
+    handling of missing data, the `DataArrays.jl` package is recommended. `quantile!` will
+    throw an `ArgumentError` in the presence of `NaN` values in the data array.
+"""
 quantile!(v::AbstractVector, p::AbstractArray; sorted::Bool=false, type::Int=7) =
     quantile!(similar(p,float(eltype(v))), v, p; sorted=sorted, type=type)
 
@@ -82,7 +103,7 @@ end
         return .3175 + .365 * p
     end
 	
-inline double _gamma_indice(g::Real, j::Int, type::Int) 
+@inline double _gamma_indice(g::Real, j::Int, type::Int) 
     if type == 1
         if g > 0.  
             return 1.
