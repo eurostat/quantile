@@ -14,6 +14,7 @@
  * This code is intended as a proof of concept for the following publication:
  *    Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
  *    in Proc. New Techniques and Technologies for Statistics.
+ *
  * Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
  * Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
  */
@@ -64,10 +65,10 @@ inline double GAMMA_INDICE(g, j, type) {
 				
 double *
 FUNCTION(quantile,from_gsl) (BASE data[], 
-                              size_t N,
-			      const double probs[],
-                              size_t n,
-			      int type)
+                            size_t N,
+        			      const double probs[],
+                            size_t q,
+        			      int type)
 {
   int i;
   long j, firstobs, obs;
@@ -82,7 +83,7 @@ FUNCTION(quantile,from_gsl) (BASE data[],
 
   gsl_sort(data, 1, N);
 
-  for (i=0; i<n; i++) {
+  for (i=0; i<q; i++) {
     /* for given p probability, compute the (p,m,j) indices and extract the 
      * sorted (x1,x2)=(x[j],x[j+1]) pair */
     m =	M_INDICE(probs[i], type);
