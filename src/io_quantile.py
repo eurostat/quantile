@@ -34,13 +34,14 @@ Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
 Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 """
 
-import os
+import os, sys
 import warnings
+import csv
 
 QUANTILE_PROGRAM =  "quantile"
 FORMATS =           {'csv':'csv', 'xls':'excel', 'sql':'sql', 'json':'json',    \
                      'html':'html', 'htm':'html', 'sas':'sas', 'raw':'pickle'}
-
+                     
 import numpy as np
 try:
     import pandas as pd
@@ -49,7 +50,7 @@ except:
         DataFrame = type('dummy',(object,))
         Series = type('dummy',(object,))
 
-import quantile 
+import quantile
 
 
 #==============================================================================
@@ -84,7 +85,14 @@ class IO_Quantile(quantile.Quantile):
             except:
                 pass
         return data
- 
+
+    #/************************************************************************/
+    @staticmethod
+    def __read_csv(filename, mode='r'):
+        with open(filename, mode) as csv_file:
+            csv_obj = csv.DictReader(csv_file, fieldnames=["index","data"])
+        return list(csv_obj)
+        
     #/************************************************************************/
     def save(self, filename, fmt=None): 
         if self.quantile is None:
@@ -120,7 +128,7 @@ class IO_Quantile(quantile.Quantile):
     #/************************************************************************/
     def __getattribute__(self, obj): # hiding traces of decoration.
         # known names
-        if obj.startswith('read_','to_'): 
+        if obj.startswith(('read_','to_')): 
             try:
                 return getattr(np, obj)
             except:
@@ -180,7 +188,7 @@ class IO_Quartile(IO_Quantile):
 
     #/************************************************************************/
     @staticmethod
-    def __custom_boxplot(quantile, ax, *args, **kwargs):
+    def __custom_boxplot(quant, ax, *args, **kwargs):
         """Generate a customized boxplot based on store quartile values
         
             >>> fig, ax = plt.subplots()
@@ -188,14 +196,14 @@ class IO_Quartile(IO_Quantile):
             >>> ax.figure.canvas.draw() # canvas is updated
         """            
 
-        n_box = 1 # len(quantile)
+        n_box = 1 # len(quant)
         dummy = [1, 2, 3, 4, 5] # [-9, -4, 2, 4, 9]
         box_plot = ax.boxplot([dummy,]*n_box, *args, **kwargs) 
         # Creates len(percentiles) no of box plots
     
         min_y, max_y = float('inf'), -float('inf')
     
-        for box_no, pdata in enumerate(quantile):
+        for box_no, pdata in enumerate(quant):
             if len(pdata) == 6:
                 (q1_start, q2_start, q3_start, q4_start, q4_end, outliers) = pdata
             elif len(pdata) == 5:

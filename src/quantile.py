@@ -33,8 +33,8 @@ from __future__ import division, print_function, absolute_import
 
 import warnings
 
-__all__ = ['quantile', 'quartile', 'quintile', 'IQR',
-           'Quantile', 'Quartile', 'Quintile']
+#__all__ = ['quantile', 'quartile', 'quintile', 'IQR',
+#           'Quantile', 'Quartile', 'Quintile']
 
 
 import numpy as np
@@ -46,17 +46,45 @@ except:
     class pd(): # dummy class
         DataFrame = type('dummy',(object,))
         Series = type('dummy',(object,))
-
         
-DEF_PROBS =     [0, 0.25, 0.5, 0.75, 1]
-TYPES =         11
+# list of algorithms implemented
+ALGORITHMS =    [ (1, '[1] inverted empirical CDF'),                                      \
+                 (2, '[2] inverted empirical CDF with averaging at discontinuities'),     \
+                 (3, '[3] observation closest to qN (piecewise linear function)'),        \
+                 (4, '[4] linear interpolation of the empirical CDF'),                    \
+                 (5, '[5] Hazen''s model (piecewise linear function)'),                   \
+                 (6, '[6] Weibull quantile'),                                             \
+                 (7, '[7] interpolation points divide sample range into n-1 intervals'),  \
+                 (8, '[8] unbiased median (regardless of the distribution)'),             \
+                 (9, '[9] approximate unbiased estimate for a normal distribution'),      \
+                 (10, '[10] Cunnane''s definition (approximately unbiased)'),             \
+                 (11, '[11] Filliben''s estimate')                                        \
+                 ]   
+TYPES =         [a[0] for a in ALGORITHMS] # range(1,11+1)
 DEF_TYPE =      7
-METHODS =       ['DIRECT', 'INHERIT']
+
+APPROACHES =    [('DIRECT','[DIRECT] canonical application of quantile algorithm'), \
+                 ('INHERIT','[INHERIT] extension of already existing method')]
+METHODS =       [a[0] for a in APPROACHES] # range(1,11+1)
 DEF_METHOD =    'DIRECT'
+
+DEF_PROBS =     [0, 0.25, 0.5, 0.75, 1]
 DEF_LIMIT =     (0,1)
 DEF_NARM =      False
  
-        
+# specialized quantiles
+SQUANTILES =    [ (2, 'M2 - median'),                         \
+                  (3, 'T3 - terciles'),                       \
+                  (4,'Qu4 - quartiles'),                      \
+                  (5,'Q5 - quintiles'),                       \
+                  (6,'S6 - sextiles'),                        \
+                  (10,'D10 - deciles'),                       \
+                  (12,'Dd12 - duo-deciles'),                  \
+                  (20,'V - ventiles'),                        \
+                  (100,'P - percentiles') ]        
+SPROBS =        dict([(q[0],np.linspace(0,1,q[0]+1)[1:-1]) \
+                      for q in SQUANTILES])
+
 #==============================================================================
 # QUANTILE METHOD
 #==============================================================================
@@ -108,7 +136,7 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
     #    raise ValueError("the length of data and weights must be the same")
 
     # check parameter typ value
-    if typ not in range(1,TYPES+1):
+    if typ not in TYPES:
         raise ValueError("typ should be an integer in range [1,{}]!".format(TYPES))
 
     # check parameter method value
@@ -146,7 +174,8 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
 
     def _canonical_quantile1D(typ, sorted_x, probs):
         """Compute the quantile of a 1D numpy array using the canonical/direct
-        approach derived from the original algorithm from Hyndman & Fan.
+        approach derived from the original algorithms from Hyndman & Fan, Cunane
+        and Filliben.
         """
         # inspired by the _quantiles1D function of mquantiles
         N = sorted_x.count() # len(sorted_x) 
@@ -256,7 +285,7 @@ class Quantile(object):
         self.__na_rm = DEF_NARM
         if kwargs == {}:
             return
-        attrs = ( 'probs','typ','method','limit','na_rm')
+        attrs = ('probs','typ','method','limit','na_rm')
         for attr in list(set(attrs).intersection(kwargs.keys())):
             try:
                 setattr(self, '{}'.format(attr), kwargs.pop(attr))
@@ -269,7 +298,9 @@ class Quantile(object):
         return self.__probs
     @probs.setter
     def probs(self, probs):
-        if not isinstance(probs, (tuple,list,pd.DataFrame,pd.Series,np.ndarray)):
+        if isinstance(probs, int) and probs in SPROBS:
+            probs = SPROBS[probs]
+        elif not isinstance(probs, (tuple,list,pd.DataFrame,pd.Series,np.ndarray)):
             raise TypeError('wrong type for PROBS parameter')
         self.__probs = probs
 
