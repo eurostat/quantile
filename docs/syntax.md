@@ -76,6 +76,10 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 ##### Notes
 * `probs` : (see [above](#probs)) in the case `method=UNIVAR` (see below), these values are multiplied by 100 
 	in order to be used by `PROC UNIVARIATE`;  
+* `method` : (see [above](#method)) in the case `method=INHERIT`, the macro uses the `PROC UNIVARIATE` procedure 
+	already implemented in SAS; this is incompatible with `type` other than `(1,2,3,4,6)` since `PROC UNIVARIATE` 
+	does actually not support these quantile definitions (see table above); in the case `type=5`, `7`, `8`, or `9`, 
+	`method` is then set to `DIRECT`.
 * `type` : (see [above](#type))  note the (non bijective) correspondance between the different algorithms and the currently 
 	available methods in `PROC UNIVARIATE` (through the use of `PCTLDEF` parameter):
 <table align="center">
@@ -86,10 +90,6 @@ defined by `type`. The output sample quantile are stored either in a list or as 
          <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td>
     </tr>
 </table>
-* `method` : (see [above](#method)) in the case `method=INHERIT`, the macro uses the `PROC UNIVARIATE` procedure 
-	already implemented in SAS; this is incompatible with `type` other than `(1,2,3,4,6)` since `PROC UNIVARIATE` 
-	does actually not support these quantile definitions (see table above); in the case `type=5`, `7`, `8`, or `9`, 
-	`method` is then set to `DIRECT`.
 
 <hr size="5" style="color:black;background-color:black;" />
 
@@ -106,6 +106,38 @@ defined by `type`. The output sample quantile are stored either in a list or as 
        
 ##### Returns
 * `q` : (`numpy.array`) 
+
+##### Notes
+* `method` : (see [above](#method)) in the case `method=INHERIT`, the `scipy::mquantiles` function is used to
+estimate quantiles; this  case is incompatible with `type<4` (see below);        
+* `type` : (see [above](#type))  methods 4 to 11 are available in original `scipy::mquantiles` function. 
+
+###  <a name="r_quantile"></a> `R` method
+
+	> q <- quantile(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, type=7, method="DIRECT", names= FALSE)
+	
+##### Arguments
+* `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
+* `na_rm` : (`bool`, _option_) default: `na_rm=False`.
+* `type` : (`int`, _option_) default: `type=7`.
+* `x` : a numeric vector or a value (character or integer) providing with the sample data; when `data` is not null, 
+	`x` provides with the name (`char`) or the position (int) of the variable of interest in the table;
+* `data : (_option_) input table, defined as a dataframe, whose column defined by `x`	is used as sample data for 
+	the estimation; if passed, then `x` should be defined as a character or an integer; default: `data=NULL` and 
+	input sample data should be passed as numeric vector in `x`;
+* `probs : (_option_) numeric vector giving the probabilities with values in [0,1]; default: `probs=seq(0, 1, 0.25)` like 
+	in original `stats::quantile` function;
+* `na_rm, names` : (`bool`, _option_) logical flags; if `na.rm=TRUE`, any NA and NaN's are removed from `x` before 
+	the quantiles are computed; if `names=TRUE`, the result has a names attribute; these two flags follow exactly 
+	the original implementation of `stats::quantile`; default: `na.rm= FALSE` and `names= FALSE`.
+       
+##### Notes
+* `method` : (see [above](#method)) in the case `method=INHERIT`, the `stats::quantile` function is used to
+estimate quantiles; this  case is incompatible with `type>9` (see below);       
+* `type` : (see [above](#type))  methods 1 to 9 are available in original `stats::quantile` function. 
+       
+##### Returns
+* `q` : (numeric vector) 
 
 <hr size="5" style="color:black;background-color:black;" />
 
