@@ -72,9 +72,6 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 		%macro macro_isblank(v);
 			%let __v = %superq(&v);
 			%let ___v = %sysfunc(compbl(%quote(&__v))); 
-			%put v=&v;
-			%put __v=&__v;
-			%put ___v=&___v;
 			%if %sysevalf(%superq(__v)=, boolean) or %nrbquote(&___v) EQ 	%then %do;		1
 			%end;
 			%else %do;																		0
