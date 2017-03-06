@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+      <h2 style = "text-align: center;">Quantile estimation</h2>
+  </head>
+  <body>
+		
+      {% for message in form.data.errors %}
+         <div><p style="color:red"><b>{{ message }}</b></p></div>
+      {% endfor %}
+
+      <form method=post action=""
+          enctype="multipart/form-data">
+         <fieldset>
+            <legend>Quantile estimation (<font face="verdana,sans-serif" size="+0">Python</font> based)</legend>
+<table>
+  {% for field in form %}
+     {% if field.label.text!='CSRF Token' %} <!-- no clue why it appears in the form otherwise...-->
+     <tr>
+      {% if field.label.text!='Compute' %}
+        <td>{{ field.label }}</td>
+      {% endif %}
+    <td>{{ field }}</td>
+    </tr>
+      {% endif %}
+  {% endfor %}
+</table>
+     </fieldset>
+      </form>
+</p>
+
+<p>
+{% if result != None %}
+<img src="{{ result }}" width="500">
+{% endif %}
+</p>
+
+<div class=​"container site-footer-container">​
+This material is intended as a proof of concept for the following publication:
+Grazzini J. and Lamarche P. (2017): 
+<a href="https://www.conference-service.com/NTTS2017/documents/agenda/data/abstracts/abstract_124.html">Production of social statistics... goes social!</a>, 
+in Proc. <em>New Techniques and Technologies for Statistics</em>.
+<br>
+© 2017, J.Grazzini & P.Lamarche, European Commission
+<br>
+Licensed under <a href="https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11">European Union Public License</a>.
+</div>​
+</body>
+</html>
+
