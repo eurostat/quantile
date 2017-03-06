@@ -95,7 +95,8 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 
 ###  <a name="python_quantile"></a> `Python` method
 
-	>>> q = quantile(x, probs, na_rm = False, type = 7, method='DIRECT', limit=(0,1))
+	>>> q = quantile(x, probs, na_rm = False, type = 7, 
+		  method='DIRECT', limit=(0,1))
 	
 ##### Arguments
 * `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
@@ -114,7 +115,8 @@ estimate quantiles; this  case is incompatible with `type<4` (see below);
 
 ###  <a name="r_quantile"></a> `R` method
 
-	> q <- quantile(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, type=7, method="DIRECT", names= FALSE)
+	> q <- quantile(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, 
+		  type=7, method="DIRECT", names= FALSE)
 	
 ##### Arguments
 * `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
