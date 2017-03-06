@@ -41,7 +41,7 @@ Some arguments are common to the implementations in the different languages:
 
 <hr size="5" style="color:black;background-color:black;" />
 
-### <a name="sas_quantile"></a> SAS macro
+### <a name="sas_quantile"></a> `SAS` macro
 	
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
 		  idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
@@ -122,10 +122,10 @@ estimate quantiles; this  case is incompatible with `type<4` (see below);
 * `type` : (`int`, _option_) default: `type=7`.
 * `x` : a numeric vector or a value (character or integer) providing with the sample data; when `data` is not null, 
 	`x` provides with the name (`char`) or the position (int) of the variable of interest in the table;
-* `data : (_option_) input table, defined as a dataframe, whose column defined by `x`	is used as sample data for 
+* `data` : (_option_) input table, defined as a dataframe, whose column defined by `x` is used as sample data for 
 	the estimation; if passed, then `x` should be defined as a character or an integer; default: `data=NULL` and 
 	input sample data should be passed as numeric vector in `x`;
-* `probs : (_option_) numeric vector giving the probabilities with values in [0,1]; default: `probs=seq(0, 1, 0.25)` like 
+* `probs` : (_option_) numeric vector giving the probabilities with values in [0,1]; default: `probs=seq(0, 1, 0.25)` like 
 	in original `stats::quantile` function;
 * `na_rm, names` : (`bool`, _option_) logical flags; if `na.rm=TRUE`, any NA and NaN's are removed from `x` before 
 	the quantiles are computed; if `names=TRUE`, the result has a names attribute; these two flags follow exactly 
