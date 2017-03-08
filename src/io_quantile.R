@@ -13,8 +13,9 @@
 #		`header=TRUE`;
 #' @param probs, na.rm, names, type, method : (_option_) same as those used in `quantile` function.
 #'
-#' @return a vector containing the quantile values.
-#' @export
+#' @return q : a vector containing the quantile values.
+#' @export ofile : output filename (in csv format) where estimated quantiles stored; default:
+#		`ofile=NULL` and no export is performed.
 #' 
 #' @references This code is intended as a supporting material for the following publication:
 #    Grazzini J. and Lamarche P. (2017): Production of social statistics... goes social!, 
@@ -27,13 +28,16 @@
 if(exists("quantile", mode = "function"))
     source("quantile.R")
     
-io_quantile <- function(infile, probs = seq(0, 1, 0.25), type = 7, names=FALSE, method="DIRECT", header=TRUE) {
-  if (!is.character(infile)) 
-  	stop("Wrong input parameter type.")
-  else if(!file.exists(infile)) 
-  	stop("Input file path not recognised.")
+io_quantile <- function(ifile, probs = seq(0, 1, 0.25), type = 7, ofile=NULL, names=FALSE, method="DIRECT", 	header=TRUE) {
+  if (!is.character(ifile)) 
+  	stop("Wrong input parameter IFILE type.")
+  else if(!file.exists(ifile)) 
+  	stop("Input file path IFILE not recognised.")
+  else if (!is.null(ofile) & !is.character(ofile)) 
+  	stop("Wrong output parameter OFILE type.")
+
   tryCatch({
-    	x <- read.csv(infile, header=header)   		
+    	x <- read.csv(ifile, header=header)   		
   	},
   	warning = function(w){
   		message () # dummy warning
@@ -44,9 +48,30 @@ io_quantile <- function(infile, probs = seq(0, 1, 0.25), type = 7, names=FALSE, 
   		message(e)	
   		return(NA)
   	})
+  	
   # we accept 1- and 2-column dataset
   data <- x
   x <- colnames(x)[length(colnames(x))]
-  return(quantile(x, data = data, probs = probs, method = method, type = type, names = names))
+  q <- quantile(x, data = data, probs = probs, method = method, type = type, names = names)
+  
+  if(!is.null(ofile)) {
+  	if(!file.exists(ofile)) 
+  		message("Output file path OFILE will be overwritten.")
+  	
+  	tryCatch({
+    	write.csv(q, ofile, header=header)   		
+  	},
+  	warning = function(w){
+  		message () # dummy warning
+  		return(NULL)
+  	},
+  	error = function(e){
+  		message ("Input data not loaded")
+  		message(e)	
+  		return(NA)
+  	})
+  }
+  
+  return(q)
  }
 

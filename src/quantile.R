@@ -78,21 +78,21 @@ quantile <- function(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, type=7,
   
   # run the algorithm
   if (type %in% 1:9 & method=='INHERIT') {
-  	    return(stats::quantile(X, probs = probs, type = type))
+	return(stats::quantile(X, probs = probs, type = type))
   	    
   } else if (type>=10 | method=='DIRECT') {
     
   	m <- switch(type,
-  		0,							# type=1
-  		0,							# type=2
-  		-0.5,						# type=3
-  		0,							# type=4
-  		0.5,						# type=5
-  		probs,						# type=6
+  		0,						# type=1
+  		0,						# type=2
+  		-0.5,					# type=3
+  		0,						# type=4
+  		0.5,					# type=5
+  		probs,					# type=6
   		1-probs,					# type=7
-  		(probs+1)/3.,				# type=8
+  		(probs+1)/3.,			# type=8
   		(2*probs+3)/8.,			# type=9
-  		.4 + .2 * probs,			# type=10
+  		.4 + .2 * probs,		# type=10
   		.3175 + .365 * probs	# type=11
   		)
   		
@@ -103,8 +103,8 @@ quantile <- function(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, type=7,
 		# note the order of the assignments here: J is adjusted only after J_1 has been set
 		J <- floor(N*probs + m) 
 	 	J_1 <- J-1
-	 	J <- ifelse(J>=N, N-1, J)
-	 	J_1 <- ifelse(J_1<=0, 0, J_1)
+	 	J <- ifelse(J>=N, N-1, ifelse(J<0, 0, J))
+	 	J_1 <- ifelse(J_1<=0, 0, ifelse(J_1>=N, N-1, J_1))
 	} else {
     	pp <- (1:N)/N
   		indexQj <- function(p, x, wcum) {
@@ -136,17 +136,17 @@ quantile <- function(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, type=7,
     # set gamma depending on the type chosen
     gamma <- rep(0., np) # dummy initialisation
     if (type == 1) {
-    	gamma[g>0] = 1.
-    	# gamma[g<=0] = 0.
+    		gamma[g>0] = 1.
+    		# gamma[g<=0] = 0.
     } else if (type==2) {
-    	gamma[g>0] = 1.
-    	gamma[g<=0] = 0.5
+    		gamma[g>0] = 1.
+    		gamma[g<=0] = 0.5
     } else if (type==3) {
-    	# gamma[g==0 & j%%2==0] = 0.
-    	gamma[g!=0 | j%%2==1] = 0.5
+    		# gamma[g==0 & J%%2==0] = 0.
+    		gamma[g!=0 | J%%2==1] = 1
     } else 
-    gamma <- g
-    
+    		gamma <- g
+    		
     qs <- (1-gamma)*Xj_1 + gamma*Xj
     
     # again, we follow here the convention of original stats::quantile function as
@@ -154,9 +154,9 @@ quantile <- function(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, type=7,
     if (names && np > 0L) {
     	dig <- max(2L, getOption("digits"))
 		names(qs) <- paste( 
-							if (np<100) formatC(100*probs,format="fg", width=1, digits=dig)
-							else format(100*probs, trim=TRUE, digits=dig), "%", sep=""
-							)
+					if (np<100) formatC(100*probs,format="fg", width=1, digits=dig)
+					else format(100*probs, trim=TRUE, digits=dig), "%", sep=""
+					)
 	}
 	
 	return(qs)
