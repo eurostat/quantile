@@ -59,29 +59,34 @@ import quantile
 class IO_Quantile(quantile.Quantile):
 
     #/************************************************************************/
-    def __call__(self, data, **kwargs):  
-        if data is None:
+    def __call__(self, ifile, **kwargs):  
+        if ifile is None:
             raise IOError("input data not set")
-        elif not isinstance(data, str):
+        elif not isinstance(ifile, str):
             raise TypeError("a filename should be passed")
-        data = self.__read(data)
+        header = kwargs.pop('header',None)
+        data = self.__read(ifile, header=header)
+        if data is None:
+            raise IOError("input data {} file note found".format(ifile))
+        # we accept 1- and 2-column dataset
+        data = data.ix[:,len(data.columns)-1]
         return super(IO_Quantile, self).__call__(data, **kwargs)
 
     #/************************************************************************/
     @staticmethod
-    def __read(filename):  
+    def __read(filename, header=None):  
         if not os.path.exists(filename):
             raise IOError("input filename not found")
         data = None
         # see http://pandas.pydata.org/pandas-docs/stable/io.html
         ext = filename.split('.')[-1]
         if ext in FORMATS.keys():   
-            fmts = FORMATS[ext]
+            fmts = (FORMATS[ext],) # formatted as a list...
         else:                       
             fmts = FORMATS.values()
         for fmt in fmts:
             try:
-                data = getattr(pd, 'read_{fmt}'.format(fmt=fmt))(filename)
+                data = getattr(pd, 'read_{fmt}'.format(fmt=fmt))(filename, header=header)
             except:
                 pass
         return data
@@ -134,7 +139,7 @@ class IO_Quantile(quantile.Quantile):
             except:
                 pass # stopping recursion.
         try:
-            return self.__get__(obj) # getattr(self, obj) 
+            return object.__getattribute__(self, obj) 
         except:
             raise AttributeError
 

@@ -167,8 +167,8 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
             if g > 0:                       gamma=1
             else:                           gamma=0.5
         elif typ==3:
-            if g == 0 and j%2 == 0:         gamma=0;
-            else:                           gamma=1;
+            gamma = np.zeros(len(j))
+            gamma[g != 0 or j%2 == 1] = 1;
         elif typ >= 4:                      gamma=g;
         return gamma
 
@@ -178,14 +178,17 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
         and Filliben.
         """
         # inspired by the _quantiles1D function of mquantiles
-        N = sorted_x.count() # len(sorted_x) 
+        N = len(sorted_x) # sorted_x.count() 
         m_indice = lambda p, i: {1: 0, 2: 0, 3: -0.5, 4: 0, 5: 0.5,         \
                                  6: p, 7: 1-p, 8: (p+1)/3 , 9: (2*p+3)/8,   \
                                  10: .4 + .2 * p, 11: .3175 +.365*p}[i]
         j_indice = lambda p, n, m: np.int_(np.floor(n*p + m))
         g_indice = lambda p, n, m, j: p * n + m - j
-        m = m_indice(probs, type)
+        m = m_indice(probs, typ)
         j = j_indice(probs, N, m)
+        j_1 = j-1
+        # adjust for the bounds
+        j_1[j_1<0] = 0 ; j[j>N-1] = N-1
         x1 = sorted_x[j-1] # indexes start at 0...
         x2 = sorted_x[j]
         g = g_indice(probs, N, m, j)
@@ -197,7 +200,7 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
         of the _quantiles1D function of mquantiles.
         source: https://github.com/scipy/scipy/blob/master/scipy/stats/mstats_basic.py
         """
-        N = sorted_x.count() # len(sorted_x) 
+        N = len(sorted_x) # sorted_x.count() # though ndarray's have no 'count' attribute
         if N == 0:
             return np_ma.array(np.empty(len(probs), dtype=float), mask=True)
         elif N == 1:
@@ -380,9 +383,10 @@ class Quantile(object):
                        'method': kwargs.get('method') or self.method,
                        'limit': kwargs.get('limit') or self.limit,
                        'na_rm': kwargs.get('na_rm') or self.na_rm,
-                       'is_sorted': kwargs.get('is_sorted')})
+                       'is_sorted': kwargs.get('is_sorted',False)})
+        print(kwargs)
         self.__params = kwargs
-        self.__quantile = self.__operator(data, self.probs, **kwargs)
+        self.__quantile = self.__operator(data, **kwargs)
         return self.__quantile
   
         
