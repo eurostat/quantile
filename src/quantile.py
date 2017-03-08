@@ -160,16 +160,22 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
     ## algorithm implementation
         
     def gamma_indice(g, j, typ):
+        gamma = np.zeros(len(j))
         if typ==1:
-            if g > 0:                       gamma=1
-            else:                           gamma=0
+            gamma[np.where(g > 0)] = 1
+            # gamma[np.where(g <= 0)] = 0
         elif typ==2:
-            if g > 0:                       gamma=1
-            else:                           gamma=0.5
+            gamma[np.where(g > 0)] = 1
+            gamma[np.where(g <= 0)] = 0.5
         elif typ==3:
-            gamma = np.zeros(len(j))
-            gamma[g != 0 or j%2 == 1] = 1;
-        elif typ >= 4:                      gamma=g;
+            print (gamma)
+            print(g)
+            print(g != 0)
+            print(j%2)
+            print(j%2 == 1)
+            gamma[np.where(np.logical_or(g != 0, j%2 == 1))] = 1;
+        elif typ >= 4:                      
+            gamma=g;
         return gamma
 
     def _canonical_quantile1D(typ, sorted_x, probs):
@@ -189,7 +195,9 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
         j_1 = j-1
         # adjust for the bounds
         j_1[j_1<0] = 0 ; j[j>N-1] = N-1
-        x1 = sorted_x[j-1] # indexes start at 0...
+        print(j)
+        print(j_1)
+        x1 = sorted_x[j_1] # indexes start at 0...
         x2 = sorted_x[j]
         g = g_indice(probs, N, m, j)
         gamma = gamma_indice(g, j, typ);
@@ -210,7 +218,7 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
         abp_indice = lambda typ: {1: (0, 1), 2: (0, 1), 3: (-.5, -1.5), 4: (0, 1),  \
                            5: (.5 , .5),  6: (0 , 0),  7:(1 , 1), 8: (1/3, 1/3),    \
                             9: (3/8 , 3/8), 10: (.4,.4), 11: (.3175, .3175)}[typ]
-        alphap, betap = abp_indice[type]
+        alphap, betap = abp_indice(typ)
         m = alphap + probs * (1.-alphap-betap)
         aleph = (probs * N + m)
         j = np.floor(aleph.clip(1, N-1)).astype(int)
