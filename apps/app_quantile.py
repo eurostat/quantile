@@ -74,18 +74,18 @@ class QuantileForm(FlaskForm):
     typ = SelectField(u'Algorithm selection', coerce=int, \
                       choices=quantile.ALGORITHMS,      \
                       default=quantile.ALGORITHMS[6])
-    squant = SelectField(u'Quantile probablities selection', coerce=int,           \
+    squant = SelectField(u'Quantile probablities selection', #coerce=int,           \
                           choices=quantile.SQUANTILES,                  \
                           default=quantile.SQUANTILES[3])
     #fmtprobs = RadioField('Quantile probabilities entered as: ',                \
     #                      choices = [('F','a csv file'),('L','a list')])
     #probs = FileField(u'Quantile probabilities',                                \
     #    validators=[OptionalIfFieldEqualTo('fmtprobs','F')]) # [validators.regexp(u'^[^/\\]\.csv$')]
-    # method = SelectField(u'method', choices=quantile.APPROACHES)
-    #limit= FloatField(u'Limits of sampled data', [validators.NumberRange(min=0, max=1.)])
+    method = SelectField(u'method', choices=quantile.APPROACHES)
+    # limit= FloatField(u'Limits of sampled data', [validators.NumberRange(min=0, max=1.)])
     na_rm = BooleanField(
         label=u'Remove NA and NaN from input dataset?', default=False)
-    submit = SubmitField(u'Compute')
+    submit = SubmitField(u'COMPUTE')
     
 # View
 def allowed_file(filename):
@@ -99,7 +99,6 @@ def check_folder(folder):
     """
     if not os.path.isdir(folder):
         os.mkdir(folder)
-  
         
 app = Flask(__name__)
 
@@ -112,45 +111,37 @@ app.config['ALLOWED_EXTENSIONS'] = set(ALLOWED_EXTENSIONS)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print('in index', file=sys.stderr)
-    form = QuantileForm() #(request.form) #(csrf_enabled=False) #deprecated
     if request.method == 'POST':        
-        print('enter POST 1', file=sys.stderr)
+        form = QuantileForm() #(request.form) #(csrf_enabled=False) #deprecated
         if form.validate_on_submit() == False:
-            print('enter POST 1.5', file=sys.stderr)
             flash('Missing fields')
-            return render_template('index.html', form=form)
-        print('enter POST 2', file=sys.stderr)
-        print(request.files, file=sys.stderr)
+            return render_template('index.html', form=form, result=None)
         # check if the post request has the file part
         if 'data' not in request.files: # anyway, the form would not have been validated
             flash('No file uploaded')
-            return redirect(request.url)
-        print('enter POST 3', file=sys.stderr)
+            return redirect(url_for('index'))
         datafile = request.files['data']
         # check if the file is one of the allowed types/extensions
         filename = datafile.filename
-        print('filename={}'.format(filename), file=sys.stderr)
         if filename == '' or not allowed_file(filename): 
             flash('File not recognised')
-            return redirect(request.url)
+            return redirect(url_for('index'))
         # Move the file form the temporal folder to
         # the upload folder we setup
         path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         datafile.save(path)
         #return redirect(url_for('uploaded_file',
         #                        filename=filename))
-        print('path to sample file'.format(path), file=sys.stderr)
-        print(form.typ.data, file=sys.stderr)
-        ioQ = io_quantile.IO_Quantile(probs=form.squant.data, typ=form.typ.data
-            # method=form.method.data,limit=form.limit.data, na_rm=form.na_rm.data
+        ioQ = io_quantile.IO_Quantile(probs=form.squant.data, typ=form.typ.data,
+            method=form.method.data, na_rm=form.na_rm.data
             ) 
         result = ioQ(path)
+        # print(result, file=sys.stderr)
     else:
+        form = QuantileForm(formdata=None)
         result = None
-    # return render_template('upload.html', form=form)
-
-    return render_template('index.html', form=form) #, result=result
+    
+    return render_template('index.html', form=form, result=result)#return redirect(url_for('index'))
 
         
 @app.route('/uploads/<filename>')
@@ -158,8 +149,12 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    # app.secret_key = SECRET_KEY
+    app.secret_key = SECRET_KEY
     app.config['SESSION_TYPE'] = SESSION_TYPE    
+ 
+    # to kill the session (running on http://127.0.0.1:5000):
+    # find the PID for port=5000: lsof -i :5000 
+    # kill it: sudo kill -9 PID 
     app.run(
         debug=True
     )

@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta content="text/html; charset=windows-1252" http-equiv="content-type">
       <h2 style = "text-align: center;">Quantile estimation</h2>
   </head>
+
   <body>
 		
       {% for message in form.data.errors %}
          <div><p style="color:red"><b>{{ message }}</b></p></div>
       {% endfor %}
-
+      
       <form method=post action=""
           enctype="multipart/form-data">
          <fieldset>
-            <legend>Quantile estimation (<font face="verdana,sans-serif" size="+0">Python</font> based)</legend>
+            <legend>Parameter configuration (<font face="verdana,sans-serif" size="+0">Python</font> quantile)</legend>
 <table>
   {% for field in form %}
      {% if field.label.text!='CSRF Token' %} <!-- no clue why it appears in the form otherwise...-->
      <tr>
-      {% if field.label.text!='Compute' %}
+      {% if field.label.text!='COMPUTE' %}
         <td>{{ field.label }}</td>
       {% endif %}
     <td>{{ field }}</td>
@@ -31,8 +33,14 @@
 </p>
 
 <p>
-{% if result != None %}
-<img src="{{ result }}" width="500">
+{% if result is not none and result != None %}
+<fieldset>
+         <legend>Output results</legend>
+  {% for q in result %}
+    <br>{{q}}
+  {% endfor %}
+<!-- <img src="{{ result }}" width="500"> -->
+     </fieldset>
 {% endif %}
 </p>
 
