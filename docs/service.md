@@ -1,4 +1,4 @@
-## <a name="Service"></a>Service
+## <a name="Service"></a>Micro web-service
 
 `app_quantile`: Simple web-service that runs configurable estimation of empirical quantiles over a sample data file. 
 
@@ -9,7 +9,7 @@
 We create a very basic (_quick & dirty_) web interface to the quantile estimation algorithm implemented in [syntax](syntax.md#python_quantile).
 To do so, it is only needed to install [Flask](http://flask.pocoo.org/). 
 
-##### Description of the source
+##### Description of the program
 
 The web application is the `app` object of class `Flask` that appears in the source program `app_quantile.py`. When launched (see [below](#Running)), this application renders a HTML page which looks that the figure below:
 
