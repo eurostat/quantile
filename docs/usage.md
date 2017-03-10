@@ -6,29 +6,26 @@
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
 ~~~sas
 DATA test;
-DO i = 1 TO 1000;
-  x = rand('NORMAL');
-  output;
-END;
-DROP i;
+	DO i = 1 TO 1000;
+  		x = rand('NORMAL');
+  		output;
+	END;
+	DROP i;
 RUN;
 
 %quantile(x, idsn = test, _quantiles_ = q_x);
-
 %PUT &q_x;
 ~~~
 
 Do change the algorithm used for estimation:
 ~~~sas
 %quantile(x, type = 5, idsn = test, _quantiles_ = q_x);
-
 %PUT &q_x;
 ~~~
 
 Now compute the quintiles:
 ~~~sas
 %quantile(x, probs = 0.2 0.4 0.6 0.8, idsn = test, _quantiles_ = q_x);
-
 %PUT &q_x;
 ~~~
 
@@ -41,21 +38,21 @@ Compute the quartiles of a randomly generated vector (with normal distribution) 
 >>> from quantile import quantile
 >>> q = quantile(x)
 >>> print(q)
-	[ 0.10668975  0.19514584  0.33299627  0.53016722  0.89982259]
+	[0.10668975  0.19514584  0.33299627  0.53016722  0.89982259]
 ~~~
 
 Do change the algorithm used for estimation:
 ~~~py
 >>> q = quantile(x, typ=5)
 >>> print(q)
-	[ 0.10668975  0.19323867  0.33299627  0.54542127  0.89982259]
+	[0.10668975  0.19323867  0.33299627  0.54542127  0.89982259]
 ~~~
 
 Now compute the quintiles:
 ~~~py
 >>> q = quantile(x, probs=[0., .2, .4, .6, .8, 1.])
 >>> print(q)
-	[ 0.10668975  0.17672622  0.21760127  0.45610321  0.60035713  0.89982259]
+	[0.10668975  0.17672622  0.21760127  0.45610321  0.60035713  0.89982259]
 ~~~
 
 Consider comparing the results obtained using both already existing `scipy.mquantiles` and the new implementation:
@@ -114,7 +111,81 @@ Note the definition of the `IO_Quartile` class that specifically runs estimation
 >>> Qu.plot(ifile)
 >>> pyplot.show()
 ~~~
-<img src="boxplot.png" alt="app view" width="600">
+<img src="boxplot.png" alt="app view" width="300">
 
 
 ### `R` programs
+
+Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
+~~~py
+> source("quantile.R")
+> x <- rnorm(1000)
+> quantile(x)
+[1] -3.4336152 -0.6638305  0.0228467  0.7090099  3.1428912
+~~~
+
+Note the usage of `names` parameter for formatting the output vector (likewise the original `stats::quantile` function):
+~~~py
+> quantile(x, names=TRUE)
+        0%        25%        50%        75%       100% 
+-3.4336152 -0.6638305  0.0228467  0.7090099  3.1428912 
+~~~
+
+Check that in `INHERIT` mode, we indeed wrap the original `stats::quantile` function:
+~~~py
+> quantile(x, method='INHERIT')
+        0%        25%        50%        75%       100% 
+-3.4336152 -0.6638305  0.0228467  0.7090099  3.1428912 
+> stats::quantile(x)
+        0%        25%        50%        75%       100% 
+-3.4336152 -0.6638305  0.0228467  0.7090099  3.1428912 
+~~~
+
+Do select other input parameters to test different types of implementation: 
+~~~py
+> quantile(x, type=5, probs=seq(0.,1.,0.1), names=TRUE)
+        0%        10%        20%        30%        40%        50%        60%        70%        80%        90%       100% 
+-3.4336152 -1.3146826 -0.8156684 -0.5113350 -0.2285216  0.0228467  0.2787606  0.5420263  0.8906395  1.3397724  3.1428912 
+~~~
+
+You can for instance check the effect of the choice of the estimation algorithm on the calculation of the median:
+~~~py
+> quantile(x, type=1, probs=0.5, names=TRUE)
+      50% 
+0.0198003 
+> quantile(x, type=3, probs=0.5, names=TRUE)
+      50% 
+0.0198003 
+> quantile(x, type=5, probs=0.5, names=TRUE)
+      50% 
+0.0228467 
+> stats::quantile(x, type=7, probs=0.5, names=TRUE)
+      50% 
+0.0228467 
+> quantile(x, type=7, probs=0.5, names=TRUE)
+      50% 
+0.0228467 
+> quantile(x, type=8, probs=0.5, names=TRUE)
+      50% 
+0.0228467 
+> quantile(x, type=10, probs=0.5, names=TRUE)
+      50% 
+0.0228467 
+~~~
+
+Note that the method also works with data frame objects:
+~~~py
+> d = data.frame(x=x)
+> quantile(1, type=11, probs=0.5, names=TRUE, data=d)
+      50% 
+0.0228467 
+~~~
+
+Finally, you can, likewise the `Python` implementation, run the quantile estimation on an input file 
+~~~py
+> source("io_quantile.R")
+> ifile = "/Users/gjacopo/Developments/quantile/tests/sample1.csv"
+> io_quantile(ifile, names=TRUE)
+         0%         25%         50%         75%        100% 
+-3.71390789 -0.65658941 -0.01801632  0.58892170  2.84320792 
+~~~
