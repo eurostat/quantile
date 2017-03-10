@@ -31,6 +31,30 @@ Now compute the quintiles:
 %PUT &q_x;
 ~~~
 
+Consider comparing the results obtained using both already existing `PROC UNIVARIATE` and the new implementation:
+~~~sas
+%LET probs = .2 .4 .6 .8;
+%LET type = 8;
+%quantile(x, probs=&probs, type=&type, method=DIRECT, _quantiles_ = q1);
+%PUT &q1;
+
+PROC UNIVARIATE DATA=test;
+VAR x;
+OUTPUT OUT=result PCTLPTS=&probs PCTLPRE=P_;
+RUN;
+
+DATA result;
+SET result;
+ARRAY P P_:;
+DO i=1 TO 5;
+  CALL SYMPUT("q2","&q2 "!!LEFT(P(i)));
+END;
+RUN;
+
+%PUT &q2;
+
+~~~
+
 ### `Python` programs
 
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
@@ -119,7 +143,7 @@ Note the definition of the `IO_Quartile` class that specifically runs estimation
 ### `R` programs
 
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
-~~~py
+~~~r
 > source("quantile.R")
 > x <- rnorm(1000)
 > quantile(x)
@@ -127,14 +151,14 @@ Compute the quartiles of a randomly generated vector (with normal distribution) 
 ~~~
 
 Note the usage of `names` parameter for formatting the output vector (likewise the original `stats::quantile` function):
-~~~py
+~~~r
 > quantile(x, names=TRUE)
         0%        25%        50%        75%       100% 
 -3.4336152 -0.6638305  0.0228467  0.7090099  3.1428912 
 ~~~
 
 Check that in `INHERIT` mode, we indeed wrap the original `stats::quantile` function:
-~~~py
+~~~r
 > quantile(x, method='INHERIT')
         0%        25%        50%        75%       100% 
 -3.4336152 -0.6638305  0.0228467  0.7090099  3.1428912 
@@ -144,14 +168,14 @@ Check that in `INHERIT` mode, we indeed wrap the original `stats::quantile` func
 ~~~
 
 Do select other input parameters to test different types of implementation: 
-~~~py
+~~~r
 > quantile(x, type=5, probs=seq(0.,1.,0.1), names=TRUE)
         0%        10%        20%        30%        40%        50%        60%        70%        80%        90%       100% 
 -3.4336152 -1.3146826 -0.8156684 -0.5113350 -0.2285216  0.0228467  0.2787606  0.5420263  0.8906395  1.3397724  3.1428912 
 ~~~
 
 You can for instance check the effect of the choice of the estimation algorithm on the calculation of the median:
-~~~py
+~~~r
 > quantile(x, type=1, probs=0.5, names=TRUE)
       50% 
 0.0198003 
@@ -176,7 +200,7 @@ You can for instance check the effect of the choice of the estimation algorithm 
 ~~~
 
 Note that the method also works with data frame objects:
-~~~py
+~~~r
 > d = data.frame(x=x)
 > quantile(1, type=11, probs=0.5, names=TRUE, data=d)
       50% 
@@ -184,7 +208,7 @@ Note that the method also works with data frame objects:
 ~~~
 
 Finally, you can, likewise the `Python` implementation, run the quantile estimation on an input file 
-~~~py
+~~~r
 > source("io_quantile.R")
 > ifile = "/Users/gjacopo/Developments/quantile/tests/sample1.csv"
 > io_quantile(ifile, names=TRUE)
