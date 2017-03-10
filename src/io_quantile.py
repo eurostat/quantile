@@ -34,7 +34,7 @@ Copyright (c) 2017, J.Grazzini & P.Lamarche, European Commission
 Licensed under [European Union Public License](https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11)
 """
 
-import os, sys
+import os, sys, re
 import warnings
 import csv
 
@@ -50,6 +50,14 @@ except:
         DataFrame = type('dummy',(object,))
         Series = type('dummy',(object,))
 
+try:
+    #import matplotlib
+    from matplotlib import pyplot as plt        
+except:
+    class plt(): # dummy class
+        show = type('dummy',(object,))
+        subplot = type('dummy',(object,))
+       
 import quantile
 
 
@@ -65,7 +73,7 @@ class IO_Quantile(quantile.Quantile):
         elif not isinstance(ifile, str):
             raise TypeError("a filename should be passed")
         header = kwargs.pop('header',None)
-        data = self.__read(ifile, header=header)
+        data = self.read(ifile, header=header)
         if data is None:
             raise IOError("input data {} file note found".format(ifile))
         # we accept 1- and 2-column dataset
@@ -73,8 +81,7 @@ class IO_Quantile(quantile.Quantile):
         return super(IO_Quantile, self).__call__(data, **kwargs)
 
     #/************************************************************************/
-    @staticmethod
-    def __read(filename, header=None):  
+    def read(self, filename, header=None):  
         if not os.path.exists(filename):
             raise IOError("input filename not found")
         data = None
@@ -156,8 +163,16 @@ class IO_Quartile(IO_Quantile):
         self.__operator = quantile.quartile
        
     #/************************************************************************/
+    def plot(self, data, **kwargs):
+        quant = self.__call__(data, **kwargs)
+        fig, ax = plt.subplots()
+        boxplot = self.__custom_boxplot([quant,], ax, notch=0, sym='+', vert=1, whis=1.5)
+        plt.show()
+        return boxplot, ax, fig 
+        
+    #/************************************************************************/
     @staticmethod
-    def outlier_limits(data, whis=1.5, **kwargs):
+    def __outlier_limits(data, whis=1.5, **kwargs):
         if len(data) == 5:
             quart = data
         else:
@@ -169,7 +184,7 @@ class IO_Quartile(IO_Quantile):
        
     #/************************************************************************/
     @staticmethod
-    def whisker_limits(data, whis=1.5, **kwargs):
+    def __whisker_limits(data, whis=1.5, **kwargs):
         quart = quantile.quartile(data, **kwargs)
         iqr = quantile.IQR(quart)
     
@@ -202,9 +217,9 @@ class IO_Quartile(IO_Quantile):
         """            
 
         n_box = 1 # len(quant)
-        dummy = [1, 2, 3, 4, 5] # [-9, -4, 2, 4, 9]
+        dummy = [1, 2, 3, 4, 5] 
         box_plot = ax.boxplot([dummy,]*n_box, *args, **kwargs) 
-        # Creates len(percentiles) no of box plots
+        # Creates len(quant) no of box plots
     
         min_y, max_y = float('inf'), -float('inf')
     
@@ -268,7 +283,6 @@ if __name__ == "__main__":
     """Main function launched when module is used as a script.
     """
     
-    import sys, re
     import argparse
 
     prog = QUANTILE_PROGRAM

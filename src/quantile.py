@@ -30,7 +30,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 
 from __future__ import division, print_function, absolute_import
 
-
+import re
 import warnings
 
 #__all__ = ['quantile', 'quartile', 'quintile', 'IQR',
@@ -64,26 +64,29 @@ TYPES =         [a[0] for a in ALGORITHMS] # range(1,11+1)
 DEF_TYPE =      7
 
 APPROACHES =    [('DIRECT','[DIRECT] canonical application of quantile algorithm'), \
-                 ('INHERIT','[INHERIT] extension of already existing method')]
+                 ('INHERIT','[INHERIT] wrapper of scipy.mquantiles method')]
 METHODS =       [a[0] for a in APPROACHES] # range(1,11+1)
 DEF_METHOD =    'DIRECT'
 
-DEF_PROBS =     [0, 0.25, 0.5, 0.75, 1]
+DEF_PROBS =     [0, 0.25, 0.5, 0.75, 1] # default: quartile are calculated
 DEF_LIMIT =     (0,1)
 DEF_NARM =      False
  
 # specialized quantiles
-SQUANTILES =    [ (2, 'M2 - median'),                         \
-                  (3, 'T3 - terciles'),                       \
-                  (4,'Qu4 - quartiles'),                      \
-                  (5,'Q5 - quintiles'),                       \
-                  (6,'S6 - sextiles'),                        \
-                  (10,'D10 - deciles'),                       \
-                  (12,'Dd12 - duo-deciles'),                  \
-                  (20,'V - ventiles'),                        \
-                  (100,'P - percentiles') ]        
-SPROBS =        dict([(q[0],np.linspace(0,1,q[0]+1)[1:-1]) \
+SQUANTILES =    [ ('M2', 'M2 - median'),                    \
+                  ('T3', 'T3 - terciles'),                  \
+                  ('Qu4', 'Qu4 - quartiles'),               \
+                  ('Q5', 'Q5 - quintiles'),                 \
+                  ('S6', 'S6 - sextiles'),                  \
+                  ('D10', 'D10 - deciles'),                 \
+                  ('Dd12', 'Dd12 - duo-deciles'),           \
+                  ('V20', 'V20 - ventiles'),                \
+                  ('P100', 'P100 - percentiles') ]        
+SCODES =        dict([(int(re.findall(r'\d+',q[0])[0]), q[0]) \
                       for q in SQUANTILES])
+SPROBS =        dict([(v,np.linspace(0,1,k+1)[1:-1]) \
+                      for (k,v) in SCODES.items()])
+
 
 #==============================================================================
 # QUANTILE METHOD
@@ -168,11 +171,6 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
             gamma[np.where(g > 0)] = 1
             gamma[np.where(g <= 0)] = 0.5
         elif typ==3:
-            print (gamma)
-            print(g)
-            print(g != 0)
-            print(j%2)
-            print(j%2 == 1)
             gamma[np.where(np.logical_or(g != 0, j%2 == 1))] = 1;
         elif typ >= 4:                      
             gamma=g;
@@ -195,8 +193,6 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
         j_1 = j-1
         # adjust for the bounds
         j_1[j_1<0] = 0 ; j[j>N-1] = N-1
-        print(j)
-        print(j_1)
         x1 = sorted_x[j_1] # indexes start at 0...
         x2 = sorted_x[j]
         g = g_indice(probs, N, m, j)
@@ -309,7 +305,11 @@ class Quantile(object):
         return self.__probs
     @probs.setter
     def probs(self, probs):
-        if isinstance(probs, int) and probs in SPROBS:
+        # convert
+        if isinstance(probs, int) and probs in SCODES:
+            probs = SCODES[probs]
+        # recheck
+        if isinstance(probs, str) and probs in SPROBS:
             probs = SPROBS[probs]
         elif not isinstance(probs, (tuple,list,pd.DataFrame,pd.Series,np.ndarray)):
             raise TypeError('wrong type for PROBS parameter')
@@ -392,7 +392,6 @@ class Quantile(object):
                        'limit': kwargs.get('limit') or self.limit,
                        'na_rm': kwargs.get('na_rm') or self.na_rm,
                        'is_sorted': kwargs.get('is_sorted',False)})
-        print(kwargs)
         self.__params = kwargs
         self.__quantile = self.__operator(data, **kwargs)
         return self.__quantile
@@ -414,7 +413,7 @@ def quartile(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM,
 class Quartile(Quantile):
     
     def __init__(self, **kwargs):
-        kwargs.pop('probs', None) # just in case...
+        kwargs.update('probs', [0., .25, .5, .75, 1.])
         super(Quartile, self).__init__(**kwargs)
         self.__operator = quartile
 
@@ -435,7 +434,7 @@ def quintile(x, typ = DEF_TYPE, method = DEF_METHOD, na_rm = DEF_NARM,
 class Quintile(Quantile):
     
     def __init__(self, **kwargs):
-        kwargs.pop('probs', None) # just in case...
+        kwargs.update('probs', [0., .2, .4, .6, .8, 1.])
         super(Quartile, self).__init__(**kwargs)
         self.__operator = quintile
      
