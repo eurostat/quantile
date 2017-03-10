@@ -117,9 +117,11 @@ def quantile(x, probs = DEF_PROBS, typ = DEF_TYPE, method = DEF_METHOD,
     if isinstance(probs, (pd.DataFrame,pd.Series)):
         try:        probs = probs.values
         except:     raise TypeError("conversion type error for input probabilities")        
-    elif not isinstance(probs, np.ndarray):
+    elif isinstance(probs, (list,tuple)):
         try:        probs = np.array(probs, copy=False, ndmin=1)
-        except:     raise TypeError("wrong type for input probabilities")      
+        except:     raise TypeError("conversion type for error input probabilities")      
+    elif not isinstance(probs, np.ndarray):
+        raise TypeError("wrong type for input probabilities")
     # adjust the values: this is taken from R implementation, where alues up to 
     # 2e-14 outside that range are accepted and moved to the nearby endpoint
     eps = 100*np.finfo(np.double).eps
