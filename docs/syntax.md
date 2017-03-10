@@ -31,20 +31,24 @@ Some arguments are common to the implementations in the different languages:
 	|   11   | Filliben's estimate                                            |
 
 	default: `type=7` (likewise R `quantile`);
-* `method` : (_option_) choice of the implementation of the quantile estimation method; this can be either:
+* `method` : <a name="method"></a> (_option_) choice of the implementation of the quantile estimation method; this can be either:
 	+ `INHERIT` for an estimation based on the use of an already existing implementation in 
 	the given language,
 	+ `DIRECT` for a canonical implementation based on the direct transcription of the various
 	quantile estimation algorithms (see below) into the given language;
 		
 	default: `method=DIRECT`;
+* `na_rm` : <a name="na_rm"></a> (_option_) logical; if true, any NA and NaN's are removed from x before the quantiles 
+	are computed.
 
 <hr size="5" style="color:black;background-color:black;" />
 
 ### <a name="sas_quantile"></a> `SAS` macro
 	
+~~~sas
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
 		  idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
+~~~
 				
 ##### Arguments
 
@@ -57,9 +61,7 @@ Some arguments are common to the implementations in the different languages:
 * `ilib` : (_option_) name of the input library; by default: empty, _i.e._ `WORK` is used if `idsn` is 
 	set;
 * `olib` : (_option_) name of the output library (see `names` below); by default: empty, _i.e._ `WORK` 
-	is also used when `odsn` is set;
-* `na_rm` : (_obsolete_) logical; if true (`yes`), any NA and NaN's are removed from x before the quantiles 
-	are computed.
+	is also used when `odsn` is set.
 
 ##### Returns
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
@@ -90,38 +92,39 @@ defined by `type`. The output sample quantile are stored either in a list or as 
          <td>3</td><td>5</td><td>2</td><td>1</td><td> <i>n.a.</i></td><td>4</td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td><td> <i>n.a.</i></td>
     </tr>
 </table>
+* `na_rm` : (see [above](#na_rm))  true is `yes`, false is `no`.
 
 <hr size="5" style="color:black;background-color:black;" />
 
 ###  <a name="python_quantile"></a> `Python` method
 
+~~~py
 	>>> q = quantile(x, probs, na_rm = False, type = 7, 
 		  method='DIRECT', limit=(0,1))
+~~~
 	
 ##### Arguments
-* `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
-* `na_rm` : (`bool`) default: `na_rm=False`.
-* `type` : (`int`) default: `type=7`.
-* `method` : (`str`) string defining the estimation method
-* `limit` : (`list,tuple`)
+* `x` : input 1D (vector) data (`numpy.array`, `pandas.DataFrame`, or `pandas.Series`); 2D arrays are also accepted;
+* `limit` : (_option_) tuple/list of (lower, upper) values; values of a outside this open interval are ignored.
        
 ##### Returns
-* `q` : (`numpy.array`) 
+* `q` : 1D vector of quantiles returned as a `numpy.array`.
 
 ##### Notes
+* `probs` : (see [above](#probs)) the following codes: 2 or `M2`, 3 or `T3`, 4 or `Qu4`, 5 or `Q5, 6 or `S6`, 10 or `D10`, 12 or `Dd12`, 20 or `V20`, and 100 or `P100` can be used to compute common specialised quantiles (median, terciles, quartiles, quintiles, sextiles, deciles, duo-deciles, ventiles and percentiles _resp._);
 * `method` : (see [above](#method)) in the case `method=INHERIT`, the `scipy::mquantiles` function is used to
 estimate quantiles; this  case is incompatible with `type<4` (see below);        
-* `type` : (see [above](#type))  methods 4 to 11 are available in original `scipy::mquantiles` function. 
+* `type` : (see [above](#type))  methods 4 to 11 are available in original `scipy::mquantiles` function;
+* `na_rm` : (see [above](#na_rm))   true is `True`, false is `False`.
 
 ###  <a name="r_quantile"></a> `R` method
 
+~~~r
 	> q <- quantile(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, 
 		  type=7, method="DIRECT", names= FALSE)
+~~~
 	
 ##### Arguments
-* `x` : (`numpy.array`) input vector data; 2D arrays are also accepted.
-* `na_rm` : (`bool`, _option_) default: `na_rm=False`.
-* `type` : (`int`, _option_) default: `type=7`.
 * `x` : a numeric vector or a value (character or integer) providing with the sample data; when `data` is not null, 
 	`x` provides with the name (`char`) or the position (int) of the variable of interest in the table;
 * `data` : (_option_) input table, defined as a dataframe, whose column defined by `x` is used as sample data for 
@@ -129,7 +132,7 @@ estimate quantiles; this  case is incompatible with `type<4` (see below);
 	input sample data should be passed as numeric vector in `x`;
 * `probs` : (_option_) numeric vector giving the probabilities with values in [0,1]; default: `probs=seq(0, 1, 0.25)` like 
 	in original `stats::quantile` function;
-* `na_rm, names` : (`bool`, _option_) logical flags; if `na.rm=TRUE`, any NA and NaN's are removed from `x` before 
+* `na_rm, names` : (_option_) logical flags; if `na.rm=TRUE`, any NA and NaN's are removed from `x` before 
 	the quantiles are computed; if `names=TRUE`, the result has a names attribute; these two flags follow exactly 
 	the original implementation of `stats::quantile`; default: `na.rm= FALSE` and `names= FALSE`.
        
@@ -139,7 +142,7 @@ estimate quantiles; this  case is incompatible with `type>9` (see below);
 * `type` : (see [above](#type))  methods 1 to 9 are available in original `stats::quantile` function. 
        
 ##### Returns
-* `q` : (numeric vector) 
+* `q` : 1D vector of quantiles returned as a numeric vector. 
 
 <hr size="5" style="color:black;background-color:black;" />
 
