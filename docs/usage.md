@@ -12,19 +12,21 @@ DATA test;
 	END;
 	DROP i;
 RUN;
-
+%LET q_x=;
 %quantile(x, idsn = test, _quantiles_ = q_x);
 %PUT &q_x;
 ~~~
 
 Do change the algorithm used for estimation:
 ~~~sas
+%LET q_x=;
 %quantile(x, type = 5, idsn = test, _quantiles_ = q_x);
 %PUT &q_x;
 ~~~
 
 Now compute the quintiles:
 ~~~sas
+%LET q_x=;
 %quantile(x, probs = 0.2 0.4 0.6 0.8, idsn = test, _quantiles_ = q_x);
 %PUT &q_x;
 ~~~
