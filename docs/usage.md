@@ -3,6 +3,35 @@
 
 ### `SAS` programs
 
+Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
+~~~sas
+DATA test;
+DO i = 1 TO 1000;
+  x = rand('NORMAL');
+  output;
+END;
+DROP i;
+RUN;
+
+%quantile(x, idsn = test, _quantiles_ = q_x);
+
+%PUT &q_x;
+~~~
+
+Do change the algorithm used for estimation:
+~~~sas
+%quantile(x, type = 5, idsn = test, _quantiles_ = q_x);
+
+%PUT &q_x;
+~~~
+
+Now compute the quintiles:
+~~~sas
+%quantile(x, probs = 0.2 0.4 0.6 0.8, idsn = test, _quantiles_ = q_x);
+
+%PUT &q_x;
+~~~
+
 ### `Python` programs
 
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
