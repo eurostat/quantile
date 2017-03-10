@@ -2,8 +2,8 @@
 ## quantile {#sas_quantile}
 Compute empirical quantiles of a variable with sample data corresponding to given probabilities. 
 	
-	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
-				idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
+	%quantile(var, probs=, _quantiles_=, names=, type=7, method=DIRECT,  
+		idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
 
 ### Arguments
 * `var` : data whose sample quantiles are estimated; this can be either:
@@ -124,18 +124,18 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 
 %global _FORCE_STANDALONE_;
 
-%macro quantile(var			/* Name of the input variable/list 						(REQ) */
-			, probs=		/* List of probabilities 								(OPT) */
-			, type=			/* Type of interpolation considered 					(OPT) */
-			, method=		/* Flag used to select the estimation method 	(OPT) */
-			, names=		/* Output name of variable/dataset 						(OPT) */
-			, _quantiles_=	/* Name of the output variable 							(OPT) */
-			, idsn=			/* Name of input dataset 								(OPT) */
-			, ilib=			/* Name of input library 								(OPT) */
-			, odsn=			/* Name of output dataset 								(OPT) */
-			, olib=			/* Name of output library 								(OPT) */
-			, na_rm =		/* Dummy variable 										(OPT) */
-			);
+%macro quantile(var			/* Name of the input variable/list 		(REQ) */
+		, probs=		/* List of probabilities 			(OPT) */
+		, type=			/* Type of interpolation considered 		(OPT) */
+		, method=		/* Flag used to select the estimation method 	(OPT) */
+		, names=		/* Output name of variable/dataset 		(OPT) */
+		, _quantiles_=		/* Name of the output variable 			(OPT) */
+		, idsn=			/* Name of input dataset 			(OPT) */
+		, ilib=			/* Name of input library 			(OPT) */
+		, odsn=			/* Name of output dataset 			(OPT) */
+		, olib=			/* Name of output library 			(OPT) */
+		, na_rm =		/* Dummy variable 				(OPT) */
+		);
 	%local _mac;
 	%let _mac=&sysmacroname;
 
@@ -152,7 +152,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 			/*%macro ds_check(d, lib=); 		
 				%if %sysfunc(exist(&lib..&d, data)) or %sysfunc(exist(&lib..&d,view)) %then %do;	0 
 				%end;
-			  	%else %do;																			1
+			  	%else %do;										1
 				%end;
 			%mend;*/
 		%mend;
@@ -173,7 +173,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 			%let ___v = %sysfunc(compbl(%quote(&__v))); 
 			%if %sysevalf(%superq(__v)=, boolean) or %nrbquote(&___v) EQ 	%then %do;			1
 			%end;
-			%else %do;																			0
+			%else %do;											0
 			%end;
 		%mend;
 		%macro list_quote(l, mark=, sep=%quote( ), rep=%quote(, ));
