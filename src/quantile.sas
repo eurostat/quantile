@@ -232,11 +232,13 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%local SEP 
 		isdsntmp
 		varname
-		nprobs;
+		nprobs
+		minval maxval;
 	%let isdsntmp=	NO;
 	%let SEP=		%quote( );
 
-	%local QU_METHODS
+	%local MACHINE_EPSILON
+		QU_METHODS
 		R_QU_METHOD
 		SAS_QU_METHOD;
 	%let QU_METHODS=		1 2 3 4 5 6 7 8 9;
@@ -244,6 +246,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%let SAS_QU_METHODS=	1 2 3 4 6;
 	%let SAS_DEF_QU_METHOD=	3;
 	%let DEF_QU_METHOD=		&R_DEF_QU_METHOD;
+	%let MACHINE_EPSILON = 	%sysevalf(1./10**14); /* likewise R */
 
 	/* shall we use low-level macros from PING, or not?
 	 * find out about it here: https://gjacopo.github.io/PING */
@@ -304,8 +307,11 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%if %macro_isblank(probs) %then 
 		%let probs=%list_sequence(start=0, step=0.25, end=1); 
 	%let nprobs=%list_ones(%list_length(&probs, sep=&SEP), item=0);
+
+	%let minval=%sysevalf(-&MACHINE_EPSILON);
+	%let maxval=%sysevalf(1+&MACHINE_EPSILON);
 	%if %error_handle(ErrorInputParameter, 
-			%par_check(&probs, type=NUMERIC, range=0 1, set=0 1) NE &nprobs, mac=&_mac,		
+			%par_check(&probs, type=NUMERIC, range=&minval &maxval, set=0 1) NE &nprobs, mac=&_mac,		
 			txt=%quote(!!! Wrong parameter for PROBS method selection !!!)) %then
 		%goto exit;
 	%list_sort(&probs, _list_=probs); /* just to be sure... */
@@ -502,6 +508,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 						output;
 					end;
 				run;
+
 				/* create/append the ith result to previously computed quantile values */
 				%if &i=1 %then %do;
 					DATA &olib..&odsn; SET s_&tmp;
@@ -513,23 +520,25 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 				%end;
 			%end;
 
-		/* run the second calculation for estimating the gamma index, plus the final 
+			/* run the second calculation for estimating the gamma index, plus the final 
 			* quantile value */
 			DATA &olib..&odsn(keep=&qname);
 				SET &olib..&odsn;
-				%if &type=1 %then %do;
+				%if &type EQ 1 %then %do;
 					if g GT 0 then 					gamma=1;
-					else 						gamma=0;
+					else 							gamma=0;
 				%end;
-				%else %if &type=2 %then %do;
+				%else %if &type EQ 2 %then %do;
 					if g GT 0 then 					gamma=1;
 					else /* if g=0 */				gamma=0.5;
 				%end;
-				%else %if &type=3 %then %do;
-					if g EQ 0 and mod(j,2)=0 then			gamma=0;
-					else 						gamma=1;
+				%else %if &type EQ 3 %then %do;
+					if g EQ 0 and mod(j,2)=0 then	gamma=0;
+					else 							gamma=1;
 				%end;
-				%else %if &type GE 4 %then				gamma=&g;
+				%else %if &type GE 4 %then %do;
+					gamma=&g;
+				%end;
 				&qname = (1-gamma) * x1 + gamma * x2;
 			run;
 				
@@ -593,11 +602,13 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%let quantiles=;
 	%let type=1;
 	%let probs=0.001 0.005 0.01 0.02 0.05 0.10 0.50;
+	%put (i) Test with probs=&probs, type=&type and method=INHERIT;
 	%quantile(u, probs=&probs, _quantiles_=quantiles, type=&type, idsn=&dsn, ilib=WORK, method=INHERIT);
 	%put quantiles=&quantiles;
 
 	%let quantiles=; /* reset */
 	%let probs=0.00 0.25 0.50 0.75 1.00;
+	%put (ii) Test with probs=&probs, type=&type and method=DIRECT;
 	%quantile(u, probs=&probs, _quantiles_=quantiles, type=&type, idsn=&dsn, ilib=WORK, method=DIRECT);
 	%put quantiles=&quantiles;
 
