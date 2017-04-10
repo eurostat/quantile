@@ -246,7 +246,9 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	%let SAS_QU_METHODS=	1 2 3 4 6;
 	%let SAS_DEF_QU_METHOD=	3;
 	%let DEF_QU_METHOD=		&R_DEF_QU_METHOD;
-	%let MACHINE_EPSILON = 	%sysevalf(1./10**14); /* likewise R */
+	
+	%if %symexist(G_PING_MACHINE_EPSILON) %then 	%let MACHINE_EPSILON=&G_PING_EPSILON;
+	%else /* likewise R */				%let MACHINE_EPSILON=%sysevalf(1./10**14);
 
 	/* shall we use low-level macros from PING, or not?
 	 * find out about it here: https://gjacopo.github.io/PING */
