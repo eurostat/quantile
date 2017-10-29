@@ -24,18 +24,7 @@ Typically, this happens because different estimation methods are available in th
 
 Let us consider, for instance, the (broad) range of techniques for quantile estimation implemented ad-hoc in both `SAS` and `R` software. They are respectively made available through the `SAS` [procedure `UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm) and the `R` [function `quantile`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html), whose documentations are displayed below: 
 
-Looking at which of Hyndman and Fan's (<code>HF&num;n</code>), Cunnane's (<code>C</code>), and/or Filliben's (<code>F</code>) algorithms (see references [below](#References)) are actually available (or not: <i>n.a.</i>) on either software, it appears that there is no one-to-one correspondance between the implementations:
 
-<table>
-<header>
-<td align="centre"><code>SAS UNIVARIATE</code></td>
-<td align="centre"><code>R quantile</code></td>
-</header>
-<tr>
-<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" width="400"> </kbd></td>
-<td><kbd><img src="docs/doc_r.png" alt="doc R" width="400"> </kbd></td>
-</tr>
-</table>
 Looking at which of Hyndman and Fan's (<code>HF&num;n</code>), Cunnane's (<code>C</code>), and/or Filliben's (<code>F</code>) algorithms (see references [below](#References)) are actually available (or not: <i>n.a.</i>) on either software, it appears that there is no one-to-one correspondance between the implementations:
 <table>
 <tr>
