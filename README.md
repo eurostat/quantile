@@ -24,6 +24,16 @@ Typically, this happens because different estimation methods are available in th
 
 Let us consider, for instance, the (broad) range of techniques for quantile estimation implemented ad-hoc in both `SAS` and `R` software. They are respectively made available through the `SAS` [procedure `UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm) and the `R` [function `quantile`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html), whose documentations are displayed below: 
 
+<table>
+<header>
+<td align="centre"><code>SAS UNIVARIATE</code></td>
+<td align="centre"><code>R quantile</code></td>
+</header>
+<tr>
+<td><kbd><img src="docs/doc_sas.png" alt="doc SAS" width="400"> </kbd></td>
+<td><kbd><img src="docs/doc_r.png" alt="doc R" width="400"> </kbd></td>
+</tr>
+</table>
 
 Looking at which of Hyndman and Fan's (<code>HF&num;n</code>), Cunnane's (<code>C</code>), and/or Filliben's (<code>F</code>) algorithms (see references [below](#References)) are actually available (or not: <i>n.a.</i>) on either software, it appears that there is no one-to-one correspondance between the implementations:
 <table>
@@ -55,6 +65,7 @@ Looking at which of Hyndman and Fan's (<code>HF&num;n</code>), Cunnane's (<code>
 <td align="centre"> <i>n.a.</i> </td>
 </tr>
 </table>
+
 In particular, the algorithms implemented by default (_i.e._, when no parameter `type`, or `PCTLDEF`, is passed) differ, since indeed <code>HF&num;7</code> (`type=7`) is the default algorithm in `R quantile` implementation, while <code>HF&num;2</code> (`PCTLDEF=5`) is the default one in `SAS UNIVARIATE` implementation. Similarly, note that `Python` [method `mquantiles`](http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mstats.mquantiles.html) implements  Cunnane's algorithm as its default option (through <code>(&alpha;,&beta;)=(.4,.4)</code> parameter). 
 
 Altogether, a user may be left at a disadvantage since he may neither understand all the implications of the estimation process &ndash; depending on which platform he performs his calculations, depending on whether he chooses default parameters or not, ... &ndash; nor how to test the validity of results produced by the software. A stronger control of the practical and effective implementation of statistical methods and techniques is required. 
