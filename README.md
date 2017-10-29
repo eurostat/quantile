@@ -22,10 +22,10 @@ We consider here the implementation of [quantile estimates](http://www.math.ntu.
 Although _quantiles_ are often implemented throughout various packages of statistical software ([`R`](https://www.r-project.org), [`Python`](https://www.python.org), [`SAS`](http://www.sas.com/), Stata, Maple, _etc_...), the different implementations may not be consistent with each other and, therefore, provide different output estimates. 
 Typically, this happens because different estimation methods are available in the [literature](http://mathworld.wolfram.com/Quantile.html), and each one of them corresponds to a specific implementation. 
 
+Let us consider, for instance, the (broad) range of techniques for quantile estimation implemented ad-hoc in both `SAS` and `R` software. They are respectively made available through the `SAS` [procedure `UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm) and the `R` [function `quantile`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html), whose documentations are displayed below: 
+
 Looking at which of Hyndman and Fan's (<code>HF&num;n</code>), Cunnane's (<code>C</code>), and/or Filliben's (<code>F</code>) algorithms (see references [below](#References)) are actually available (or not: <i>n.a.</i>) on either software, it appears that there is no one-to-one correspondance between the implementations:
 
-
-Let us consider, for instance, the (broad) range of techniques for quantile estimation implemented ad-hoc in both `SAS` and `R` software. They are respectively made available through the `SAS` [procedure `UNIVARIATE`](http://support.sas.com/documentation/cdl/en/procstat/66703/HTML/default/viewer.htm#procstat_univariate_syntax01.htm) and the `R` [function `quantile`](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html), whose documentations are displayed below: 
 <table>
 <header>
 <td align="centre"><code>SAS UNIVARIATE</code></td>
