@@ -1,5 +1,7 @@
 ##### <a name="Usage"></a>Usage
 
+<hr size="5" style="color:black;background-color:black;" />
+
 ###### `SAS` programs
 
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
@@ -52,6 +54,8 @@ RUN;
 
 %PUT &q2;
 ~~~
+
+<hr size="5" style="color:black;background-color:black;" />
 
 ###### `Python` programs
 
@@ -137,6 +141,7 @@ Note the definition of the `IO_Quartile` class that specifically runs estimation
 ~~~
 <img src="boxplot.png" alt="app view" width="300">
 
+<hr size="5" style="color:black;background-color:black;" />
 
 ###### `R` programs
 

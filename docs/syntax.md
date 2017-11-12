@@ -46,8 +46,8 @@ Some arguments are common to the implementations in the different languages:
 ######  <a name="sas_quantile"></a> `SAS` macro
 	
 ~~~sas
-	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
-		  idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
+%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
+	  idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
 ~~~
 				
 **Arguments**
@@ -99,8 +99,8 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 ######  <a name="python_quantile"></a> `Python` method
 
 ~~~py
-	>>> q = quantile(x, probs, na_rm = False, type = 7, 
-		  method='DIRECT', limit=(0,1))
+>>> q = quantile(x, probs, na_rm = False, type = 7, 
+	  method='DIRECT', limit=(0,1))
 ~~~
 	
 **Arguments**
@@ -117,11 +117,13 @@ estimate quantiles; this  case is incompatible with `type<4` (see below);
 * `type` : (see [above](#type))  methods 4 to 11 are available in original `scipy::mquantiles` function;
 * `na_rm` : (see [above](#na_rm))   true is `True`, false is `False`.
 
+<hr size="5" style="color:black;background-color:black;" />
+
 ######  <a name="r_quantile"></a> `R` method
 
 ~~~r
-	> q <- quantile(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, 
-		  type=7, method="DIRECT", names= FALSE)
+> q <- quantile(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, 
+	  type=7, method="DIRECT", names= FALSE)
 ~~~
 	
 **Arguments**
@@ -146,7 +148,7 @@ estimate quantiles; this  case is incompatible with `type>9` (see below);
 
 <hr size="5" style="color:black;background-color:black;" />
 
-**See also**
+######  See also
 * [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm).
 * [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html).
 * [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html).
