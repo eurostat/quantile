@@ -1,10 +1,10 @@
-## <a name="Syntax"></a>Syntax
+#####  <a name="Syntax"></a>Syntax
 
 `quantile`: Compute empirical quantiles of a variable with sample data corresponding to given probabilities. 
 
 <hr size="5" style="color:black;background-color:black;" />
 
-### Common parameterisation
+######  Common parameterisation
 
 Some arguments are common to the implementations in the different languages:
 
@@ -43,14 +43,14 @@ Some arguments are common to the implementations in the different languages:
 
 <hr size="5" style="color:black;background-color:black;" />
 
-### <a name="sas_quantile"></a> `SAS` macro
+######  <a name="sas_quantile"></a> `SAS` macro
 	
 ~~~sas
 	%quantile(var, probs=, type=7, method=DIRECT, names=, _quantiles_=, 
 		  idsn=, odsn=, ilib=WORK, olib=WORK, na_rm = YES);
 ~~~
 				
-##### Arguments
+**Arguments**
 
 * `var` : data whose sample quantiles are estimated; this can be either:
 	+ the name of the variable in a dataset storing the data; in that case, the parameter 
@@ -63,7 +63,7 @@ Some arguments are common to the implementations in the different languages:
 * `olib` : (_option_) name of the output library (see `names` below); by default: empty, _i.e._ `WORK` 
 	is also used when `odsn` is set.
 
-##### Returns
+**Returns**
 Return estimates of underlying distribution quantiles based on one or two order statistics from 
 the supplied elements in `var` at probabilities in `probs`, following quantile estimation algorithm
 defined by `type`. The output sample quantile are stored either in a list or as a table, through:
@@ -75,7 +75,7 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 	`odsn` dataset; if just `odsn` is set, then they are stored in a variable named `QUANT`; if 
 	instead only `names` is set, then the dataset will also be named after `names`.  
 	
-##### Notes
+**Notes**
 * `probs` : (see [above](#probs)) in the case `method=UNIVAR` (see below), these values are multiplied by 100 
 	in order to be used by `PROC UNIVARIATE`;  
 * `method` : (see [above](#method)) in the case `method=INHERIT`, the macro uses the `PROC UNIVARIATE` procedure 
@@ -96,35 +96,35 @@ defined by `type`. The output sample quantile are stored either in a list or as 
 
 <hr size="5" style="color:black;background-color:black;" />
 
-###  <a name="python_quantile"></a> `Python` method
+######  <a name="python_quantile"></a> `Python` method
 
 ~~~py
 	>>> q = quantile(x, probs, na_rm = False, type = 7, 
 		  method='DIRECT', limit=(0,1))
 ~~~
 	
-##### Arguments
+**Arguments**
 * `x` : input 1D (vector) data (`numpy.array`, `pandas.DataFrame`, or `pandas.Series`); 2D arrays are also accepted;
 * `limit` : (_option_) tuple/list of (lower, upper) values; values of a outside this open interval are ignored.
        
-##### Returns
+**Returns**
 * `q` : 1D vector of quantiles returned as a `numpy.array`.
 
-##### Notes
+**Notes**
 * `probs` : (see [above](#probs)) the following codes: 2 or `M2`, 3 or `T3`, 4 or `Qu4`, 5 or `Q5, 6 or `S6`, 10 or `D10`, 12 or `Dd12`, 20 or `V20`, and 100 or `P100` can be used to compute common specialised quantiles (median, terciles, quartiles, quintiles, sextiles, deciles, duo-deciles, ventiles and percentiles _resp._);
 * `method` : (see [above](#method)) in the case `method=INHERIT`, the `scipy::mquantiles` function is used to
 estimate quantiles; this  case is incompatible with `type<4` (see below);        
 * `type` : (see [above](#type))  methods 4 to 11 are available in original `scipy::mquantiles` function;
 * `na_rm` : (see [above](#na_rm))   true is `True`, false is `False`.
 
-###  <a name="r_quantile"></a> `R` method
+######  <a name="r_quantile"></a> `R` method
 
 ~~~r
 	> q <- quantile(x, data = NULL, probs=seq(0, 1, 0.25), na.rm=FALSE, 
 		  type=7, method="DIRECT", names= FALSE)
 ~~~
 	
-##### Arguments
+**Arguments**
 * `x` : a numeric vector or a value (character or integer) providing with the sample data; when `data` is not null, 
 	`x` provides with the name (`char`) or the position (int) of the variable of interest in the table;
 * `data` : (_option_) input table, defined as a dataframe, whose column defined by `x` is used as sample data for 
@@ -136,17 +136,17 @@ estimate quantiles; this  case is incompatible with `type<4` (see below);
 	the quantiles are computed; if `names=TRUE`, the result has a names attribute; these two flags follow exactly 
 	the original implementation of `stats::quantile`; default: `na.rm= FALSE` and `names= FALSE`.
        
-##### Notes
+**Notes**
 * `method` : (see [above](#method)) in the case `method=INHERIT`, the `stats::quantile` function is used to
 estimate quantiles; this  case is incompatible with `type>9` (see below);       
 * `type` : (see [above](#type))  methods 1 to 9 are available in original `stats::quantile` function. 
        
-##### Returns
+**Returns**
 * `q` : 1D vector of quantiles returned as a numeric vector. 
 
 <hr size="5" style="color:black;background-color:black;" />
 
-### See also
+**See also**
 * [UNIVARIATE](https://support.sas.com/documentation/cdl/en/procstat/63104/HTML/default/viewer.htm#univariate_toc.htm).
 * [quantile (R)](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html).
 * [mquantiles (scipy)](https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.stats.mstats.mquantiles.html).

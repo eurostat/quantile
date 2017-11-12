@@ -1,7 +1,6 @@
-## <a name="Usage"></a>Usage
+##### <a name="Usage"></a>Usage
 
-
-### `SAS` programs
+###### `SAS` programs
 
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
 ~~~sas
@@ -39,23 +38,22 @@ Consider comparing the results obtained using both already existing `PROC UNIVAR
 %PUT &q1;
 
 PROC UNIVARIATE DATA=test;
-VAR x;
-OUTPUT OUT=result PCTLPTS=&probs PCTLPRE=P_;
+    VAR x;
+    OUTPUT OUT=result PCTLPTS=&probs PCTLPRE=P_;
 RUN;
 
 DATA result;
-SET result;
-ARRAY P P_:;
-DO i=1 TO 5;
-  CALL SYMPUT("q2","&q2 "!!LEFT(P(i)));
-END;
+    SET result;
+    ARRAY P P_:;
+    DO i=1 TO 5;
+        CALL SYMPUT("q2","&q2 "!!LEFT(P(i)));
+    END;
 RUN;
 
 %PUT &q2;
-
 ~~~
 
-### `Python` programs
+###### `Python` programs
 
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
 ~~~py
@@ -140,7 +138,7 @@ Note the definition of the `IO_Quartile` class that specifically runs estimation
 <img src="boxplot.png" alt="app view" width="300">
 
 
-### `R` programs
+###### `R` programs
 
 Compute the quartiles of a randomly generated vector (with normal distribution) using default parameters of the `quantile` function:
 ~~~r

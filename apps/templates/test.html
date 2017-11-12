@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head></head>
+    <body>
+        <h1>Sample data</h1>
+        <table border=1 cellpadding=1>
+            <tr>
+                <th>index</th>
+                <th>sample</th>
+            </tr>
+            {% for obj in object_list %}
+            <tr>
+                <td>{{ obj.index }}</td>
+                <td>{{ obj.data }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

@@ -1,4 +1,4 @@
-## <a name="Algorithms"></a>Detailed algorithms
+##### <a name="Algorithms"></a>Detailed algorithms
 
 Eleven quantile algorithms are made available: 9 are discussed in Hyndman and Fan's, 1 in Cunnane's and 1 in Filliben's articles (see [references](#References)):
 
@@ -52,8 +52,7 @@ In the above tables, the `(alphap,betap)` pair is defined such that:
 
 	p[k] = (k - alphap)/(N + 1 - alphap - betap)
 
-
-## <a name="References"></a>References
+#####  <a name="References"></a>References
 
 1. Makkonen L. and Pajari M. (2014): [**Defining sample quantiles by the true rank probability**](https://www.hindawi.com/journals/jps/2014/326579/cta/), _Journal of Probability and Statistics_, vol. 2014, Article ID 326579, doi:[10.1155/2014/326579](https://dx.doi.org/10.1155/2014/326579)
 2. Hyndman R.J. and Fan Y. (1996): [**Sample quantiles in statistical packages**](https://www.amherst.edu/media/view/129116/original/Sample+Quantiles.pdf), _The American Statistician_, 50(4):361-365, doi:[10.2307/2684934](http://www.jstor.org/stable/2684934)
