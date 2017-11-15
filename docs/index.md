@@ -2,12 +2,6 @@
 
 #### _How do I compute quantiles?_
 
-##### <a name="About"></a>About
-
-This source code material is intended as a supporting material for _Grazzini and Lamarche_'s article referenced below:
-
-* Grazzini J. and Lamarche P. (2017): [**Production of social statistics... goes social!**](https://www.conference-service.com/NTTS2017/documents/agenda/data/abstracts/abstract_124.html), in _Proc.  New Techniques and Technologies for Statistics_.
-
 ##### <a name="Description"></a>Description
 
 The source code implements the same identical algorithms for quantile estimation (9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 one proposed by Filiben) on different software platforms and/or using different programming languages, namely:
@@ -32,6 +26,12 @@ For this purpose, it either extends (wraps) already existing implementations whe
   + `SAS` macro [`quantile.sas`](syntax.md#python_quantile).
 * [usage](usage.md): Run and test the programs.
 * [service applications](service.md): Run a micro web-service for quantile estimation.
+
+##### <a name="About"></a>About
+
+This source code material is intended as a supporting material for _Grazzini and Lamarche_'s article referenced below:
+
+* Grazzini J. and Lamarche P. (2017): [**Production of social statistics... goes social!**](https://www.conference-service.com/NTTS2017/documents/agenda/data/abstracts/abstract_124.html), in _Proc.  New Techniques and Technologies for Statistics_.
     
 ##### <a name="Notice"></a>Notice
 
