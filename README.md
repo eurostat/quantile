@@ -10,7 +10,7 @@ Software-agnostic (re)implementations of common quantile estimation algorithms
 This material is meant as a proof of concept for [Grazzini and Lamarche's article](#References) and aims at promoting software/language-agnostic development and deployment of statistical processes. 
 
 <table align="center">
-    <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://gjacopo.github.io/quantile/</td> </tr> 
+    <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://eurostat.github.io/quantile/</td> </tr> 
     <tr> <td align="left"><i>version</i></td> <td align="left">0.9</td> </tr> 
     <tr> <td align="left"><i>since</i></td> <td align="left">Thu Jan  5 10:22:03 2017</td> </tr> 
     <tr> <td align="left"><i>license</i></td> <td align="left"><a href="https://joinup.ec.europa.eu/sites/default/files/eupl1.1.-licence-en_0.pdfEUPL">EUPL</a>  <i>(cite the source code or the reference above!)</i> </td> </tr> 
