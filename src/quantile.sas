@@ -296,7 +296,7 @@ Licensed under [European Union Public License](https://joinup.ec.europa.eu/commu
 	/* METHOD/TYPE: check compatibility */
 	%if "&method"="INHERIT" %then %do;
 		%if %error_handle(WarningInputParameter, 
-				%par_check(&type, type=CHAR, set=&SAS_QU_METHODS) NE 0, mac=&_mac,		
+				%par_check(&type, type=NUMERIC, set=&SAS_QU_METHODS) NE 0, mac=&_mac,		
 				txt=%quote(!!! Interpolation type &type incompatible with method based on UNIVARIATE procedure - DIRECT method used instead !!!),
 				verb=warn) %then %do;
 			%let method=DIRECT;
