@@ -12,7 +12,7 @@ This material is meant as a proof of concept for [Grazzini and Lamarche's articl
 <table align="center">
     <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://eurostat.github.io/quantile/</td> </tr> 
     <tr> <td align="left"><i>version</i></td> <td align="left">0.9</td> </tr> 
-    <tr> <td align="left"><i>status</i></td> <td align="left">since Thu Jan 5 10:22:03 2017 &ndash; ongoing </td> </tr> 
+    <tr> <td align="left"><i>status</i></td> <td align="left">since Thu Jan 5 10:22:03 2017 &ndash; <b>closed</b> </td> </tr> 
     <tr> <td align="left"><i>contributors</i></td> 
     <td align="left" valign="middle">
 <a href="https://github.com/gjacopo"><img src="https://github.com/gjacopo.png" width="40"></a>
