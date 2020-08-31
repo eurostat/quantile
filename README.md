@@ -5,21 +5,7 @@ quantile
 Software-agnostic (re)implementations of common quantile estimation algorithms
 ---
 
-**About**
-
 This material is meant as a proof of concept for [Grazzini and Lamarche's article](#References) and aims at promoting software/language-agnostic development and deployment of statistical processes. 
-
-<table align="center">
-    <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://eurostat.github.io/quantile/</td> </tr> 
-    <tr> <td align="left"><i>version</i></td> <td align="left">0.9</td> </tr> 
-    <tr> <td align="left"><i>status</i></td> <td align="left">since Thu Jan 5 10:22:03 2017 &ndash; <b>closed</b> </td> </tr> 
-    <tr> <td align="left"><i>contributors</i></td> 
-    <td align="left" valign="middle">
-<a href="https://github.com/gjacopo"><img src="https://github.com/gjacopo.png" width="40"></a>
-<a href="https://github.com/pierre-lamarche"><img src="https://github.com/pierre-lamarche.png" width="40"></a>
-</td> </tr> 
-    <tr> <td align="left"><i>license</i></td> <td align="left"><a href="https://joinup.ec.europa.eu/sites/default/files/eupl1.1.-licence-en_0.pdfEUPL">EUPL</a>  <i>(cite the source code or the reference above!)</i> </td> </tr> 
-</table>
 
 **Rationale**
 
@@ -80,6 +66,20 @@ Altogether, a user may be left at a disadvantage since he may neither understand
 We propose to go back to the original algorithms and provide with a canonical implementation of quantile estimates on different software platforms and/or using different programming languages, so as to show that a consistent implementation is possible accross platforms. In practice, we implement 10 algorithms, 9 derived from Hyndman and Fan's framework, plus 1 described in Cunnane's article and 1 proposed by Filiben, in `R`, `Python`, `C` and `SAS`. To do so, we either extend/complement (wrap) already existing implementations for quantile estimation (`R` function `quantile`, `Python` method `mquantiles`, `C` [function `gsl_stats`](https://www.gnu.org/software/gsl/manual/html_node/Median-and-Percentiles.html), or `SAS` procedure `UNIVARIATE`), or actually reimplement the algorithm from scratch (`SAS`, `C` and `Python`). In the former case, we provide with consistent parameterisation/configuration accross the different software so as to ensure consistency and transparency for the user.
 
 However, unnecessary duplication (the same algorithm is being, above, implemented on 4 different platforms) shall be avoided, and, instead the choice of statistical software/packages should be transparent to the user, _i.e._ the quantile estimation should be provided in a _"software-agnostic"_ manner. To this end, we show that it is possible to easily implement microservices (SOA) that run the quantile estimation (either operated using `R` or `Python`) through a web interface ([`shiny`](https://shiny.rstudio.com/) for `R`, [`flask`](http://flask.pocoo.org/) for `Python`).
+
+**<a name="About"></a>About**
+
+<table align="center">
+    <tr> <td align="left"><i>documentation</i></td> <td align="left">available at: https://eurostat.github.io/quantile/</td> </tr> 
+    <tr> <td align="left"><i>version</i></td> <td align="left">0.9</td> </tr> 
+    <tr> <td align="left"><i>status</i></td> <td align="left">since Thu Jan 5 10:22:03 2017 &ndash; <b>closed</b> </td> </tr> 
+    <tr> <td align="left"><i>contributors</i></td> 
+    <td align="left" valign="middle">
+<a href="https://github.com/gjacopo"><img src="https://github.com/gjacopo.png" width="40"></a>
+<a href="https://github.com/pierre-lamarche"><img src="https://github.com/pierre-lamarche.png" width="40"></a>
+</td> </tr> 
+    <tr> <td align="left"><i>license</i></td> <td align="left"><a href="https://joinup.ec.europa.eu/sites/default/files/eupl1.1.-licence-en_0.pdfEUPL">EUPL</a>  <i>(cite the source code or the reference above!)</i> </td> </tr> 
+</table>
 
 **<a name="References"></a>References**
 
